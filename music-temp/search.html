@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>음악 검색 기능 잘 실행되나요?!!</title>
+    <style type="text/css">
+
+        table {
+            border: 1px solid;
+            border-collapse: collapse;
+        }
+
+        td,
+        th {
+            padding: 10px;
+            border: 1px solid;
+        }
+    </style>
+
+    <script>
+        function searchMusic() {
+            let musicKeyWord = $('#songinfo').val()
+            $.ajax({
+                type: 'GET',
+                url: 'http://ws.audioscrobbler.com/2.0/?method=track.search&track='+musicKeyWord+'&api_key=36e6ecdb6e67403d6448be2bca4e77ce&format=json',
+                success: function (response) {
+                    alert("ajax success")
+                     let musicList = response["results"]["trackmatches"]["track"];
+                     for (let i = 0; i < musicList.length; i++) {
+                         let albumTitle = musicList[i]["name"]
+                         let albumArtist = musicList[i]["artist"]
+
+                         let temp_html = `<tr>
+                                                <td>${albumTitle}</td>
+                                                <td>${albumArtist}</td>
+                                                <td><button onclick="addMusic('${albumTitle}','${albumArtist}')">추가</button></td>
+                                         </tr>`
+                         $('#list-q1').append(temp_html);
+                     }
+                }
+            })
+        }
+
+    function addMusic(title, artist) {
+        console.log(title, artist)
+        $.ajax({
+            type: 'POST',
+            url: '/addMusic',
+            data: {title_give:title, artist_give:artist},
+            success: function (response) {
+                alert(response['msg']);
+                window.location.reload()
+            }
+        });
+    }
+    </script>
+</head>
+
+<body>
+    <form action="methods">
+        <label for="songinfo">음악검색하기</label>
+        <input type="text" id="songinfo" class="whatToSearch" placeholder="검색">
+        <button type="button" onclick="searchMusic()">검색</button>
+    </form>
+    <div class="question-box">
+        <table>
+            <thead>
+                <tr>
+                    <td>노래</td>
+                    <td>가수</td>
+                </tr>
+            </thead>
+            <tbody id="list-q1"></tbody>
+        </table>
+    </div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="crossorigin="anonymous"></script>
+
+</html>
