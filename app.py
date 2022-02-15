@@ -9,7 +9,7 @@ client = MongoClient('mongodb://test:test@localhost', 27017)  # id:password
 db = client.dbhomework  # db name 추후 변경
 
 
-## HTML 화면 보여주기
+## HTML 화면 보여주기1
 @app.route('/')
 def homework():
     return render_template('index.html')
