@@ -6,10 +6,10 @@ from pymongo import MongoClient
 
 client = MongoClient('mongodb://test:test@localhost', 27017)  # id:password
 # client = MongoClient('localhost', 27017)
-db = client.makingproject  # db name 추후 변경
+db = client.makingproject
 
 
-## HTML 화면 보여주기1
+## HTML 화면 보여주기
 @app.route('/')
 def homework():
     return render_template('index.html')
