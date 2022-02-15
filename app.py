@@ -6,7 +6,7 @@ from pymongo import MongoClient
 
 client = MongoClient('mongodb://test:test@localhost', 27017)  # id:password
 # client = MongoClient('localhost', 27017)
-db = client.dbhomework  # db name 추후 변경
+db = client.makingproject  # db name 추후 변경
 
 
 ## HTML 화면 보여주기1
@@ -18,6 +18,44 @@ def homework():
 @app.route('/playlist')
 def getPlaylist():
     return render_template('playlist.html')
+
+
+## 회원가입 (비밀번호 암호화해서 저장하는 걸로 나중에 바꾸기)
+@app.route('/signup', methods=['GET','POST'])
+def signup():
+    if request.method == 'GET':
+        return render_template('index.html')
+    else:
+        newid_receive = request.form['newid_give']
+        newpw_receive = request.form['newpw_give']
+        newname_receive = request.form['newname_give']
+
+        userinfo = {
+            'user_id': newid_receive,
+            'user_pw': newpw_receive,
+            'user_name': newname_receive,
+            'user_like': []
+        }
+
+        if not (newid_receive and newpw_receive and newname_receive):
+            return jsonify({'msg': '모두 입력해주세요'})
+        else:
+            db.users.insert_one(userinfo)
+            return jsonify({'msg': '회원가입 완료'})
+
+        
+## 로그인 (세션에 남기는 기능은 추후 구현 예정 / 비밀번호 암호화 방식이면 나중에 변경 필요)
+@app.route('/login', methods = ['POST'])
+def login():
+    id_receive = request.form['id_give']
+    pw_receive = request.form['pw_give']
+    user = db.users.find_one({'user_id':id_receive, 'user_pw':pw_receive})
+
+    if user is None:
+        return jsonify({'msg': '로그인에 실패했습니다'})
+    else:
+        return jsonify({'msg': '로그인에 성공했습니다'})
+
 
 '''
 # 주문하기(POST) API
