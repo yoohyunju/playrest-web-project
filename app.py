@@ -15,7 +15,7 @@ def homework():
     return render_template('index.html')
 
 '''
-# 주문하기(POST) API
+# 주문하기(POST) API 커밋테스트
 @app.route('/order', methods=['POST'])
 def save_order():
     name_receive = request.form['name_give']
