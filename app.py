@@ -14,6 +14,11 @@ db = client.dbhomework  # db name 추후 변경
 def homework():
     return render_template('index.html')
 
+
+@app.route('/playlist')
+def getPlaylist():
+    return render_template('playlist.html')
+
 '''
 # 주문하기(POST) API
 @app.route('/order', methods=['POST'])
