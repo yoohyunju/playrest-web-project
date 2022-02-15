@@ -12,9 +12,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Stylish&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/playrest/static/css/style.css">
 
     <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- jQuery first, then Popper.js, then Bootstrap js -->
     <!--부트스트랩 템플릿에 이미 jQuery가 임포트 돼있음-->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -24,6 +25,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+    <script src="/playrest/static/js/includeHTML.js"></script>
+    <script src="/playrest/static/js/includeRouter.js"></script>
 
     <title>홈 화면</title>
     <style>
@@ -34,14 +37,38 @@
         }
     </style>
     <script>
+        includeHTML( function () {
+          includeRouter( function () {
+            // do something in the future
+          });
+        });
     </script>
 </head>
 <body>
-<!--플레이리스트 개별 화면으로 가는 임시 버튼-->
+    <!--
+    <header include-html="/templates/fragments/header.html"></header>
+    <footer include-html="/templates/fragments/footer.html"></footer>
+    -->
+    <!--헤더, 네비게이션 바-->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <a href="">playRe:st</a>
+        </div>
+
+        <div class="search-bar">검색바</div>
+
+        <div class="login-btn">
+            <a href="">login</a>
+        </div>
+
+        <div class="profile">hazel님 안녕하세요!</div>
+    </nav>
+
+
+    <!--플레이리스트 개별 화면으로 가는 임시 버튼-->
     <div class="btn-playlist">
          <a href="/playlist" class="card-link">플레이리스트1</a>
     </div>
-
 
 </body>
 </html>
