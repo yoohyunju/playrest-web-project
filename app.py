@@ -12,7 +12,7 @@ db = client.makingproject
 ## HTML 화면 보여주기
 @app.route('/')
 def homework():
-    return render_template('index.html')
+    return render_template('/home/index.html')
 
 
 @app.route('/playlist')
