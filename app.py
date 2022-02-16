@@ -14,10 +14,12 @@ db = client.makingproject
 @app.route('/')
 def homework():
     return render_template('/home/index.html')
-
 @app.route('/playlist')
 def getPlaylist():
     return render_template('/playlist/playlist.html')
+@app.route('/search')
+def getSearch():
+    return render_template('/search/search.html')
 
 
 ## 회원가입 (비밀번호 암호화해서 저장하는 걸로 나중에 바꾸기)
