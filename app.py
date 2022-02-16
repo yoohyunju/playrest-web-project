@@ -24,7 +24,7 @@ def getPlaylist():
 @app.route('/signup', methods=['GET','POST'])
 def signup():
     if request.method == 'GET':
-        return render_template('index.html')
+        return render_template('signUp/signUp.html')
     else:
         newid_receive = request.form['newid_give']
         newpw_receive = request.form['newpw_give']
@@ -45,17 +45,20 @@ def signup():
 
         
 ## 로그인 (세션에 남기는 기능은 추후 구현 예정 / 비밀번호 암호화 방식이면 나중에 변경 필요)
-@app.route('/login', methods = ['POST'])
+@app.route('/login', methods = ['GET','POST'])
 def login():
-    id_receive = request.form['id_give']
-    pw_receive = request.form['pw_give']
-    user = db.users.find_one({'user_id':id_receive, 'user_pw':pw_receive})
-
-    if user is None:
-        return jsonify({'msg': '로그인에 실패했습니다'})
+    if request.method == 'GET':
+        return render_template('/login/login.html')
     else:
-        session['user_id'] = id_receive     # 세션에 id 저장
-        return jsonify({'msg': '로그인에 성공했습니다'})      # 임의
+        id_receive = request.form['id_give']
+        pw_receive = request.form['pw_give']
+        user = db.users.find_one({'user_id':id_receive, 'user_pw':pw_receive})
+
+        if user is None:
+            return jsonify({'msg': '로그인에 실패했습니다'})
+        else:
+            session['user_id'] = id_receive     # 세션에 id 저장
+            return jsonify({'msg': '로그인에 성공했습니다'})      # 임의
 
 ## 로그아웃
 @app.route("/logout")
