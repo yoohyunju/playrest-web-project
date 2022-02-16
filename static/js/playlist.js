@@ -2,7 +2,19 @@
             // show_pll();
             getPll()
         });
-
+        function getPll() {
+            let id = "620ca6fe355284c12ad4ba2f";
+            $.ajax({
+                type: 'GET',
+                url: '/playlist',
+                data: {},
+                success: function (response) {
+                    console.log(response)
+                    console.log(response['songs'])
+                     // window.location.reload();
+                }
+            });
+        }
         function closeLayer(obj) {
             $(obj).parent().parent().hide();
         }
@@ -36,6 +48,7 @@
             });
 
         });
+
         function show_pll() {
             $("#pll-title").text("음색 깡패! 남자 아이들 솔로")
             $("#nickname").text("수민")
@@ -53,19 +66,7 @@
                         </tr>`
             $("#song-tbody").append(temp_html)
         }
-        function getPll() {
-            let id = "620ca6fe355284c12ad4ba2f";
-            $.ajax({
-                type: 'GET',
-                url: '/playlist',
-                data: {},
-                success: function (response) {
-                    console.log(response)
-                    console.log(response['songs'])
-                     // window.location.reload();
-                }
-            });
-        }
+
         // function add_popup() {
         //     var url = "popUpAdd.html";
         //     var name = "popup test";
