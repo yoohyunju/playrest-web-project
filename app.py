@@ -1,6 +1,7 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, session, redirect, url_for
 
 app = Flask(__name__)
+app.secret_key = 'super secret key'     # 세션 때문에 있는 건데 아무키나 넣어도 괜찮습니다
 
 from pymongo import MongoClient
 
@@ -54,7 +55,14 @@ def login():
     if user is None:
         return jsonify({'msg': '로그인에 실패했습니다'})
     else:
-        return jsonify({'msg': '로그인에 성공했습니다'})
+        session['user_id'] = id_receive     # 세션에 id 저장
+        return jsonify({'msg': '로그인에 성공했습니다'})      # 임의
+
+## 로그아웃
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for('homework'))    # 맨 위 homework 함수로 가게됩니다(임의)
 
 
 '''
