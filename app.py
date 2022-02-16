@@ -66,6 +66,14 @@ def logout():
     session.clear()
     return redirect(url_for('homework'))    # 맨 위 homework 함수로 가게됩니다(임의)
 
+# 플레이리스트 상세 목록보기(Read) API
+@app.route('/playlist', methods=['GET'])
+def view_playlist():
+    id_receive = request.form['id_give']
+
+    # songs = list(db.orders.find({'_id':id_receive}, {'_id': False}))
+    songs = list(db.playlists.find({}, {'_id': False}))
+    return jsonify({'result': 'success', 'songs': songs})
 
 '''
 # 주문하기(POST) API

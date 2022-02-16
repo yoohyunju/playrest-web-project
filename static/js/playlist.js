@@ -1,5 +1,6 @@
        $(document).ready(function () {
-            show_pll();
+            // show_pll();
+            getPll()
         });
 
         function closeLayer(obj) {
@@ -41,6 +42,7 @@
             $("#favorites-num").text("382")
             $("#introduction").text("심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^")
 
+
             temp_html = `<tr>
                             <th scope="row">1</th>
                             <td>Black mamba</td>
@@ -50,6 +52,19 @@
                             <td>제거버튼</td>
                         </tr>`
             $("#song-tbody").append(temp_html)
+        }
+        function getPll() {
+            let id = "620ca6fe355284c12ad4ba2f";
+            $.ajax({
+                type: 'GET',
+                url: '/playlist',
+                data: {},
+                success: function (response) {
+                    console.log(response)
+                    console.log(response['songs'])
+                     // window.location.reload();
+                }
+            });
         }
         // function add_popup() {
         //     var url = "popUpAdd.html";
