@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Stylish&display=swap" rel="stylesheet">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <title>플레이리스트 개별 화면</title>
+    <!--    css파일과 연결-->
+    <link rel="stylesheet"  href="static/css/playlist.css">
+    <script src="static/js/playlist.js"></script>
+    <script src="https://kit.fontawesome.com/0e6d28e1ee.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="wrap">
+    <h1>Playlist information 플레이리스트 정보</h1>
+
+    <div class="pll-info">
+        <div class="img-pll-cover"></div>
+        <!--            <img class="img-pll-cover" src="https://w.namu.la/s/48d8d59e536896b00da9365d1532b2051b1931abe47cddeffea696f4f29efa8131d6824f41fb3bd5f65d78c27c5dd95a6183b6a50d9e85f33cc19a612b4143d5fd41ea9dd9c797d08085e64f18042c30f444ffd2a64980477c4095120d288438" alt="Card image cap">-->
+        <div class="pll-desc">
+            <h2 id="pll-title">플레이리스트 타이틀</h2>
+            <p>DJ <span id="nickname">닉네임</span></p>
+            <div class="tags">태그들 들어가는 곳..</div>
+            <div id="favorites" class="favorites" style="font-size: 20px">
+                <i class="fa-regular fa-heart" style="margin-right: 10px"></i>
+                <span id="favorites-num">좋아요갯수</span>
+            </div>
+        </div>
+    </div>
+    <div class="intro">
+        <h2>소개글 Introduction</h2>
+        <p id="introduction">플레이리스트 소개글</p>
+    </div>
+    <div class="songs">
+        <h2>수록곡 songs</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">번호</th>
+                <th scope="col">곡정보</th>
+                <th scope="col">영상</th>
+                <th scope="col">담기</th>
+                <th scope="col">제거</th>
+            </tr>
+            </thead>
+            <tbody id="song-tbody">
+            <tr>
+                <th scope="row">1</th>
+                <td>
+                    <div class="song-info">
+                        <div class="img-album">
+                            <img src="https://w.namu.la/s/48d8d59e536896b00da9365d1532b2051b1931abe47cddeffea696f4f29efa8131d6824f41fb3bd5f65d78c27c5dd95a6183b6a50d9e85f33cc19a612b4143d5fd41ea9dd9c797d08085e64f18042c30f444ffd2a64980477c4095120d288438" width="50px" height="50px">
+                        </div>
+                        <div>
+                            <p>곡제목</p>
+                            <p>가수</p>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <a href="https://www.youtube.com/watch?v=ZeerrnuLi5E" target="_blank"><i class="fa-brands fa-youtube fa-lg" style="color: red"></i></a>
+                </td>
+                <td>
+                    <i class="fa-solid fa-plus fa-lg imgSelect"></i>
+                </td>
+                <td>
+                    <i class="fa-solid fa-trash fa-sm"></i>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- 폼 레이어  -->
+    <div class="popupLayer">
+        <div>
+            <span onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</span>
+        </div>
+        여긴 레이어~</br>
+        클릭하면 바로 나타나는 레이어에요^^
+    </div>
+</div>
+
+
+</body>
+</html>

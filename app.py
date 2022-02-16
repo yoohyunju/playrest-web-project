@@ -14,10 +14,9 @@ db = client.makingproject
 def homework():
     return render_template('/home/index.html')
 
-
 @app.route('/playlist')
 def getPlaylist():
-    return render_template('playlist.html')
+    return render_template('/playlist/playlist.html')
 
 
 ## 회원가입 (비밀번호 암호화해서 저장하는 걸로 나중에 바꾸기)
