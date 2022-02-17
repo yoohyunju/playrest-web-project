@@ -41,6 +41,12 @@ def view_playlist():
 def parse_json(data):
     return json.loads(json_util.dumps(data))
 
+###홈
+## 전체 플레이리스트 목록
+@app.route('/list', methods=["GET"])
+def allPlaylists():
+    playlists = list(db.playlists.find({}, {'_id': False}))
+    return jsonify({'data': playlists})
 
 ## 회원가입 (비밀번호 암호화해서 저장하는 걸로 나중에 바꾸기)
 @app.route('/signup', methods=['GET','POST'])
@@ -80,6 +86,7 @@ def login():
             return jsonify({'msg': '로그인에 실패했습니다'})
         else:
             session['user_id'] = id_receive     # 세션에 id 저장
+            session['user_name'] = user['user_name']
             return jsonify({'msg': '로그인에 성공했습니다'})      # 임의
 
 ## 로그아웃
@@ -123,9 +130,9 @@ def addMusic():
 def createPlaylist():
     title_receive = request.form['title_give']
     listinfo = {
-        'user_id': session['user_id'],
+        'user_name': session['user_name'],
         'playlist_title': title_receive,
-        'playlist_like': 0,
+        'playlist_desc': desc_receive,
         'playlist_music': []
     }
     db.playlists.insert_one(listinfo)

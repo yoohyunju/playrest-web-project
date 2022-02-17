@@ -36,6 +36,38 @@
             height: 50px;
         }
     </style>
+
+    <script>
+
+        $(document).ready(function () {
+            showList();
+        });
+
+        function showList() {
+            $.ajax({
+                type: 'GET',
+                url: '/list',
+                data: {},
+                success: function (response) {
+                    alert("플리목록연결!")
+                    let allPlaylists = response['data']
+                    console.log(allPlaylists)
+                    for (let i = 0; i < allPlaylists.length; i++) {
+                        let user_name = allPlaylists[i]['user_name']
+                        let playlist_title = allPlaylists[i]['playlist_title']
+
+                        let temp_html = `<tr>
+                                                <td>${user_name}</td>
+                                                <td>${playlist_title}</td>
+                                        </tr>`
+                        $('#list-box').append(temp_html)
+                    }
+                }
+            })
+        }
+
+    </script>
+
 </head>
 <body>
     <!--header 삽입-->
@@ -172,6 +204,18 @@
         <div class="btn-playlist">
             <a href="/playlist" class="card-link">플레이리스트1</a>
         </div>
+
+        <!--        플리 목록 출력 되는 거 보시라고 임시로..!-->
+        <table>
+            <thead>
+                <tr>
+                    <td>a</td>
+                    <td>b</td>
+                </tr>
+            </thead>
+            <tbody id="list-box"></tbody>
+        </table>
+
     </div>
 
 </body>
