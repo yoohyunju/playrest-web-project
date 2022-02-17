@@ -45,15 +45,16 @@
                 success: function (response) {
                     console.log(response)
                     let playlist_title = response['playlist_title']
-                    let playlist_like = response['playlist_like']
+                    // let playlist_like = response['playlist_like']
+                    let playlist_desc = response['playlist_desc']
                     let songs = response['playlist_music']
-                    let user_id = response['user_id']
-                    console.log(playlist_title, playlist_like, songs, id )
+                    let user_name = response['user_name']
+                    console.log(playlist_title, playlist_desc, songs, id )
 
-                    $("#pll-title").text(playlist_title)
-                    $("#nickname").text(user_id)
-                    $("#favorites-num").text(playlist_like)
-                    $("#introduction").text("심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^")
+                    $("#playlist-title").text(playlist_title)
+                    $("#nickname").text(user_name)
+                    // $("#favorites-num").text(playlist_like)
+                    $("#description").text(playlist_desc)
 
                     // 노래 목록 출력
                     for (let i = 0; i < songs.length; i++) {
