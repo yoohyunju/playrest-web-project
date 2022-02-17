@@ -1,0 +1,25 @@
+.searchbar_css {
+    width: 100%;
+    height: 250px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.music_css {
+    width: 33%;
+    height: 550px;
+    float: left;
+}
+
+.playlist_css {
+    width: 67%;
+    height: 550px;
+    float: right;
+}
+
+.wrap {
+    width: 100%;
+    height: 550px;
+}

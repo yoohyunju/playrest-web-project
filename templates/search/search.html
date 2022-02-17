@@ -21,74 +21,9 @@
             crossorigin="anonymous"></script>
 
     <title>노래 검색하는 사이트</title>
-    <style>
-        .searchbar_css {
-            width: 100%;
-            height: 250px;
-            margin: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
 
-        .music_css {
-            width: 33%;
-            height: 550px;
-            float: left;
-        }
-
-        .playlist_css {
-            width: 67%;
-            height: 550px;
-            float: right;
-        }
-
-        .wrap {
-            width: 100%;
-            height: 500px;
-        }
-    </style>
-
-    <script>
-        function searchMusic() {
-            let musicKeyWord = $('#songinfo').val()
-            $.ajax({
-                type: 'GET',
-                url: 'http://ws.audioscrobbler.com/2.0/?method=track.search&track=' + musicKeyWord + '&api_key=36e6ecdb6e67403d6448be2bca4e77ce&format=json',
-                success: function (response) {
-                    alert("ajax success")
-                    let musicList = response["results"]["trackmatches"]["track"];
-                    for (let i = 0; i < musicList.length; i++) {
-                        let albumTitle = musicList[i]["name"]
-                        let albumArtist = musicList[i]["artist"]
-
-                        let temp_html = `<div class="list-group">
-                                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="mb-1"> ${albumTitle} </h5>
-                                            </div>
-                                            <p class="mb-1"> ${albumArtist} </p>
-                                            </a>
-                                        </div>`
-                        $('#list-q1').append(temp_html);
-                    }
-                }
-            })
-        }
-
-        function addMusic(title, artist) {
-            console.log(title, artist)
-            $.ajax({
-                type: 'POST',
-                url: '/addMusic',
-                data: {title_give: title, artist_give: artist},
-                success: function (response) {
-                    alert(response['msg']);
-                    window.location.reload()
-                }
-            });
-        }
-    </script>
+    <link rel="stylesheet" href="static/css/search.css">
+    <script src="static/js/search.js"></script>
 
 </head>
 
@@ -97,7 +32,7 @@
 {% include 'fragments/header.html' %}
 <div class="searchbar_css" id="searchbar">
     <form class="form-inline my-2 my-lg-0">
-        <input class="form-control" id="songinfo" type="search" placeholder="Search" aria-label="Search" size="80px"/>
+        <input class="form-control" id="songinfo" type="text" placeholder="Search" aria-label="Search" size="80px"/>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="searchMusic()">Search</button>
     </form>
 </div>
@@ -111,9 +46,10 @@
                 <p class="mb-1"> Next level </p>
             </a>
         </div>
+        <tbody id="list-q1"></tbody>
     </div>
     <div class="playlist_css" id="playlist">
-
+dfdfdf
     </div>
 
 </div>
