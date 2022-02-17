@@ -2,11 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <title>Document</title>
+
+    <script>
+        function login() {
+            let login_id = $('#login-id').val()
+            let login_pw = $('#login-pw').val()
+
+            $.ajax({
+                type: "POST",
+                url: "/login",
+                data: {id_give:login_id,pw_give:login_pw},
+                success: function (response) {
+                    alert(response["msg"]);
+                    window.location.reload();
+                }
+            })
+        }
+    </script>
 </head>
+
 <body>
     <!--header 삽입-->
     {% include 'fragments/header.html' %}
-    로그인 페이지 입니다.
+
+    <form name='form' action="/login" method="POST">
+        <p>id : <input type="text" name="id" id="login-id"/></p>
+        <p>pw : <input type="password" name="pw" id="login-pw"/></p>
+        <button type="button" onclick="login()">로그인</button>
+        <div>
+            <a href="/signup">회원가입</a>
+        </div>
+        <div>
+            <a href="/">홈</a>
+        </div>
+    </form>
+
 </body>
+
 </html>
