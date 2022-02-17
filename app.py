@@ -5,8 +5,8 @@ app.secret_key = 'super secret key'     # 세션 때문에 있는 건데 아무�
 
 from pymongo import MongoClient
 
-client = MongoClient('mongodb://test:test@localhost', 27017)  # id:password
-# client = MongoClient('localhost', 27017)
+# client = MongoClient('mongodb://test:test@localhost', 27017)  # id:password
+client = MongoClient('localhost', 27017)
 db = client.makingproject
 
 
@@ -18,6 +18,10 @@ def homework():
 @app.route('/playlist')
 def getPlaylist():
     return render_template('/playlist/playlist.html')
+
+@app.route('/search')
+def home():
+    return render_template('/search/search.html')
 
 
 ## 회원가입 (비밀번호 암호화해서 저장하는 걸로 나중에 바꾸기)
@@ -44,7 +48,7 @@ def signup():
             return jsonify({'msg': '회원가입 완료'})
 
         
-## 로그인 (세션에 남기는 기능은 추후 구현 예정 / 비밀번호 암호화 방식이면 나중에 변경 필요)
+## 로그인 (비밀번호 암호화 방식이면 나중에 변경 필요)
 @app.route('/login', methods = ['GET','POST'])
 def login():
     if request.method == 'GET':
@@ -66,25 +70,48 @@ def logout():
     session.clear()
     return redirect(url_for('homework'))    # 맨 위 homework 함수로 가게됩니다(임의)
 
-## 노래검색하는 html
-@app.route('/search')
-def home():
-    return render_template('/search/search.html')
 
-## 노래 검색 및 db에 추가하는
-@app.route('/addMusic', methods=["POST"])
+### 검색창
+## 검색한 노래가 담긴 플레이리스트 목록
+@app.route('/search/playlists', methods=["GET"])
+def searchPlaylists():
+    keyword_receive = request.args.get('keyword_give')
+    print(keyword_receive)
+    results = list(db.playlists.find({'playlist_music': {'$elemMatch': {'music_title': keyword_receive}}}, {'_id': False}))
+    return jsonify({'data': results})
+
+## 플레이리스트 선택을 위한 나의 플리 목록
+@app.route('/search/select', methods=["GET"])
+def selectPlaylist():
+    myPlaylists = list(db.playlists.find({'user_id': session['user_id']}, {'_id': False}))
+    print(myPlaylists)
+    return jsonify({'data': myPlaylists})
+
+## 플레이리스트 선택 후 db에 노래 추가
+@app.route('/search/select/add', methods=["POST"])
 def addMusic():
+    playlist_receive = request.form['playlist_give']
     title_receive = request.form['title_give']
     artist_receive = request.form['artist_give']
-    doc: {
-        'music_title': title_receive,
-        'music_artist': artist_receive
-    }
 
-    # 검색조건이 있기 때문에 id가 sampleID인 collection에만 저장됩니다
-    db.playlists.update_one({'user_id': "sampleID"}, {
+    db.playlists.update_one({'playlist_title': playlist_receive}, {
         '$push': {'playlist_music': {'music_title': title_receive, 'music_artist': artist_receive}}});
-    return jsonify({'msg': '추가했습니당'})
+    return jsonify({'msg': '플레이리스트에 노래 추가 완료!'})
+
+
+### 마이페이지
+## 마이페이지에서 새로운 플레이리스트 생성(받아오는 건 일단 제목만)
+@app.route('/mypage/create', methods=["POST"])
+def createPlaylist():
+    title_receive = request.form['title_give']
+    listinfo = {
+        'user_id': session['user_id'],
+        'playlist_title': title_receive,
+        'playlist_like': 0,
+        'playlist_music': []
+    }
+    db.playlists.insert_one(listinfo)
+    return jsonify({'msg': '플레이리스트 생성 완료!'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
