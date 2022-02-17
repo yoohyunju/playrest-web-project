@@ -66,6 +66,25 @@ def logout():
     session.clear()
     return redirect(url_for('homework'))    # 맨 위 homework 함수로 가게됩니다(임의)
 
+## 노래검색하는 html
+@app.route('/search')
+def home():
+    return render_template('/search/search.html')
+
+## 노래 검색 및 db에 추가하는
+@app.route('/addMusic', methods=["POST"])
+def addMusic():
+    title_receive = request.form['title_give']
+    artist_receive = request.form['artist_give']
+    doc: {
+        'music_title': title_receive,
+        'music_artist': artist_receive
+    }
+
+    # 검색조건이 있기 때문에 id가 sampleID인 collection에만 저장됩니다
+    db.playlists.update_one({'user_id': "sampleID"}, {
+        '$push': {'playlist_music': {'music_title': title_receive, 'music_artist': artist_receive}}});
+    return jsonify({'msg': '추가했습니당'})
 
 '''
 # 주문하기(POST) API
