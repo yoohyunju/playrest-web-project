@@ -40,7 +40,6 @@
         .playlist_css {
             width: 67%;
             height: 550px;
-            background-color: coral;
             float: right;
         }
 
@@ -49,13 +48,55 @@
             height: 500px;
         }
     </style>
+
+    <script>
+        function searchMusic() {
+            let musicKeyWord = $('#songinfo').val()
+            $.ajax({
+                type: 'GET',
+                url: 'http://ws.audioscrobbler.com/2.0/?method=track.search&track=' + musicKeyWord + '&api_key=36e6ecdb6e67403d6448be2bca4e77ce&format=json',
+                success: function (response) {
+                    alert("ajax success")
+                    let musicList = response["results"]["trackmatches"]["track"];
+                    for (let i = 0; i < musicList.length; i++) {
+                        let albumTitle = musicList[i]["name"]
+                        let albumArtist = musicList[i]["artist"]
+
+                        let temp_html = `<div class="list-group">
+                                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1"> ${albumTitle} </h5>
+                                            </div>
+                                            <p class="mb-1"> ${albumArtist} </p>
+                                            </a>
+                                        </div>`
+                        $('#list-q1').append(temp_html);
+                    }
+                }
+            })
+        }
+
+        function addMusic(title, artist) {
+            console.log(title, artist)
+            $.ajax({
+                type: 'POST',
+                url: '/addMusic',
+                data: {title_give: title, artist_give: artist},
+                success: function (response) {
+                    alert(response['msg']);
+                    window.location.reload()
+                }
+            });
+        }
+    </script>
+
 </head>
 
 <body>
 <div class="searchbar_css" id="searchbar">
     <form class="form-inline my-2 my-lg-0">
-        <input class="form-control" type="search" placeholder="Search" aria-label="Search" size="80px"/>
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <input class="form-control" id="songinfo" type="search" placeholder="Search" aria-label="Search" size="80px"/>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="searchMusic()">Search</button>
     </form>
 </div>
 <div class="wrap">
@@ -67,39 +108,11 @@
                 </div>
                 <p class="mb-1"> Next level </p>
             </a>
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1"> Marshmello, Jonas Brothers </h5>
-                </div>
-                <p class="mb-1"> Leave Before You Love Me </p>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1"> Prettymuch </h5>
-                </div>
-                <p class="mb-1"> Teacher </p>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1"> Emotional Oranges </h5>
-                </div>
-                <p class="mb-1"> West Coast Love </p>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1"> Ed Sheeran </h5>
-                </div>
-                <p class="mb-1"> South of the Border </p>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1"> 릴보이 </h5>
-                </div>
-                <p class="mb-1"> 내일이 오면 (Feat. 기리보이, 서동현) </p>
-            </a>
         </div>
     </div>
-    <div class="playlist_css" id="playlist"><h1>여기가 플리</h1></div>
+    <div class="playlist_css" id="playlist">
+
+    </div>
 
 </div>
 </body>
