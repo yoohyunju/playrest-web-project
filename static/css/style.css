@@ -4,20 +4,5 @@ body {
 
 a {
     text-decoration: none;
-    color: white;
+    color: black;
 }
-
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: gray;
-    padding: 8px 12px;
-}
-
-.nav-logo {
-    font-size: 24px;
-    color: white;
-}
-
-.navb
