@@ -1,3 +1,4 @@
+from bson import json_util
 from flask import Flask, render_template, jsonify, request, session, redirect, url_for
 
 app = Flask(__name__)
@@ -9,6 +10,9 @@ from pymongo import MongoClient
 client = MongoClient('localhost', 27017)
 db = client.makingproject
 
+from bson.objectid import ObjectId  # mongodb object id 값 갖고오기
+import json # dict타입을 json으로 변환하기 위한 라이브러리
+
 
 ## HTML 화면 보여주기
 @app.route('/')
@@ -16,12 +20,26 @@ def homework():
     return render_template('/home/index.html')
 
 @app.route('/playlist')
-def getPlaylist():
+def playlist():
     return render_template('/playlist/playlist.html')
 
 @app.route('/search')
 def home():
     return render_template('/search/search.html')
+
+# 플레이리스트 1개의 상세 목록보기(Read) API
+@app.route('/getPlaylist', methods=['GET'])
+def view_playlist():
+    id_receive = request.args.get('id_give')
+    print('id_receive:', id_receive)
+
+    playlist_dict = db.playlists.find_one({'_id': ObjectId(id_receive)}) # _id를 기준으로 search
+    playlist_json = parse_json(playlist_dict)
+    return playlist_json
+
+# dict를 json으로 바꿔주는 함수
+def parse_json(data):
+    return json.loads(json_util.dumps(data))
 
 
 ## 회원가입 (비밀번호 암호화해서 저장하는 걸로 나중에 바꾸기)
