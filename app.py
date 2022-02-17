@@ -1,3 +1,4 @@
+from bson import json_util
 from flask import Flask, render_template, jsonify, request, session, redirect, url_for
 
 app = Flask(__name__)
@@ -9,6 +10,10 @@ client = MongoClient('mongodb://test:test@localhost', 27017)  # id:password
 # client = MongoClient('localhost', 27017)
 db = client.makingproject
 
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+import pprint
+import json
 
 ## HTML 화면 보여주기
 @app.route('/')
@@ -45,8 +50,29 @@ def signup():
             db.users.insert_one(userinfo)
             return jsonify({'msg': '회원가입 완료'})
 
-        
-## 로그인 (세션에 남기는 기능은 추후 구현 예정 / 비밀번호 암호화 방식이면 나중에 변경 필요)
+##============ 써치
+cid = 'ea29245b299b4ed9b0a83436450a9c6c'
+secret = '404b834c728d49d6ac9c72243d4cd4b5'
+client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
+
+sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
+@app.route('/searchAlbum', methods=['GET'])
+def read_reviews():
+    music_keyword = request.args.get('musicKeyword')
+    print(music_keyword)
+    # result = sp.search("let it be", limit=3, type='album')['albums']['items']
+    result = sp.search(music_keyword, limit=30, type='album')['albums']['items']
+    print(result)
+    print('type:', type(result))
+    return jsonify({'result': result})
+
+# dict를 json으로 바꿔주는 함수
+def parse_json(data):
+    return json.loads(json_util.dumps(data))
+##-===============써치끝
+
+    ## 로그인 (세션에 남기는 기능은 추후 구현 예정 / 비밀번호 암호화 방식이면 나중에 변경 필요)
 @app.route('/login', methods = ['POST'])
 def login():
     id_receive = request.form['id_give']
