@@ -3,22 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>header</title>
-    <style>
-        h2 {
-            font-weight: bold;
-        }
-
-        a {
-            text-decoration: none;
-            color: black;
-            font-weight: bold;
-        }
-
-        a:hover {
-            color: black;
-            text-decoration: none;
-        }
-    </style>
+    <!--css-->
+    <link href="{{ url_for('static', filename='css/header.css') }}" rel="stylesheet">
 </head>
 <body>
     <!--헤더, 네비게이션 바-->
@@ -35,10 +21,21 @@
                 <input class="form-control mr-sm-2" type="search" placeholder="" aria-label="Search">
                 <button type="button" class="btn btn-outline-dark" type="submit">검색</button>
             </form>
+
             <div class="login-btn">
                 <a href="login">Login</a> <!--추후 api 연결 필요-->
             </div>
-            <div class="profile">hazel님 안녕하세요!</div>
+
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    hazel님 안녕하세요!
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">마이페이지</a>
+                    <a class="dropdown-item" href="#">로그아웃</a>
+                </div>
+            </div>
         </div>
     </nav>
 </body>

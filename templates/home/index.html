@@ -7,12 +7,12 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <!--google fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
 
     <!--css-->
     <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet">
@@ -22,11 +22,11 @@
     <!--부트스트랩 템플릿에 이미 jQuery가 임포트 돼있음-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 
     <title>playRe:st</title>
     <style>
@@ -45,28 +45,133 @@
         <a href="/search">Search Music</a>
     </div>
 
-    <div id="div1">
+    <div id="video-section">
         <video id="main-video" autoplay loop muted>
             <source src="{{url_for('static', filename='video/record.mp4') }}" type="video/mp4">
             Sorry, your browser doesn't support embedded videos.
         </video>
     </div>
 
-    <div id="div2">
-        <h2>좋아요 한 플레이리스트</h2>
-        <div class="btn-playlist">
-            <a href="/playlist" class="card-link">플레이리스트1</a>
-        </div>
-    </div>
+    <div class="container">
+        <div class="section">
+            <div class="title">
+                <h2>좋아요 한 플레이리스트</h2>
+            </div>
 
-    <div id="div3">
-        <h2>플레이리스트 둘러보기</h2>
-        좋아요를 많이 받은 플레이리스트 입니다.
+            <div class="row">
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top"
+                         src="http://asq.kr/ZIBeGRD"
+                         alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">K-pop 노동요</h5>
+                        <p class="card-text">만든 이: hazel</p>
+                    </div>
+                </div>
+
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top"
+                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgRk5o6aobykL6ZGSVmgXcIwz3mbAHHO7UDg&usqp=CAU"
+                         alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">잠들기 전 잔잔한 음악</h5>
+                        <p class="card-text">만든 이: hazel</p>
+                    </div>
+                </div>
+
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top"
+                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMPiZu-F6nMur4qLpq8iPFLJG30_07F9-kkA&usqp=CAU"
+                         alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">저녁에 듣는 R&B</h5>
+                        <p class="card-text">만든 이: hazel</p>
+                    </div>
+                </div>
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top"
+                         src="http://asq.kr/ZIBeGRD"
+                         alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">K-pop 노동요</h5>
+                        <p class="card-text">만든 이: hazel</p>
+                    </div>
+                </div>
+
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top"
+                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgRk5o6aobykL6ZGSVmgXcIwz3mbAHHO7UDg&usqp=CAU"
+                         alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">잠들기 전 잔잔한 음악</h5>
+                        <p class="card-text">만든 이: hazel</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="title">
+                <h2>플레이리스트 둘러보기</h2>
+                좋아요를 많이 받은 플레이리스트 입니다.
+            </div>
+
+            <div class="row">
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top"
+                         src="http://asq.kr/ZIBeGRD"
+                         alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">K-pop 노동요</h5>
+                        <p class="card-text">만든 이: hazel</p>
+                    </div>
+                </div>
+
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top"
+                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgRk5o6aobykL6ZGSVmgXcIwz3mbAHHO7UDg&usqp=CAU"
+                         alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">잠들기 전 잔잔한 음악</h5>
+                        <p class="card-text">만든 이: hazel</p>
+                    </div>
+                </div>
+
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top"
+                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMPiZu-F6nMur4qLpq8iPFLJG30_07F9-kkA&usqp=CAU"
+                         alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">저녁에 듣는 R&B</h5>
+                        <p class="card-text">만든 이: hazel</p>
+                    </div>
+                </div>
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top"
+                         src="http://asq.kr/ZIBeGRD"
+                         alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">K-pop 노동요</h5>
+                        <p class="card-text">만든 이: hazel</p>
+                    </div>
+                </div>
+
+                <div class="card" style="width: 13rem;">
+                    <img class="card-img-top"
+                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgRk5o6aobykL6ZGSVmgXcIwz3mbAHHO7UDg&usqp=CAU"
+                         alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">잠들기 전 잔잔한 음악</h5>
+                        <p class="card-text">만든 이: hazel</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!--플레이리스트 개별 화면으로 가는 임시 버튼-->
         <div class="btn-playlist">
             <a href="/playlist" class="card-link">플레이리스트1</a>
         </div>
-
     </div>
 
 </body>
