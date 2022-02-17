@@ -1,17 +1,54 @@
-       $(document).ready(function () {
-            // show_pll();
-            getPll()
+ $(document).ready(function () {
+            getPlaylist()
         });
-        function getPll() {
-            let id = "620ca6fe355284c12ad4ba2f";
+
+        function getPlaylist() {
+            let id = "620e387e355284c12ad50130"; // 플레이리스트 _id값 넣어야함
             $.ajax({
                 type: 'GET',
-                url: '/playlist',
+                url: '/getPlaylist?id_give=' + id,
                 data: {},
                 success: function (response) {
                     console.log(response)
-                    console.log(response['songs'])
-                     // window.location.reload();
+                    let playlist_title = response['playlist_title']
+                    let playlist_like = response['playlist_like']
+                    let songs = response['playlist_music']
+                    let user_id = response['user_id']
+                    console.log(playlist_title, playlist_like, songs, id )
+
+                    $("#pll-title").text(playlist_title)
+                    $("#nickname").text(user_id)
+                    $("#favorites-num").text(playlist_like)
+                    $("#introduction").text("심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^")
+
+                    // 노래 목록 출력
+                    for (let i = 0; i < songs.length; i++) {
+                        let music_artist = songs[i]['music_artist']
+                        let music_title = songs[i]['music_title']
+                        let song_num = i+1
+
+                        temp_html = `<tr>
+                                        <th scope="row">${song_num}</th>
+                                        <td>
+                                            <div class="song-info">
+                                                <div class="img-album">
+                                                    <img src="https://w.namu.la/s/48d8d59e536896b00da9365d1532b2051b1931abe47cddeffea696f4f29efa8131d6824f41fb3bd5f65d78c27c5dd95a6183b6a50d9e85f33cc19a612b4143d5fd41ea9dd9c797d08085e64f18042c30f444ffd2a64980477c4095120d288438" width="50px" height="50px">
+                                                </div>
+                                                <div>
+                                                     ${music_title}<br>
+                                                     ${music_artist}
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td><a href="https://www.youtube.com/watch?v=ZeerrnuLi5E" target="_blank"><i class="fa-brands fa-youtube fa-lg" style="color: red"></i></a></td>
+                                        <td><i class="fa-solid fa-plus fa-lg imgSelect"></i></td>
+                                        <td><i class="fa-solid fa-trash fa-sm"></i></td>
+                                    </tr>`
+                         $("#song-tbody").append(temp_html)
+                    }
+
+
                 }
             });
         }
@@ -19,7 +56,6 @@
             $(obj).parent().parent().hide();
         }
         $(function () {
-
             /* 클릭 클릭시 클릭을 클릭한 위치 근처에 레이어가 나타난다. */
             $('.imgSelect').click(function (e) {
                 var sWidth = window.innerWidth;
@@ -48,30 +84,3 @@
             });
 
         });
-
-        function show_pll() {
-            $("#pll-title").text("음색 깡패! 남자 아이들 솔로")
-            $("#nickname").text("수민")
-            $("#favorites-num").text("382")
-            $("#introduction").text("심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^")
-
-
-            temp_html = `<tr>
-                            <th scope="row">1</th>
-                            <td>Black mamba</td>
-                            <td>에스파</td>
-                            <td>영상버튼+영상링크</td>
-                            <td>담기버튼</td>
-                            <td>제거버튼</td>
-                        </tr>`
-            $("#song-tbody").append(temp_html)
-        }
-
-        // function add_popup() {
-        //     var url = "popUpAdd.html";
-        //     var name = "popup test";
-        //     var option = "width = 500, height = 500, top = 100, left = 200, location = no"
-        //     window.open(url, name, option);
-        // }
-
-

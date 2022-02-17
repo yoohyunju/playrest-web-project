@@ -1,38 +1,45 @@
+from bson import json_util
 from flask import Flask, render_template, jsonify, request, session, redirect, url_for
 
 app = Flask(__name__)
 app.secret_key = 'super secret key'     # 세션 때문에 있는 건데 아무키나 넣어도 괜찮습니다
 
 from pymongo import MongoClient
-
 # client = MongoClient('mongodb://test:test@localhost', 27017)  # id:password
 client = MongoClient('localhost', 27017)
 db = client.makingproject
+
+from bson.objectid import ObjectId  # mongodb object id 값 갖고오기
+import json # dict타입을 json으로 변환하기 위한 라이브러리
 
 
 ## HTML 화면 보여주기
 @app.route('/')
 def homework():
     return render_template('/home/index.html')
-##############################질문!
+
 @app.route('/playlist')
 def playlist():
-    print('하하!1 getPlaylist()')
     return render_template('/playlist/playlist.html')
 
-# 플레이리스트 상세 목록보기(Read) API
+# 플레이리스트 1개의 상세 목록보기(Read) API
 @app.route('/getPlaylist', methods=['GET'])
 def view_playlist():
-    # id_receive = request.form['id_give']
-    # songs = list(db.orders.find({'_id':id_receive}, {'_id': False}))
-    print('하하!2 view_playlist()')
-    songs = list(db.playlists.find({}, {'_id': False}))
-    # songs = ['hi']
-    print(songs)
-    return jsonify({'result': 'success', 'songs': songs})
-##############################질문!
+    id_receive = request.args.get('id_give')
+    print('id_receive:', id_receive)
 
+    playlist_dict = db.playlists.find_one({'_id': ObjectId(id_receive)})
+    playlist_json = parse_json(playlist_dict)
+    return playlist_json
 
+# dict를 json으로 바꿔주는 함수
+def parse_json(data):
+    return json.loads(json_util.dumps(data))
+
+# The web framework gets post_id from the URL and passes it as a string
+def get(post_id):
+    # Convert from string to ObjectId:
+    document = client.db.collection.find_one({'_id':ObjectId(post_id)})
 
 ## 회원가입 (비밀번호 암호화해서 저장하는 걸로 나중에 바꾸기)
 @app.route('/signup', methods=['GET','POST'])
