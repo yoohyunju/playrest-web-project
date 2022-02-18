@@ -36,11 +36,11 @@ function searchMusic() {
             for (let i = 0; i < musicList.length; i++) {
                 let albumTitle = musicList[i]["name"]
                 let albumArtist = musicList[i]["artist"]
-
+                console.log('abcd')
                 let temp_html = `<tr>
                                      <td>${albumTitle}</td>
                                      <td>${albumArtist}</td>
-                                     <td><button onclick="addMusic('${playlist_title}','${title}','${artist}')">추가</button>
+                                     <td><button onclick="addMusic('${albumTitle}','${albumArtist}')">추가</button>
                                      </td>
                                 </tr>`
                 $('#list-q1').append(temp_html);
