@@ -69,13 +69,19 @@
                         // let albumImg = albums[i]['images'][0]['url']
                         // 검색방법 2) 음악 검색에서 이미지 갖고오기
                         let albumImg = musics[i]['album']['images'][0]['url']
+                        let previewMusic = musics[i]["preview_url"]
+                        console.log(previewMusic)
 
                         let temp_html = `<tr>
                                         <td><img src="${albumImg}" width="80px" height="80px"></td>
                                         <td class="Title_css">${albumTitle}</td>
                                         <td class="Artist_css">${albumArtist}</td>
                                         <td><button onclick="addMusic('${albumTitle}','${albumArtist}')" class="bnt_add">추가</button></td>
-
+                                        <td>
+                                            <audio controls>
+                                              <source src='${previewMusic}' type="audio/mpeg">
+                                            </audio>
+                                        </td>
                                  </tr>`
                         $('#list-q1').append(temp_html);
                     }
