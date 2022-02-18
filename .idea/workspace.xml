@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="78a25c83-ac76-4ba1-8b69-17ac6ce70295" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/static/credential_key.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -101,7 +102,7 @@
       <updated>1644926208778</updated>
       <workItem from="1644926211165" duration="6563000" />
       <workItem from="1644983102321" duration="14856000" />
-      <workItem from="1645005789735" duration="34862000" />
+      <workItem from="1645005789735" duration="36574000" />
     </task>
     <servers />
   </component>
