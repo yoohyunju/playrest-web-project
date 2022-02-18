@@ -41,6 +41,7 @@
 
         $(document).ready(function () {
             showList();
+            showMylist()
         });
 
         function showList() {
@@ -49,12 +50,35 @@
                 url: '/list',
                 data: {},
                 success: function (response) {
-                    alert("플리목록연결!")
+                    alert("플리목록 연결!")
                     let allPlaylists = response['data']
-                    console.log(allPlaylists)
                     for (let i = 0; i < allPlaylists.length; i++) {
+                        let playlist_num = allPlaylists[i]['playlist_num']
                         let user_name = allPlaylists[i]['user_name']
                         let playlist_title = allPlaylists[i]['playlist_title']
+
+                        let temp_html = `<tr>
+                                                <td>${user_name}</td>
+                                                <td>${playlist_title}</td>
+                                        </tr>`
+                        $('#list-box').append(temp_html)
+                    }
+                }
+            })
+        }
+
+        function showMylist() {
+            $.ajax({
+                type: 'GET',
+                url: '/mylist',
+                data: {},
+                success: function (response) {
+                    alert("내 목록 연결!")
+                    let myPlaylists = response['data']
+                    for (let i = 0; i < myPlaylists.length; i++) {
+                        let playlist_num = myPlaylists[i]['playlist_num']
+                        let user_name = myPlaylists[i]['user_name']
+                        let playlist_title = myPlaylists[i]['playlist_title']
 
                         let temp_html = `<tr>
                                                 <td>${user_name}</td>

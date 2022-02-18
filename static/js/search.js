@@ -10,6 +10,7 @@ function searchPlaylists() {
             let playlists = response['data']
             console.log(playlists)
             for (let i = 0; i < playlists.length; i++) {
+                let playlist_num = playlists[i]['playlist_num']
                 let playlist_title = playlists[i]["playlist_title"]
                 let temp_html = `<tr>
                                                 <td>${playlist_title}</td>
@@ -94,10 +95,11 @@ function selectPlaylist(title, artist) {
             console.log(title)
             for (let i = 0; i < myPlaylists.length; i++) {
                 let playlist_title = myPlaylists[i]["playlist_title"]
+                let playlist_num = myPlaylists[i]['playlist_num']
                 let temp_html = `<tr>
                                      <td>${playlist_title}</td>
                                      <td></td>
-                                     <td><button onclick="addMusic('${playlist_title}','${title}','${artist}')">추가</button></td>
+                                     <td><button onclick="addMusic('${playlist_num}','${title}','${artist}')">추가</button></td>
                                 </tr>`
                 $('#list-q1').append(temp_html);
             }
@@ -106,12 +108,12 @@ function selectPlaylist(title, artist) {
 }
 
 // 선택한 플레이리스트에 노래 추가
-function addMusic(playlist, title, artist) {
-    console.log(playlist, title, artist)
+function addMusic(num, title, artist) {
+    console.log(num, title, artist)
     $.ajax({
         type: 'POST',
         url: '/search/select/add',
-        data: {playlist_give: playlist, title_give: title, artist_give: artist},
+        data: {num_give:num, title_give: title, artist_give: artist},
         success: function (response) {
             alert(response['msg']);
             window.location.reload()
