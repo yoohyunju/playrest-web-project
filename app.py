@@ -1,11 +1,9 @@
 from bson import json_util
 from flask import Flask, render_template, jsonify, request, session, redirect, url_for
-
 app = Flask(__name__)
 app.secret_key = 'super secret key'     # 세션 때문에 있는 건데 아무키나 넣어도 괜찮습니다
 
 from pymongo import MongoClient
-
 client = MongoClient('mongodb://test:test@localhost', 27017)  # id:password
 # client = MongoClient('localhost', 27017)
 db = client.makingproject
@@ -14,6 +12,7 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import pprint
 import json
+from static.credential_key import SpotifyKey
 
 ## HTML 화면 보여주기
 @app.route('/')
@@ -53,7 +52,8 @@ def signup():
 ##============ 써치
 cid = 'ea29245b299b4ed9b0a83436450a9c6c'
 secret = '404b834c728d49d6ac9c72243d4cd4b5'
-client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
+# client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
+client_credentials_manager = SpotifyClientCredentials(client_id=SpotifyKey.id, client_secret=SpotifyKey.secret)
 
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
