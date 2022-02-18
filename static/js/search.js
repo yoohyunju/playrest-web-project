@@ -38,13 +38,14 @@ function searchMusic() {
                 let albumArtist = musicList[i]["artist"]
                 console.log('abcd')
                 let temp_html = `<tr>
-                                     <td>${albumTitle}</td>
-                                     <td>${albumArtist}</td>
-                                     <td><button onclick="addMusic('${albumTitle}','${albumArtist}')">추가</button>
+                                     <td class="Title_css">${albumTitle}</td>
+                                     <td class="Artist_css">${albumArtist}</td>
+                                     <td><button onclick="addMusic('${albumTitle}','${albumArtist}')" class="bnt_add">추가</button>
                                      </td>
                                 </tr>`
                 $('#list-q1').append(temp_html);
             }
+
         }
     })
 }
