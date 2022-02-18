@@ -113,8 +113,9 @@ def logout():
 ## 노래 검색
 client_credentials_manager = SpotifyClientCredentials(client_id=SpotifyKey.id, client_secret=SpotifyKey.secret)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
-@app.route('/searchAlbum', methods=['GET'])
+@app.route('/search/musics', methods=['GET'])
 def searchMusics():
+    print("아!!!!!!!!!!!!")
     music_keyword = request.args.get('musicKeyword')
     print(music_keyword)
     # result = sp.search("let it be", limit=3, type='album')['albums']['items']
