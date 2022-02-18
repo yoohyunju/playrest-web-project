@@ -25,30 +25,59 @@ function searchPlaylists() {
 
 // 음악 검색
 function searchMusic() {
-    let musicKeyWord = $('#songinfo').val()
+     let musicKeyword = $('#songinfo').val()
     $.ajax({
         type: 'GET',
-        url: 'http://ws.audioscrobbler.com/2.0/?method=track.search&track=' + musicKeyWord + '&api_key=36e6ecdb6e67403d6448be2bca4e77ce&format=json',
-        async: false,
+        url: '/searchAlbum?musicKeyword='+musicKeyword,
         success: function (response) {
+            // console.log(response)
+            console.log(response['result'])
+            albums = response['result']
+            console.log(albums[0])
             alert("ajax success")
-            let musicList = response["results"]["trackmatches"]["track"];
-            for (let i = 0; i < musicList.length; i++) {
-                let albumTitle = musicList[i]["name"]
-                let albumArtist = musicList[i]["artist"]
-                console.log('abcd')
-                let temp_html = `<tr>
-                                     <td class="Title_css">${albumTitle}</td>
-                                     <td class="Artist_css">${albumArtist}</td>
-                                     <td><button onclick="addMusic('${albumTitle}','${albumArtist}')" class="bnt_add">추가</button>
-                                     </td>
-                                </tr>`
-                $('#list-q1').append(temp_html);
-            }
+            for (let i = 0; i < albums.length; i++) {
+                 let albumTitle = albums[i]["name"]
+                 let albumArtist = albums[i]["artists"][0]['name']
+                 let albumImg = albums[i]['images'][0]['url']
+
+                 let temp_html = `<tr>
+                                        <td><img src="${albumImg}" width="80px" height="80px"></td>
+                                        <td>${albumTitle}</td>
+                                        <td>${albumArtist}</td>
+                                        <td><button onclick="addMusic('${albumTitle}','${albumArtist}')">추가</button></td>
+                                 </tr>`
+                 $('#list-q1').append(temp_html);
+             }
 
         }
     })
 }
+
+// function searchMusic() {
+//     let musicKeyWord = $('#songinfo').val()
+//     $.ajax({
+//         type: 'GET',
+//         url: 'http://ws.audioscrobbler.com/2.0/?method=track.search&track=' + musicKeyWord + '&api_key=36e6ecdb6e67403d6448be2bca4e77ce&format=json',
+//         async: false,
+//         success: function (response) {
+//             alert("ajax success")
+//             let musicList = response["results"]["trackmatches"]["track"];
+//             for (let i = 0; i < musicList.length; i++) {
+//                 let albumTitle = musicList[i]["name"]
+//                 let albumArtist = musicList[i]["artist"]
+//                 console.log('abcd')
+//                 let temp_html = `<tr>
+//                                      <td class="Title_css">${albumTitle}</td>
+//                                      <td class="Artist_css">${albumArtist}</td>
+//                                      <td><button onclick="addMusic('${albumTitle}','${albumArtist}')" class="bnt_add">추가</button>
+//                                      </td>
+//                                 </tr>`
+//                 $('#list-q1').append(temp_html);
+//             }
+//
+//         }
+//     })
+// }
 
 
 // 노래 담을 플레이리스트 선택

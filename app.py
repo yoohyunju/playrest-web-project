@@ -1,17 +1,21 @@
-from bson import json_util
 from flask import Flask, render_template, jsonify, request, session, redirect, url_for
 
 app = Flask(__name__)
 app.secret_key = 'super secret key'     # 세션 때문에 있는 건데 아무키나 넣어도 괜찮습니다
 
 from pymongo import MongoClient
-
 # client = MongoClient('mongodb://test:test@localhost', 27017)  # id:password
 client = MongoClient('localhost', 27017)
 db = client.makingproject
 
 from bson.objectid import ObjectId  # mongodb object id 값 갖고오기
 import json # dict타입을 json으로 변환하기 위한 라이브러리
+from bson import json_util
+
+## spotify 관련
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+from static.credential_key import SpotifyKey
 
 
 ## HTML 화면 보여주기
@@ -97,6 +101,20 @@ def logout():
 
 
 ### 검색창
+## 노래 검색
+client_credentials_manager = SpotifyClientCredentials(client_id=SpotifyKey.id, client_secret=SpotifyKey.secret)
+sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+@app.route('/searchAlbum', methods=['GET'])
+def searchMusics():
+    music_keyword = request.args.get('musicKeyword')
+    print(music_keyword)
+    # result = sp.search("let it be", limit=3, type='album')['albums']['items']
+    result = sp.search(music_keyword, limit=30, type='album')['albums']['items']
+    print(result)
+    print('type:', type(result))
+    return jsonify({'result': result})
+
+
 ## 검색한 노래가 담긴 플레이리스트 목록
 @app.route('/search/playlists', methods=["GET"])
 def searchPlaylists():
