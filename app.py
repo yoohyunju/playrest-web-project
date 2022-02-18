@@ -115,11 +115,12 @@ client_credentials_manager = SpotifyClientCredentials(client_id=SpotifyKey.id, c
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 @app.route('/search/musics', methods=['GET'])
 def searchMusics():
-    print("아!!!!!!!!!!!!")
     music_keyword = request.args.get('musicKeyword')
     print(music_keyword)
-    # result = sp.search("let it be", limit=3, type='album')['albums']['items']
-    result = sp.search(music_keyword, limit=30, type='album')['albums']['items']
+    # 검색방법 1) 앨범 검색
+    # result = sp.search(music_keyword, limit=30, type='album')['albums']['items']
+    # 검색방법 2) 음악 검색
+    result = sp.search(music_keyword, limit=30, type='track')['tracks']['items']
     print(result)
     print('type:', type(result))
     return jsonify({'result': result})
