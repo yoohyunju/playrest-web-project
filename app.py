@@ -24,8 +24,12 @@ def playlist():
     return render_template('/playlist/playlist.html')
 
 @app.route('/search')
-def home():
+def search():
     return render_template('/search/search.html')
+
+@app.route('/mypage')
+def mypage():
+    return render_template('/myPage/myPage.html')
 
 # 플레이리스트 1개의 상세 목록보기(Read) API
 @app.route('/getPlaylist', methods=['GET'])
@@ -45,8 +49,14 @@ def parse_json(data):
 ## 전체 플레이리스트 목록
 @app.route('/list', methods=["GET"])
 def allPlaylists():
-    playlists = list(db.playlists.find({}, {'_id': False}))
-    return jsonify({'data': playlists})
+    allLists = list(db.playlists.find({}, {'_id': False}))
+    return jsonify({'data': allLists})
+
+## 나의 플레이리스트 목록
+@app.route('/mylist', methods=["GET"])
+def myPlaylists():
+    myLists = list(db.playlists.find({'user_name': session['user_name']}, {'_id': False}))
+    return jsonify({'data': myLists})
 
 ## 회원가입 (비밀번호 암호화해서 저장하는 걸로 나중에 바꾸기)
 @app.route('/signup', methods=['GET','POST'])
@@ -61,8 +71,7 @@ def signup():
         userinfo = {
             'user_id': newid_receive,
             'user_pw': newpw_receive,
-            'user_name': newname_receive,
-            'user_like': []
+            'user_name': newname_receive
         }
 
         if not (newid_receive and newpw_receive and newname_receive):
@@ -101,26 +110,23 @@ def logout():
 @app.route('/search/playlists', methods=["GET"])
 def searchPlaylists():
     keyword_receive = request.args.get('keyword_give')
-    print(keyword_receive)
     results = list(db.playlists.find({'playlist_music': {'$elemMatch': {'music_title': keyword_receive}}}, {'_id': False}))
     return jsonify({'data': results})
 
 ## 플레이리스트 선택을 위한 나의 플리 목록
 @app.route('/search/select', methods=["GET"])
 def selectPlaylist():
-    myPlaylists = list(db.playlists.find({'user_id': session['user_id']}, {'_id': False}))
-    print(myPlaylists)
+    myPlaylists = list(db.playlists.find({'user_name': session['user_name']}, {'_id': False}))
     return jsonify({'data': myPlaylists})
 
 ## 플레이리스트 선택 후 db에 노래 추가
 @app.route('/search/select/add', methods=["POST"])
 def addMusic():
-    playlist_receive = request.form['playlist_give']
+    num_receive = int(request.form['num_give'])
     title_receive = request.form['title_give']
     artist_receive = request.form['artist_give']
 
-    db.playlists.update_one({'playlist_title': playlist_receive}, {
-        '$push': {'playlist_music': {'music_title': title_receive, 'music_artist': artist_receive}}});
+    db.playlists.update_one({'playlist_num': num_receive}, {'$push': {'playlist_music': {'music_title': title_receive, 'music_artist': artist_receive}}});
     return jsonify({'msg': '플레이리스트에 노래 추가 완료!'})
 
 
@@ -129,7 +135,10 @@ def addMusic():
 @app.route('/mypage/create', methods=["POST"])
 def createPlaylist():
     title_receive = request.form['title_give']
+    desc_receive = request.form['desc_give']
+    num = db.playlists.count_documents({})
     listinfo = {
+        'playlist_num': num + 1,
         'user_name': session['user_name'],
         'playlist_title': title_receive,
         'playlist_desc': desc_receive,
@@ -137,6 +146,14 @@ def createPlaylist():
     }
     db.playlists.insert_one(listinfo)
     return jsonify({'msg': '플레이리스트 생성 완료!'})
+
+@app.route('/mypage/delete', methods=['POST'])
+def deletePLaylist():
+    num_receive = int(request.form['num_give'])
+    db.playlists.delete_one({'playlist_num': num_receive})
+    for i in range(num_receive, db.playlists.count_documents({})+1):
+        db.playlists.update_one({'playlist_num':i+1}, {'$set': {'playlist_num': i}})
+    return jsonify({'msg': '플레이리스트 삭제 완료!'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

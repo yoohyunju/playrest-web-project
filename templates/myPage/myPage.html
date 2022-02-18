@@ -1,12 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Stylish&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/playrest/static/css/style.css">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap js -->
+    <!--부트스트랩 템플릿에 이미 jQuery가 임포트 돼있음-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="/playrest/static/js/includeHTML.js"></script>
+    <script src="/playrest/static/js/includeRouter.js"></script>
+
+    <title>마이페이지</title>
+    <style>
+        .btn-playlist {
+            background-color: aqua;
+            width: 100px;
+            height: 50px;
+        }
+    </style>
+    <script>
+
+        $(document).ready(function () {
+            showMylist()
+        });
+
+        function showMylist() {
+            $.ajax({
+                type: 'GET',
+                url: '/mylist',
+                data: {},
+                success: function (response) {
+                    alert("내 목록 연결!")
+                    let myPlaylists = response['data']
+                    console.log(myPlaylists)
+                    for (let i = 0; i < myPlaylists.length; i++) {
+                        let playlist_num = myPlaylists[i]['playlist_num']
+                        let user_name = myPlaylists[i]['user_name']
+                        let playlist_title = myPlaylists[i]['playlist_title']
+
+                        let temp_html = `<tr>
+                                                <td>${user_name}</td>
+                                                <td>${playlist_title}</td>
+                                                <td><button onclick="deleteList('${playlist_num}')">삭제</button></td>
+                                        </tr>`
+                        $('#list-box').append(temp_html)
+                    }
+                }
+            })
+        }
+
+        function createPlaylist() {
+            let playlist_title = $('#playlist-title').val()
+            let playlist_desc = $('#playlist-desc').val()
+            $.ajax({
+                type: "POST",
+                url: "/mypage/create",
+                data: {title_give:playlist_title, desc_give:playlist_desc},
+                success: function (response) {
+                    alert(response["msg"]);
+                    window.location.reload();
+                }
+            })
+        }
+
+        function deleteList(num) {
+            $.ajax({
+                type: 'POST',
+                url: '/mypage/delete',
+                data: {num_give:num},
+                success: function (response) {
+                    alert(response['msg']);
+                    window.location.reload()
+                }
+            });
+        }
+    </script>
 </head>
 <body>
-    <!--header 삽입-->
-    {% include 'fragments/header.html' %}
-    마이 페이지 입니다.
+
+   {% include 'fragments/header.html' %}
+
+    <!--헤더, 네비게이션 바-->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <a href="">playRe:st</a>
+        </div>
+
+        <div class="search-bar">검색바</div>
+
+        <div class="profile">hazel님 안녕하세요!</div>
+    </nav>
+
+   <form>
+        <p>제목 : <input type="text" name="title" id="playlist-title"/></p>
+        <p><textarea placeholder="플레이리스트 설명" id="playlist-desc"></textarea></p>
+        <button type="button" onclick="createPlaylist()">생성</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <td>a</td>
+                <td>b</td>
+                <td>c</td>
+            </tr>
+        </thead>
+        <tbody id="list-box"></tbody>
+    </table>
+
 </body>
 </html>
