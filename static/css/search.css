@@ -7,8 +7,17 @@
     align-items: center;
 }
 
+table {
+    margin-left : auto;
+    margin-right : auto;
+}
+
+#search-btn {
+    margin: 20px;
+}
+
 .music_css {
-    width: 33%;
+    width: 100%;
     height: 550px;
     float: left;
 }

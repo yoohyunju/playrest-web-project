@@ -9,7 +9,6 @@ h2 {
 
 a {
     text-decoration: none;
-    color: black;
     font-weight: bold;
 }
 
@@ -41,4 +40,8 @@ a:hover {
 .title {
     padding-top: 10px;
     padding-bottom: 20px;
+}
+
+.card:hover {
+    cursor: pointer;
 }

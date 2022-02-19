@@ -5,11 +5,41 @@
     <title>header</title>
     <!--css-->
     <link href="{{ url_for('static', filename='css/header.css') }}" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+             if("{{session['user_id']}}" != "") { //로그인 되어있으면
+                 $('#profile-box').show()
+                 $('#login-btn').hide()
+            }
+            else { //로그인 안되어있으면
+                 $('#profile-box').hide()
+            }
+        });
+
+        function logout() {
+            location.href='/logout'
+            alert("로그아웃 되었습니다.")
+        }
+
+        function moveSearchPage() {
+            let searchKeyword = $('#search-music').val()
+            localStorage.setItem('searchKeyword', searchKeyword)
+            location.href='/search'
+        }
+
+    </script>
+
 </head>
 <body>
     <!--헤더, 네비게이션 바-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">playRe:st</a>
+        <a class="navbar-brand" id="home-logo" href="/">playRe:st</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -17,23 +47,23 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto"></ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="" aria-label="Search">
-                <button type="button" class="btn btn-outline-dark" type="submit">검색</button>
+            <form class="form-inline my-2 my-lg-0" id="home-search-bar">
+                <input class="form-control mr-sm-2" id="search-music" type="search" placeholder="곡 제목 입력" aria-label="Search">
+                <button type="button" class="btn btn-outline-dark" type="submit" onclick="moveSearchPage()">검색</button>
             </form>
 
             <div class="login-btn">
-                <a href="login">Login</a> <!--추후 api 연결 필요-->
+                <a href="/login" id="login-btn">Login</a>
             </div>
 
-            <div class="dropdown">
+            <div class="dropdown" id="profile-box">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    hazel님 안녕하세요!
+                    {{session['user_name']}}님 안녕하세요!
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">마이페이지</a>
-                    <a class="dropdown-item" href="#">로그아웃</a>
+                    <a class="dropdown-item" href="/mypage">마이페이지</a>
+                    <a class="dropdown-item" onclick="logout()">로그아웃</a>
                 </div>
             </div>
         </div>

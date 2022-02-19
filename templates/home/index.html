@@ -12,7 +12,7 @@
     <!--google fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;500&display=swap" rel="stylesheet">
 
     <!--css-->
     <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet">
@@ -50,18 +50,23 @@
                 url: '/list',
                 data: {},
                 success: function (response) {
-                    alert("플리목록 연결!")
+                    //alert("플리목록 연결!")
                     let allPlaylists = response['data']
                     for (let i = 0; i < allPlaylists.length; i++) {
                         let playlist_num = allPlaylists[i]['playlist_num']
                         let user_name = allPlaylists[i]['user_name']
                         let playlist_title = allPlaylists[i]['playlist_title']
 
-                        let temp_html = `<tr>
-                                                <td>${user_name}</td>
-                                                <td>${playlist_title}</td>
-                                        </tr>`
-                        $('#list-box').append(temp_html)
+                        let temp_html = `<div class="card" style="width: 13rem;" onclick="movePlaylistInfo(${playlist_num})">
+                                            <img class="card-img-top"
+                                                 src="http://asq.kr/ZIBeGRD"
+                                                 alt="Card image cap">
+                                            <div class="card-body">
+                                                <h5 class="card-title">${playlist_title}</h5>
+                                                <p class="card-text">만든 이: ${user_name}</p>
+                                            </div>
+                                        </div>`
+                        $('#allPlaylist').append(temp_html)
                     }
                 }
             })
@@ -73,21 +78,33 @@
                 url: '/mylist',
                 data: {},
                 success: function (response) {
-                    alert("내 목록 연결!")
+                    //alert("내 목록 연결!")
                     let myPlaylists = response['data']
                     for (let i = 0; i < myPlaylists.length; i++) {
                         let playlist_num = myPlaylists[i]['playlist_num']
                         let user_name = myPlaylists[i]['user_name']
                         let playlist_title = myPlaylists[i]['playlist_title']
 
-                        let temp_html = `<tr>
-                                                <td>${user_name}</td>
-                                                <td>${playlist_title}</td>
-                                        </tr>`
-                        $('#list-box').append(temp_html)
+                        let temp_html = `<div class="card" style="width: 13rem;" onclick="movePlaylistInfo(${playlist_num})">
+                                            <img class="card-img-top"
+                                                 src="http://asq.kr/ZIBeGRD"
+                                                 alt="Card image cap">
+                                            <div class="card-body">
+                                                <h5 class="card-title">${playlist_title}</h5>
+                                                <p class="card-text">만든 이: ${user_name}</p>
+                                            </div>
+                                        </div>`
+                        $('#myPlaylist').append(temp_html)
                     }
                 }
             })
+        }
+
+        //플리 개별 정보 페이지로 이동하는 함수
+        function movePlaylistInfo(playlistNum) {
+            console.log(playlistNum)
+            localStorage.setItem('playlistNum', playlistNum)
+            window.location.href = '/playlist'
         }
 
     </script>
@@ -96,10 +113,6 @@
 <body>
     <!--header 삽입-->
     {% include 'fragments/header.html' %}
-
-    <div class="search-bar">
-        <a href="/search">Search Music</a>
-    </div>
 
     <div id="video-section">
         <video id="main-video" autoplay loop muted>
@@ -111,117 +124,18 @@
     <div class="container">
         <div class="section">
             <div class="title">
-                <h2>좋아요 한 플레이리스트</h2>
+                <h2>플레이리스트 둘러보기</h2>
             </div>
-
-            <div class="row">
-                <div class="card" style="width: 13rem;">
-                    <img class="card-img-top"
-                         src="http://asq.kr/ZIBeGRD"
-                         alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">K-pop 노동요</h5>
-                        <p class="card-text">만든 이: hazel</p>
-                    </div>
-                </div>
-
-                <div class="card" style="width: 13rem;">
-                    <img class="card-img-top"
-                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgRk5o6aobykL6ZGSVmgXcIwz3mbAHHO7UDg&usqp=CAU"
-                         alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">잠들기 전 잔잔한 음악</h5>
-                        <p class="card-text">만든 이: hazel</p>
-                    </div>
-                </div>
-
-                <div class="card" style="width: 13rem;">
-                    <img class="card-img-top"
-                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMPiZu-F6nMur4qLpq8iPFLJG30_07F9-kkA&usqp=CAU"
-                         alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">저녁에 듣는 R&B</h5>
-                        <p class="card-text">만든 이: hazel</p>
-                    </div>
-                </div>
-                <div class="card" style="width: 13rem;">
-                    <img class="card-img-top"
-                         src="http://asq.kr/ZIBeGRD"
-                         alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">K-pop 노동요</h5>
-                        <p class="card-text">만든 이: hazel</p>
-                    </div>
-                </div>
-
-                <div class="card" style="width: 13rem;">
-                    <img class="card-img-top"
-                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgRk5o6aobykL6ZGSVmgXcIwz3mbAHHO7UDg&usqp=CAU"
-                         alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">잠들기 전 잔잔한 음악</h5>
-                        <p class="card-text">만든 이: hazel</p>
-                    </div>
-                </div>
-            </div>
+            <!--모든 플리 출력 되는 영역-->
+            <div class="row" id="allPlaylist"/>
         </div>
 
         <div class="section">
             <div class="title">
-                <h2>플레이리스트 둘러보기</h2>
-                좋아요를 많이 받은 플레이리스트 입니다.
+                <h2>나의 플레이리스트</h2>
             </div>
-
-            <div class="row">
-                <div class="card" style="width: 13rem;">
-                    <img class="card-img-top"
-                         src="http://asq.kr/ZIBeGRD"
-                         alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">K-pop 노동요</h5>
-                        <p class="card-text">만든 이: hazel</p>
-                    </div>
-                </div>
-
-                <div class="card" style="width: 13rem;">
-                    <img class="card-img-top"
-                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgRk5o6aobykL6ZGSVmgXcIwz3mbAHHO7UDg&usqp=CAU"
-                         alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">잠들기 전 잔잔한 음악</h5>
-                        <p class="card-text">만든 이: hazel</p>
-                    </div>
-                </div>
-
-                <div class="card" style="width: 13rem;">
-                    <img class="card-img-top"
-                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMPiZu-F6nMur4qLpq8iPFLJG30_07F9-kkA&usqp=CAU"
-                         alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">저녁에 듣는 R&B</h5>
-                        <p class="card-text">만든 이: hazel</p>
-                    </div>
-                </div>
-                <div class="card" style="width: 13rem;">
-                    <img class="card-img-top"
-                         src="http://asq.kr/ZIBeGRD"
-                         alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">K-pop 노동요</h5>
-                        <p class="card-text">만든 이: hazel</p>
-                    </div>
-                </div>
-
-                <div class="card" style="width: 13rem;">
-                    <img class="card-img-top"
-                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgRk5o6aobykL6ZGSVmgXcIwz3mbAHHO7UDg&usqp=CAU"
-                         alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">잠들기 전 잔잔한 음악</h5>
-                        <p class="card-text">만든 이: hazel</p>
-                    </div>
-                </div>
-            </div>
+            <!--내 플리 출력 되는 영역-->
+            <div class="row" id="myPlaylist"/>
         </div>
 
         <!--플레이리스트 개별 화면으로 가는 임시 버튼-->
@@ -229,19 +143,7 @@
             <a href="/playlist" class="card-link">플레이리스트1</a>
         </div>
 
-        <!--        플리 목록 출력 되는 거 보시라고 임시로..!-->
-        <table>
-            <thead>
-                <tr>
-                    <td>a</td>
-                    <td>b</td>
-                </tr>
-            </thead>
-            <tbody id="list-box"></tbody>
-        </table>
-
     </div>
-
 </body>
 
 </html>

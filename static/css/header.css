@@ -1,10 +1,10 @@
 h2 {
     font-weight: bold;
+    color: #2f3640;
 }
 
 a {
     text-decoration: none;
-    color: black;
     font-weight: bold;
 }
 
@@ -13,6 +13,24 @@ a:hover {
     text-decoration: none;
 }
 
-.login-btn {
-    padding: 10px 30px 10px 40px;
+#login-btn {
+    font-size: large;
+    color: #2f3640;
+    padding: 10px 40px 10px 20px;
+}
+
+#home-logo {
+    padding-left: 20px;
+    color: #f8c291;
+    font-size: 23px;
+    font-weight: bold;
+    text-shadow: 2px 2px #3c6382, 3px 3px #3c6382, 4px 4px #3c6382, 5px 5px #3c6382;
+}
+
+#home-search-bar {
+    padding-right: 40px;
+}
+
+#profile-box {
+    padding-right: 40px;
 }

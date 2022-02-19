@@ -35,7 +35,7 @@ def mypage():
 # 플레이리스트 1개의 상세 목록보기(Read) API
 @app.route('/getPlaylist', methods=['GET'])
 def viewPlaylist():
-    num_receive = int(request.args.get('playlistnum'))
+    num_receive = int(request.args.get('playlistNum'))
     playlist = db.playlists.find_one({'playlist_num': num_receive}, {'_id': False})
 
     return jsonify({'data': playlist})

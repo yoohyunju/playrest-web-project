@@ -10,6 +10,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+
+    <!--google fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -22,9 +28,21 @@
 
     <title>Music Search</title>
 
+    <!--css-->
     <link rel="stylesheet" href="static/css/search.css">
-<!--    <script src="static/js/search.js"></script>-->
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <!--<script src="static/js/search.js"></script>-->
     <script>
+        $(document).ready(function () {
+             if(localStorage.getItem('searchKeyword')){
+                 let musicKeyword = localStorage.getItem('searchKeyword')
+                 document.getElementById("songinfo").value = musicKeyword;
+                 searchPlaylists();
+                 console.log(musicKeyword)
+             }
+
+        });
+
         // 노래가 들어간 플레이리스트 검색
         // 검색 버튼 눌렀을 때 onclick으로 이 함수 호출해주시면 될 거예요
         function searchPlaylists() {
@@ -142,7 +160,7 @@
 <div class="searchbar_css" id="searchbar">
     <form class="form-inline my-2 my-lg-0">
         <input id="songinfo" type="text" placeholder="Search" aria-label="Search" size="80px"/>
-        <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="searchMusic()">Search</button>
+        <button type="button" class="btn btn-outline-dark" id="search-btn" type="submit" onclick="searchMusic()">검색</button>
     </form>
 </div>
 <div class="wrap">
