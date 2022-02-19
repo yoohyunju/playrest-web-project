@@ -76,7 +76,7 @@
                                         <td><img src="${albumImg}" width="80px" height="80px"></td>
                                         <td class="Title_css">${albumTitle}</td>
                                         <td class="Artist_css">${albumArtist}</td>
-                                        <td><button onclick="addMusic('${albumTitle}','${albumArtist}')" class="bnt_add">추가</button></td>
+                                        <td><button onclick="addMusic('${albumTitle}','${albumArtist}','${albumImg}')" class="bnt_add">추가</button></td>
                                         <td>
                                             <audio controls>
                                               <source src='${previewMusic}' type="audio/mpeg">
@@ -91,8 +91,8 @@
         }
 
         // 노래 담을 플레이리스트 선택
-        function selectPlaylist(title, artist) {
-            console.log(title, artist)
+        function selectPlaylist(title, artist, album) {
+            console.log(title, artist, album)
             $.ajax({
                 type: 'GET',
                 url: '/search/select',
@@ -108,7 +108,7 @@
                         let temp_html = `<tr>
                                      <td>${playlist_title}</td>
                                      <td></td>
-                                     <td><button onclick="addMusic('${playlist_num}','${title}','${artist}')">추가</button></td>
+                                     <td><button onclick="addMusic('${playlist_num}','${title}','${artist}','${album}')">추가</button></td>
                                 </tr>`
                         $('#list-q1').append(temp_html);
                     }
@@ -117,12 +117,12 @@
         }
 
         // 선택한 플레이리스트에 노래 추가
-        function addMusic(num, title, artist) {
+        function addMusic(num, title, artist, album) {
             console.log(num, title, artist)
             $.ajax({
                 type: 'POST',
                 url: '/search/select/add',
-                data: {num_give: num, title_give: title, artist_give: artist},
+                data: {num_give: num, title_give: title, artist_give: artist, album_give:album},
                 success: function (response) {
                     alert(response['msg']);
                     window.location.reload()

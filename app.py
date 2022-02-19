@@ -8,10 +8,6 @@ from pymongo import MongoClient
 client = MongoClient('localhost', 27017)
 db = client.makingproject
 
-from bson.objectid import ObjectId  # mongodb object id 값 갖고오기
-import json # dict타입을 json으로 변환하기 위한 라이브러리
-from bson import json_util
-
 ## spotify 관련
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
@@ -35,19 +31,14 @@ def search():
 def mypage():
     return render_template('/myPage/myPage.html')
 
+
 # 플레이리스트 1개의 상세 목록보기(Read) API
 @app.route('/getPlaylist', methods=['GET'])
-def view_playlist():
-    id_receive = request.args.get('id_give')
-    print('id_receive:', id_receive)
+def viewPlaylist():
+    num_receive = int(request.args.get('playlistnum'))
+    playlist = db.playlists.find_one({'playlist_num': num_receive}, {'_id': False})
 
-    playlist_dict = db.playlists.find_one({'_id': ObjectId(id_receive)}) # _id를 기준으로 search
-    playlist_json = parse_json(playlist_dict)
-    return playlist_json
-
-# dict를 json으로 바꿔주는 함수
-def parse_json(data):
-    return json.loads(json_util.dumps(data))
+    return jsonify({'data': playlist})
 
 ###홈
 ## 전체 플레이리스트 목록
@@ -121,8 +112,8 @@ def searchMusics():
     # result = sp.search(music_keyword, limit=30, type='album')['albums']['items']
     # 검색방법 2) 음악 검색
     result = sp.search(music_keyword, limit=30, type='track')['tracks']['items']
-    print(result)
-    print('type:', type(result))
+    # print(result)
+    # print('type:', type(result))
     return jsonify({'result': result})
 
 
@@ -145,8 +136,9 @@ def addMusic():
     num_receive = int(request.form['num_give'])
     title_receive = request.form['title_give']
     artist_receive = request.form['artist_give']
+    album_receive = request.form['album_give']
 
-    db.playlists.update_one({'playlist_num': num_receive}, {'$push': {'playlist_music': {'music_title': title_receive, 'music_artist': artist_receive}}});
+    db.playlists.update_one({'playlist_num': num_receive}, {'$push': {'playlist_music': {'music_title': title_receive, 'music_artist': artist_receive, 'music_album': album_receive}}});
     return jsonify({'msg': '플레이리스트에 노래 추가 완료!'})
 
 

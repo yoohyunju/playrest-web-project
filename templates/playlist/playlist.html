@@ -36,11 +36,10 @@
             getPlaylist()
         });
 
-        function getPlaylist() {
-            let id = "620e387e355284c12ad50130"; // 플레이리스트 _id값 넣어야함
+        function getPlaylist() {    // 클릭 시 인자 num 받아오는 걸로 수정해주세요!
             $.ajax({
                 type: 'GET',
-                url: '/getPlaylist?id_give=' + id,
+                url: '/getPlaylist?id_give=' + id,  // '/getPlaylist?playlistnum=' + num, 으로 수정해주시면 됩니다
                 data: {},
                 success: function (response) {
                     console.log(response)
@@ -49,6 +48,9 @@
                     let playlist_desc = response['playlist_desc']
                     let songs = response['playlist_music']
                     let user_name = response['user_name']
+
+                    // let albumImg = myPlaylists[i]['playlist_music'][0]['music_album']    플리 첫번째 노래의 앨범아트
+
                     console.log(playlist_title, playlist_desc, songs, id )
 
                     $("#playlist-title").text(playlist_title)
