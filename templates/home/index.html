@@ -56,10 +56,11 @@
                         let playlist_num = allPlaylists[i]['playlist_num']
                         let user_name = allPlaylists[i]['user_name']
                         let playlist_title = allPlaylists[i]['playlist_title']
+                        let album_img = allPlaylists[i]['playlist_music'][0]['music_album'] // 대표 앨범아트
 
                         let temp_html = `<div class="card" style="width: 13rem;" onclick="movePlaylistInfo(${playlist_num})">
                                             <img class="card-img-top"
-                                                 src="http://asq.kr/ZIBeGRD"
+                                                 src="${album_img}"
                                                  alt="Card image cap">
                                             <div class="card-body">
                                                 <h5 class="card-title">${playlist_title}</h5>
@@ -84,10 +85,11 @@
                         let playlist_num = myPlaylists[i]['playlist_num']
                         let user_name = myPlaylists[i]['user_name']
                         let playlist_title = myPlaylists[i]['playlist_title']
+                        let album_img = myPlaylists[i]['playlist_music'][0]['music_album'] // 대표 앨범아트
 
                         let temp_html = `<div class="card" style="width: 13rem;" onclick="movePlaylistInfo(${playlist_num})">
                                             <img class="card-img-top"
-                                                 src="http://asq.kr/ZIBeGRD"
+                                                 src="${album_img}"
                                                  alt="Card image cap">
                                             <div class="card-body">
                                                 <h5 class="card-title">${playlist_title}</h5>
