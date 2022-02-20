@@ -1,28 +1,37 @@
- $(document).ready(function () {
-            getPlaylist()
+         $(document).ready(function () {
+             let playlistNum = 0;
+             if(localStorage.getItem('playlistNum')){
+                 playlistNum = localStorage.getItem('playlistNum')
+                 console.log(playlistNum)
+             }
+             getPlaylist(playlistNum)
         });
 
-        function getPlaylist() {
-            let id = "620e387e355284c12ad50130"; // 플레이리스트 _id값 넣어야함
+        function getPlaylist(num) {
             $.ajax({
                 type: 'GET',
-                url: '/getPlaylist?id_give=' + id,
+                url: '/getPlaylist?playlistNum=' + num,
                 data: {},
                 success: function (response) {
                     console.log(response)
-                    let playlist_title = response['playlist_title']
-                    let playlist_like = response['playlist_like']
-                    let songs = response['playlist_music']
-                    let user_id = response['user_id']
-                    console.log(playlist_title, playlist_like, songs, id )
+                    let playlist = response['data']
+                    let playlist_title = playlist['playlist_title']
+                    let playlist_desc = playlist['playlist_desc']
+                    let songs = playlist['playlist_music']
+                    let user_name = playlist['user_name']
 
-                    $("#pll-title").text(playlist_title)
-                    $("#nickname").text(user_id)
-                    $("#favorites-num").text(playlist_like)
-                    $("#introduction").text("심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^심화창조 최고^^")
+                    // let albumImg = myPlaylists[i]['playlist_music'][0]['music_album']    플리 첫번째 노래의 앨범아트
+
+                    console.log(playlist_title, playlist_desc, songs, num)
+
+                    $("#playlist-title").text(playlist_title)
+                    $("#nickname").text(user_name)
+                    // $("#favorites-num").text(playlist_like)
+                    $("#description").text(playlist_desc)
 
                     // 노래 목록 출력
                     for (let i = 0; i < songs.length; i++) {
+                        let album_img = playlist['playlist_music'][i]['music_album']
                         let music_artist = songs[i]['music_artist']
                         let music_title = songs[i]['music_title']
                         let song_num = i+1
@@ -32,7 +41,7 @@
                                         <td>
                                             <div class="song-info">
                                                 <div class="img-album">
-                                                    <img src="https://w.namu.la/s/48d8d59e536896b00da9365d1532b2051b1931abe47cddeffea696f4f29efa8131d6824f41fb3bd5f65d78c27c5dd95a6183b6a50d9e85f33cc19a612b4143d5fd41ea9dd9c797d08085e64f18042c30f444ffd2a64980477c4095120d288438" width="50px" height="50px">
+                                                    <img src="${album_img}" width="50px" height="50px">
                                                 </div>
                                                 <div>
                                                      ${music_title}<br>
@@ -47,8 +56,6 @@
                                     </tr>`
                          $("#song-tbody").append(temp_html)
                     }
-
-
                 }
             });
         }
@@ -84,3 +91,4 @@
             });
 
         });
+
