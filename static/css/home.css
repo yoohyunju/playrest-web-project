@@ -23,14 +23,18 @@ a:hover {
     object-fit: cover;
 }
 
-.card-title{
+.card {
+    margin: 15px;
+}
+
+.card-title {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .row {
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
 .section {

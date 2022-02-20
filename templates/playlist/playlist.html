@@ -12,7 +12,7 @@
     <!--google fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;500&display=swap" rel="stylesheet">
 
     <!--css-->
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
@@ -31,14 +31,14 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
 
-    <title>플레이리스트 개별 화면</title>
+    <title>플레이리스트 정보 - playRe:st</title>
     <!--    아이콘 갖다쓰는곳-->
     <script src="https://kit.fontawesome.com/0e6d28e1ee.js" crossorigin="anonymous"></script>
     <!--    css, js파일과 연결 // JS랑 연결이 안돼서 걍 집어넣음-->
-<!--    <link rel="stylesheet"  href="static/css/playlist.css">-->
-<!--    <script src="static/js/playlist.js"></script>-->
-        <link href="{{ url_for('static', filename='css/playlist.css') }}" rel="stylesheet">
-<!--        <script src="{{ url_for('static', filename='js/playlist.js') }}" > </script>-->
+    <!--    <link rel="stylesheet"  href="static/css/playlist.css">-->
+    <!--    <script src="static/js/playlist.js"></script>-->
+    <link href="{{ url_for('static', filename='css/playlist.css') }}" rel="stylesheet">
+    <!--        <script src="{{ url_for('static', filename='js/playlist.js') }}" > </script>-->
     <script>
          $(document).ready(function () {
              let playlistNum = 0;

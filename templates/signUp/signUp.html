@@ -14,7 +14,7 @@
     <!--google fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;500&display=swap" rel="stylesheet">
 
     <!--css-->
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
@@ -23,7 +23,7 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
 
-    <title>Document</title>
+    <title>회원가입 - playRe:st</title>
 
     <script>
         function signup() {
@@ -37,8 +37,7 @@
                 data: {newid_give:user_id,newpw_give:user_pw,newname_give:user_name},
                 success: function (response) {
                     alert(response["msg"]);
-                    window.location.reload();
-                    //회원가입 후 홈으로 가게
+                    window.location.href = '/login'; // 회원가입 후 로그인 창으로 감
                 }
             })
         }
