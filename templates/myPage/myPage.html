@@ -16,6 +16,7 @@
 
     <!--css-->
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/myPage.css') }}" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Stylish&display=swap" rel="stylesheet">
@@ -23,7 +24,6 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap js -->
     <!--부트스트랩 템플릿에 이미 jQuery가 임포트 돼있음-->
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -31,8 +31,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-    <script src="/playrest/static/js/includeHTML.js"></script>
-    <script src="/playrest/static/js/includeRouter.js"></script>
+
 
     <title>마이페이지 - playRe:st</title>
     <style>
@@ -44,7 +43,7 @@
     </style>
     <script>
         $(document).ready(function () {
-            showMylist()
+            showMylist();
         });
 
         function showMylist() {
@@ -53,20 +52,32 @@
                 url: '/mylist',
                 data: {},
                 success: function (response) {
-                    alert("내 목록 연결!")
+                    //alert("내 목록 연결!")
                     let myPlaylists = response['data']
-                    console.log(myPlaylists)
+                    let listCount = Object.keys(myPlaylists).length; // 전달한 플리 데이터 개수
+
+                    console.log(myPlaylists, listCount)
+
                     for (let i = 0; i < myPlaylists.length; i++) {
                         let playlist_num = myPlaylists[i]['playlist_num']
                         let user_name = myPlaylists[i]['user_name']
                         let playlist_title = myPlaylists[i]['playlist_title']
+                        let album_img = myPlaylists[i]['playlist_music'][0]['music_album'] // 대표 앨범아트
 
-                        let temp_html = `<tr>
-                                                <td>${user_name}</td>
-                                                <td>${playlist_title}</td>
-                                                <td><button onclick="deleteList('${playlist_num}')">삭제</button></td>
-                                        </tr>`
-                        $('#list-box').append(temp_html)
+                        let temp_html = `<div class="card" id="card" style="width: 13rem;" onclick="movePlaylistInfo(${playlist_num})">
+                                            <img class="card-img-top"
+                                                 src="${album_img}"
+                                                 alt="Card image cap">
+                                            <div class="card-body">
+                                                <h5 class="card-title">${playlist_title}</h5>
+                                                <p class="card-text">만든 이: ${user_name}
+                                                    <a id="delete-btn" onclick="deleteList('${playlist_num}')"><img id ="delete-btn-img" src="static/icon/delete_btn.png"></a>
+                                                </p>
+                                            </div>
+                                        </div>`
+
+                        $('#myPlaylist').append(temp_html)
+                        $('#count-result').text(listCount)
                     }
                 }
             })
@@ -92,6 +103,7 @@
                 url: '/mypage/delete',
                 data: {num_give:num},
                 success: function (response) {
+                    //삭제하기 전에 삭제 하시겠습니까? 메시지가 뜨면 좋을 것 같아요
                     alert(response['msg']);
                     window.location.reload()
                 }
@@ -104,16 +116,26 @@
     {% include 'fragments/header.html' %}
 
     <div class="container">
-        <div class="row"></div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-1"></div>
-            <div class="col-md-1"></div>
-            <div class="col-md-1"></div>
-            <div class="col-md-1"></div>
+        <div class="section" id="mypage-title">
+            <div class="title">
+                <h1>{{session['user_name']}}의 마이페이지 🎧 </h1>
+            </div>
+            <!--플리 개수-->
+            <div id="list-count">공개 플레이리스트: <span id="count-result">0</span>개</div>
+        </div>
+
+        <hr/>
+
+        <div class="section">
+            <div class="title">
+                <h2>나의 플레이리스트
+                    <!--<span><button id="list-creat-btn" type="button" class="btn btn-dark">✏️새 플레이리스트 생성</button></span>-->
+                </h2>
+            </div>
+            <!--내 플리 출력 되는 영역-->
+            <div class="row" id="myPlaylist"/>
         </div>
     </div>
-
 
     <form>
         <p>제목 : <input type="text" name="title" id="playlist-title"/></p>

@@ -1,0 +1,59 @@
+h1 {
+    font-weight: bold;
+    font-size: 50px;
+}
+
+.card {
+    margin: 15px;
+}
+
+.card-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.row {
+    justify-content: flex-start;
+}
+
+.section {
+    padding: 20px 0px 20px 0px;
+}
+
+.title {
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.card:hover {
+    cursor: pointer;
+}
+
+#card:hover #delete-btn{
+    visibility: visible;
+}
+
+#mypage-title {
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+#list-count {
+    color: #576574;
+    margin-left: 40px;
+    font-size: 23px;
+}
+
+#list-creat-btn {
+    margin-left: 30px;
+}
+
+#delete-btn-img {
+    margin-left: 35px;
+    width: 30px;
+}
+
+#delete-btn {
+    visibility: hidden;
+}
