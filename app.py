@@ -1,3 +1,4 @@
+import pymongo
 from flask import Flask, render_template, jsonify, request, session, redirect, url_for
 
 app = Flask(__name__)
@@ -5,7 +6,11 @@ app.secret_key = 'super secret key'     # 세션 때문에 있는 건데 아무�
 
 from pymongo import MongoClient
 # client = MongoClient('mongodb://test:test@localhost', 27017)  # id:password
-client = MongoClient('localhost', 27017)
+## 디비 연결 1) 로컬 디비 접속
+# client = MongoClient('localhost', 27017)
+# db = client.makingproject
+## 디비 연결 2) 클라우드 디비 접속
+client = pymongo.MongoClient("mongodb+srv://playrest:play12!@playrest.kn1fi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 db = client.makingproject
 
 ## spotify 관련
