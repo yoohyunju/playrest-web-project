@@ -73,7 +73,7 @@
 
                     // 노래 목록 출력
                     for (let i = 0; i < songs.length; i++) {
-                        //let albumImg = playlist['playlist_music'][i]['music_album']
+                        let album_img = playlist['playlist_music'][i]['music_album']
                         let music_artist = songs[i]['music_artist']
                         let music_title = songs[i]['music_title']
                         let song_num = i+1
@@ -83,7 +83,7 @@
                                         <td>
                                             <div class="song-info">
                                                 <div class="img-album">
-                                                    <img src="" width="50px" height="50px">
+                                                    <img src="${album_img}" width="50px" height="50px">
                                                 </div>
                                                 <div>
                                                      ${music_title}<br>
