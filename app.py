@@ -41,14 +41,25 @@ def search():
 def mypage():
     return render_template('/myPage/myPage.html')
 
-
-# 플레이리스트 1개의 상세 목록보기(Read) API
-@app.route('/getPlaylist', methods=['GET'])
+### 플레이리스트 상세 페이지
+## 플레이리스트 1개의 상세 목록보기(Read) API
+@app.route('/playlist/getPlaylist', methods=['GET'])
 def viewPlaylist():
     num_receive = int(request.args.get('playlistNum'))
     playlist = db.playlists.find_one({'playlist_num': num_receive}, {'_id': False})
 
     return jsonify({'data': playlist})
+
+## 플레이리스트에서 음악 제거
+@app.route('/playlist/deleteMusic', methods=['POST'])
+def deleteMusic():
+    playlist_num_receive = int(request.form['playlist_num_give'])
+    song_num_receive = int(request.form['song_num_give'])
+    delete_str = "playlist_music." + str(song_num_receive)
+    # 전달 받은 번호의 플레이리스트의 playlist_music 배열에서 인덱스에 해당하는 노래 제거
+    db.playlists.update({"playlist_num": playlist_num_receive}, {'$unset': {delete_str: 1}}) # "playlist_music.3"
+    db.playlists.update({"playlist_num": playlist_num_receive}, {'$pull': {"playlist_music": None}})
+    return jsonify({'msg': '노래 삭제 완료!'})
 
 
 ## 플레이리스트 좋아요
@@ -76,7 +87,6 @@ def viewPlaylist():
 def allPlaylists():
     allLists = list(db.playlists.find({}, {'_id': False}))
     return jsonify({'data': allLists})
-
 
 ## 나의 플레이리스트 목록
 @app.route('/mylist', methods=["GET"])

@@ -56,6 +56,9 @@
 
             height: 20px;
         }
+        .mybtn {
+            background-color: transparent;
+        }
 
         .imgSelect {
             cursor: pointer;

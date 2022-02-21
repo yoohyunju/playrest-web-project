@@ -45,7 +45,7 @@
 {% include 'fragments/header.html' %}
 <div class="container flex margin-top-30">
     <div class="info-box ">
-        <h1>플레이리스트 정보</h1>
+        <h1>플레이리스트 정보 (<span id="song-count">수록곡갯수</span>)</h1>
         <div class="flex margin-top-30">
             <div>
                 <img class="playlist-img-box" id="playlist-img" src="">
@@ -80,19 +80,10 @@
 <!--                <th scope="col">제거</th>-->
 <!--            </tr>-->
 <!--            </thead>-->
-            <tbody id="song-tbody" >
-<!--                tr, td들 들어가는 곳-->
+            <tbody id="song-tbody">
+            <!--                tr, td들 들어가는 곳-->
             </tbody>
         </table>
-    </div>
-
-    <!-- 폼 레이어  -->
-    <div class="popupLayer">
-        <div>
-            <span onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</span>
-        </div>
-        여긴 레이어~</br>
-        클릭하면 바로 나타나는 레이어에요^^
     </div>
 </div>
 
