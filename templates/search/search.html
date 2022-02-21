@@ -50,7 +50,7 @@
                 type: 'GET',
                 url: '/search/playlists?keyword_give=' + keyword + '',
                 success: function (response) {
-                    alert('검색!')
+                    //alert('검색!')
                     let playlists = response['data']
                     console.log(playlists)
                     for (let i = 0; i < playlists.length; i++) {
@@ -75,7 +75,7 @@
                 type: 'GET',
                 url: '/search/musics?musicKeyword=' + musicKeyword,
                 success: function (response) {
-                    alert("ajax 성공")
+                    //alert("ajax 성공")
                     console.log(response['result'])
                     musics = response['result']
                     console.log(musics[0])
@@ -93,12 +93,12 @@
                                         <td><img src="${albumImg}" width="80px" height="80px"></td>
                                         <td class="Title_css">${albumTitle}</td>
                                         <td class="Artist_css">${albumArtist}</td>
-                                        <td><button onclick="addMusic('${albumTitle}','${albumArtist}','${albumImg}')" class="bnt_add">추가</button></td>
                                         <td>
                                             <audio controls>
                                               <source src='${previewMusic}' type="audio/mpeg">
                                             </audio>
                                         </td>
+                                        <td><button onclick="addMusic('${albumTitle}','${albumArtist}','${albumImg}')" class="bnt_add">추가</button></td>
                                  </tr>`
                         $('#list-q1').append(temp_html);
                     }
@@ -156,8 +156,16 @@
 <!--header 삽입-->
 {% include 'fragments/header.html' %}
 <body>
+<div class="container">
+    <div class="section" id="mypage-title">
+        <div class="title">
+            <h2>곡 검색 결과 🎼</h2>
+        </div>
+    </div>
+</div>
+
 <div class="searchbar_css" id="searchbar">
-    <form class="form-inline my-2 my-lg-0">
+    <form class="form-inline my-2 my-lg-0" id="search-form">
         <input id="songinfo" type="text" placeholder="Search" aria-label="Search" size="80px"/>
         <button type="button" class="btn btn-outline-dark" id="search-btn" type="submit" onclick="searchMusic()">검색</button>
     </form>
@@ -167,9 +175,10 @@
         <table>
             <thead>
             <tr>
-                <td>노래</td>
+                <td></td>
+                <td>제목</td>
                 <td>가수</td>
-                <td>추가</td>
+                <td>미리 듣기</td>
             </tr>
             </thead>
             <tbody id="list-q1"></tbody>
