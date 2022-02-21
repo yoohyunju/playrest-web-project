@@ -104,14 +104,11 @@
                                               <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" onclick="selectPlaylist('${albumTitle}', '${albumArtist}', '${albumImg}')">
                                                 추가
                                               </button>
-                                              <div class="dropdown-menu">
+                                              <div class="dropdown-menu append-playlist">
                                                 <a class="dropdown-item" onclick="createPlaylist('${albumTitle}', '${albumArtist}', '${albumImg}')">새 플레이리스트</a>
                                                 <div class="dropdown-divider"></div>
                                               </div>
                                             </div>
-                                        <!--
-                                        <button onclick="addMusic('${albumTitle}','${albumArtist}','${albumImg}')" class="bnt_add">추가</button>
-                                        -->
                                         </td>
                                  </tr>`
                         $('#list-q1').append(temp_html);
@@ -143,7 +140,7 @@
 
                         let temp_html = `<a class="dropdown-item my-playlist" onclick="addMusic('${playlist_num}', '${title}', '${artist}', '${album}')">${playlist_title}</a>`
 
-                        $('.dropdown-menu').append(temp_html);
+                        $('.append-playlist').append(temp_html);
                     }
                 }
             });
