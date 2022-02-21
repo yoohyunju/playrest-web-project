@@ -93,6 +93,8 @@ function getPlaylist(num) {
 
                 $("#song-tbody").append(temp_html)
             }
+            let tableHeight = $("#mytable").height();
+            $("hr").height(tableHeight)
         }
     });
 }
