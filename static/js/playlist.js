@@ -19,11 +19,11 @@
                     let playlist_desc = playlist['playlist_desc']
                     let songs = playlist['playlist_music']
                     let user_name = playlist['user_name']
-
-                    // let albumImg = myPlaylists[i]['playlist_music'][0]['music_album']    플리 첫번째 노래의 앨범아트
+                    let playlist_img = songs[0]['music_album']
 
                     console.log(playlist_title, playlist_desc, songs, num)
 
+                    $("#playlist-img").attr("src", playlist_img);
                     $("#playlist-title").text(playlist_title)
                     $("#nickname").text(user_name)
                     // $("#favorites-num").text(playlist_like)
@@ -37,22 +37,22 @@
                         let song_num = i+1
 
                         temp_html = `<tr>
-                                        <th scope="row">${song_num}</th>
-                                        <td>
-                                            <div class="song-info">
-                                                <div class="img-album">
-                                                    <img src="${album_img}" width="50px" height="50px">
+                                        <th scope="row" style="width: 10%">${song_num}</th>
+                                        <td style="width: 60%; vertical-align: middle">
+                                            <div class="flex" >
+                                                <div class="img-album-box vertical-align">
+                                                    <img class="img-album" src="${album_img}">
                                                 </div>
-                                                <div>
-                                                     ${music_title}<br>
+                                                <div class="vertical-align">
+                                                     <span style="font-weight: bold">${music_title}</span><br>
                                                      ${music_artist}
                                                 </div>
                                             </div>
                                         </td>
 
-                                        <td><a href="https://www.youtube.com/watch?v=ZeerrnuLi5E" target="_blank"><i class="fa-brands fa-youtube fa-lg" style="color: red"></i></a></td>
-                                        <td><i class="fa-solid fa-plus fa-lg imgSelect"></i></td>
-                                        <td><i class="fa-solid fa-trash fa-sm"></i></td>
+                                        <td style="width: 10%"><a href="https://www.youtube.com/watch?v=ZeerrnuLi5E" target="_blank"><i class="fa-brands fa-youtube fa-lg" style="color: red"></i></a></td>
+                                        <td style="width: 10%"><i class="fa-solid fa-plus fa-lg imgSelect"></i></td>
+                                        <td style="width: 10%"><i class="fa-solid fa-trash fa-sm"></i></td>
                                     </tr>`
                          $("#song-tbody").append(temp_html)
                     }
@@ -91,4 +91,3 @@
             });
 
         });
-
