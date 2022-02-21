@@ -1,25 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
     <!--google fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;500&display=swap" rel="stylesheet">
 
     <!--css-->
-    <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet">
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap js -->
-    <!--부트스트랩 템플릿에 이미 jQuery가 임포트 돼있음-->
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -28,118 +22,37 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
 
-    <title>playRe:st</title>
-    <style>
-        .btn-playlist {
-            background-color: aqua;
-            width: 100px;
-            height: 50px;
-        }
-    </style>
+    <title>로그인 - playRe:st</title>
 
     <script>
-
-        $(document).ready(function () {
-            showList();
-            showMylist()
-        });
-
-        function showList() {
+        function login() {
+            let login_id = $('#login-id').val()
+            let login_pw = $('#login-pw').val()
             $.ajax({
-                type: 'GET',
-                url: '/list',
-                data: {},
+                type: "POST",
+                url: "/login",
+                data: {id_give:login_id,pw_give:login_pw},
                 success: function (response) {
-                    //alert("플리목록 연결!")
-                    let allPlaylists = response['data']
-                    for (let i = 0; i < allPlaylists.length; i++) {
-                        let playlist_num = allPlaylists[i]['playlist_num']
-                        let user_name = allPlaylists[i]['user_name']
-                        let playlist_title = allPlaylists[i]['playlist_title']
-                        let album_img = allPlaylists[i]['playlist_music'][0]['music_album'] // 대표 앨범아트
-
-                        let temp_html = `<div class="card" style="width: 13rem;" onclick="movePlaylistInfo(${playlist_num})">
-                                            <img class="card-img-top"
-                                                 src="${album_img}"
-                                                 alt="Card image cap">
-                                            <div class="card-body">
-                                                <h5 class="card-title">${playlist_title}</h5>
-                                                <p class="card-text">만든 이: ${user_name}</p>
-                                            </div>
-                                        </div>`
-                        $('#allPlaylist').append(temp_html)
-                    }
+                    alert(response["msg"]);
+                    window.location.href = '/'; //로그인 성공 시 홈으로 이동
                 }
             })
         }
-
-        function showMylist() {
-            $.ajax({
-                type: 'GET',
-                url: '/mylist',
-                data: {},
-                success: function (response) {
-                    //alert("내 목록 연결!")
-                    let myPlaylists = response['data']
-                    for (let i = 0; i < myPlaylists.length; i++) {
-                        let playlist_num = myPlaylists[i]['playlist_num']
-                        let user_name = myPlaylists[i]['user_name']
-                        let playlist_title = myPlaylists[i]['playlist_title']
-                        let album_img = myPlaylists[i]['playlist_music'][0]['music_album'] // 대표 앨범아트
-
-                        let temp_html = `<div class="card" style="width: 13rem;" onclick="movePlaylistInfo(${playlist_num})">
-                                            <img class="card-img-top"
-                                                 src="${album_img}"
-                                                 alt="Card image cap">
-                                            <div class="card-body">
-                                                <h5 class="card-title">${playlist_title}</h5>
-                                                <p class="card-text">만든 이: ${user_name}</p>
-                                            </div>
-                                        </div>`
-                        $('#myPlaylist').append(temp_html)
-                    }
-                }
-            })
-        }
-
-        //플리 개별 정보 페이지로 이동하는 함수
-        function movePlaylistInfo(playlistNum) {
-            console.log(playlistNum)
-            localStorage.setItem('playlistNum', playlistNum)
-            window.location.href = '/playlist'
-        }
-
     </script>
-
 </head>
 <body>
     <!--header 삽입-->
     {% include 'fragments/header.html' %}
-
-    <div id="video-section">
-        <video id="main-video" autoplay loop muted>
-            <source src="{{url_for('static', filename='video/record.mp4') }}" type="video/mp4">
-            Sorry, your browser doesn't support embedded videos.
-        </video>
-    </div>
-
-    <div class="container">
-        <div class="section">
-            <div class="title">
-                <h2>플레이리스트 둘러보기</h2>
-            </div>
-            <!--모든 플리 출력 되는 영역-->
-            <div class="row" id="allPlaylist"/>
+    <form name='form' action="/login" method="POST">
+        <p>id : <input type="text" name="id" id="login-id"/></p>
+        <p>pw : <input type="password" name="pw" id="login-pw"/></p>
+        <button type="button" onclick="login()">로그인</button>
+        <div>
+            <a href="/signup">회원가입</a>
         </div>
-
-        <div class="section">
-            <div class="title">
-                <h2>나의 플레이리스트</h2>
-            </div>
-            <!--내 플리 출력 되는 영역-->
-            <div class="row" id="myPlaylist"/>
+        <div>
+            <a href="/">홈</a>
         </div>
-    </div>
+    </form>
 </body>
-
 </html>

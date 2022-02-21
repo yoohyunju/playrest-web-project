@@ -17,9 +17,6 @@
     <!--css-->
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/myPage.css') }}" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Stylish&display=swap" rel="stylesheet">
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap js -->
@@ -45,6 +42,13 @@
         $(document).ready(function () {
             showMylist();
         });
+
+        //플리 개별 정보 페이지로 이동하는 함수
+        function movePlaylistInfo(playlistNum) {
+            console.log(playlistNum)
+            localStorage.setItem('playlistNum', playlistNum)
+            window.location.href = '/playlist'
+        }
 
         function showMylist() {
             $.ajax({
@@ -122,17 +126,6 @@
             <div class="row" id="myPlaylist"/>
         </div>
     </div>
-
-    <table>
-        <thead>
-        <tr>
-            <td>a</td>
-            <td>b</td>
-            <td>c</td>
-        </tr>
-        </thead>
-        <tbody id="list-box"></tbody>
-    </table>
 
 </body>
 </html>

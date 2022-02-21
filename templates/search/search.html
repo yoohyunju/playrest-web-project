@@ -15,6 +15,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;500&display=swap" rel="stylesheet">
 
+    <!--css-->
+    <link rel="stylesheet" href="static/css/search.css">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <!--<script src="static/js/search.js"></script>-->
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -23,14 +28,10 @@
             crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
+            crossorigin="anonymous"></script><script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
 
     <title>음악 검색 - playRe:st</title>
 
-    <!--css-->
-    <link rel="stylesheet" href="static/css/search.css">
-    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
-    <!--<script src="static/js/search.js"></script>-->
     <script>
         $(document).ready(function () {
              if(localStorage.getItem('searchKeyword')){
@@ -90,7 +91,7 @@
                         console.log(previewMusic)
 
                         let temp_html = `<tr>
-                                        <td><img src="${albumImg}" width="80px" height="80px"></td>
+                                        <td><img src="${albumImg}" width="80px" height="80px" id="album-img-round"></td>
                                         <td class="Title_css">${albumTitle}</td>
                                         <td class="Artist_css">${albumArtist}</td>
                                         <td>
@@ -98,11 +99,24 @@
                                               <source src='${previewMusic}' type="audio/mpeg">
                                             </audio>
                                         </td>
-                                        <td><button onclick="addMusic('${albumTitle}','${albumArtist}','${albumImg}')" class="bnt_add">추가</button></td>
+                                        <td>
+                                            <div class="btn-group dropright">
+                                              <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" onclick="selectPlaylist('${albumTitle}', '${albumArtist}', '${albumImg}')">
+                                                추가
+                                              </button>
+                                              <div class="dropdown-menu">
+                                                <a class="dropdown-item" onclick="createPlaylist('${albumTitle}', '${albumArtist}', '${albumImg}')">새 플레이리스트</a>
+                                                <div class="dropdown-divider"></div>
+                                              </div>
+                                            </div>
+                                        <!--
+                                        <button onclick="addMusic('${albumTitle}','${albumArtist}','${albumImg}')" class="bnt_add">추가</button>
+                                        -->
+                                        </td>
                                  </tr>`
                         $('#list-q1').append(temp_html);
-                    }
 
+                    }
                 }
             })
         }
@@ -115,19 +129,21 @@
                 url: '/search/select',
                 data: {},
                 success: function (response) {
-                    alert('연결!')
+                    //alert('연결!')
+
                     let myPlaylists = response['data']
                     console.log(myPlaylists)
                     console.log(title)
+
+                    $('.my-playlist').remove(); // 이전에 append 한 플리 이름 초기화
+
                     for (let i = 0; i < myPlaylists.length; i++) {
                         let playlist_title = myPlaylists[i]["playlist_title"]
                         let playlist_num = myPlaylists[i]['playlist_num']
-                        let temp_html = `<tr>
-                                     <td>${playlist_title}</td>
-                                     <td></td>
-                                     <td><button type="button" onclick="addMusic('${playlist_num}','${title}','${artist}','${album}')">추가</button></td>
-                                </tr>`
-                        $('#list-q1').append(temp_html);
+
+                        let temp_html = `<a class="dropdown-item my-playlist" onclick="addMusic('${playlist_num}', '${title}', '${artist}', '${album}')">${playlist_title}</a>`
+
+                        $('.dropdown-menu').append(temp_html);
                     }
                 }
             });
@@ -153,12 +169,14 @@
         }
 
         function createPlaylist(title, artist, album) {
-            let playlist_title = $('#playlist-title').val()
-            let playlist_desc = $('#playlist-desc').val()
+            //let playlist_title = $('#playlist-title').val()
+            //let playlist_desc = $('#playlist-desc').val()
+            let playlist_desc = '' //초기화 후 나중에 플리 수정
+
             $.ajax({
                 type: "POST",
                 url: "/search/select/create",
-                data: {playlist_give:playlist_title, desc_give:playlist_desc, title_give:title, artist_give:artist, album_give:album},
+                data: {playlist_give:title, desc_give:playlist_desc, title_give:title, artist_give:artist, album_give:album},
                 success: function (response) {
                     alert(response["msg"]);
                     window.location.reload();
@@ -181,23 +199,25 @@
             <h2>곡 검색 결과 🎼</h2>
         </div>
     </div>
+    <div class="searchbar_css" id="searchbar">
+        <form class="form-inline my-2 my-lg-0" id="search-form">
+            <input id="songinfo" type="text" placeholder="Search" aria-label="Search" size="80px"/>
+            <button type="button" class="btn btn-outline-dark" id="search-btn" type="submit" onclick="searchMusic()">
+                검색
+            </button>
+        </form>
+    </div>
 </div>
 
-<div class="searchbar_css" id="searchbar">
-    <form class="form-inline my-2 my-lg-0" id="search-form">
-        <input id="songinfo" type="text" placeholder="Search" aria-label="Search" size="80px"/>
-        <button type="button" class="btn btn-outline-dark" id="search-btn" type="submit" onclick="searchPlaylists()">검색</button>
-    </form>
-</div>
 <div class="wrap">
     <div class="music_css">
         <table>
             <thead>
             <tr>
-                <td></td>
-                <td>제목</td>
-                <td>가수</td>
-                <td>미리 듣기</td>
+                <th>앨범</th>
+                <th>제목</th>
+                <th>가수</th>
+                <th>미리 듣기</th>
             </tr>
             </thead>
             <tbody id="list-q1"></tbody>
