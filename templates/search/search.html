@@ -133,6 +133,11 @@
             });
         }
 
+        // 노래 선택 후 새 플레이리스트 생성할 때 쓰시면 됩니다
+        // 제목 : <input type="text" id="playlist-title"/>
+        // <textarea placeholder="플레이리스트 설명" id="playlist-desc"></textarea>
+        // <button onClick="createPlaylist('${title}','${artist}','${album}')">생성</button>
+
         // 선택한 플레이리스트에 노래 추가
         function addMusic(num, title, artist, album) {
             console.log(num, title, artist)
@@ -145,6 +150,20 @@
                     window.location.reload()
                 }
             });
+        }
+
+        function createPlaylist(title, artist, album) {
+            let playlist_title = $('#playlist-title').val()
+            let playlist_desc = $('#playlist-desc').val()
+            $.ajax({
+                type: "POST",
+                url: "/search/select/create",
+                data: {playlist_give:playlist_title, desc_give:playlist_desc, title_give:title, artist_give:artist, album_give:album},
+                success: function (response) {
+                    alert(response["msg"]);
+                    window.location.reload();
+                }
+            })
         }
 
     </script>

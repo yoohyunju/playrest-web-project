@@ -83,20 +83,6 @@
             })
         }
 
-        function createPlaylist() {
-            let playlist_title = $('#playlist-title').val()
-            let playlist_desc = $('#playlist-desc').val()
-            $.ajax({
-                type: "POST",
-                url: "/mypage/create",
-                data: {title_give:playlist_title, desc_give:playlist_desc},
-                success: function (response) {
-                    alert(response["msg"]);
-                    window.location.reload();
-                }
-            })
-        }
-
         function deleteList(num) {
             $.ajax({
                 type: 'POST',
@@ -136,12 +122,6 @@
             <div class="row" id="myPlaylist"/>
         </div>
     </div>
-
-    <form>
-        <p>제목 : <input type="text" name="title" id="playlist-title"/></p>
-        <p><textarea placeholder="플레이리스트 설명" id="playlist-desc"></textarea></p>
-        <button type="button" onclick="createPlaylist()">생성</button>
-    </form>
 
     <table>
         <thead>

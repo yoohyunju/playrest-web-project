@@ -45,6 +45,25 @@ def viewPlaylist():
 
     return jsonify({'data': playlist})
 
+## 플레이리스트 좋아요
+# @app.route('/getPlaylist/like', methods=['POST'])
+# def likePlaylist():
+#     num_receive = int(request.args.get('playlistnum'))
+#     dup = db.users.find_one({'user_id': session['user_id']}, {'user_like':{'$elemMatch': {'playlist_num': num_receive}}})
+#     target = db.playlists.find_one({'playlist_num': num_receive})
+#     current = target['playlist_like']
+#
+#     if dup is None:
+#         db.playlists.update_one({'playlist_num': num_receive}, {'$set': {'playlist_like': current + 1}})
+#         db.users.update_one({'user_id': session['user_id']}, {'$push': {'user_like': {'playlist_num': num_receive, 'playlist_title': target['playlist_title'], 'user_name': target['user_name']}}})
+#         return jsonify({'msg': '좋아요 완료!'})
+#     else:
+#         db.playlists.update_one({'playlist_num': num_receive}, {'$set': {'playlist_like': current - 1}})
+#         db.users.update_one({'user_id': session['user_id']}, {'$pull': {'user_like': {'playlist_num': num_receive}}});
+#         # db.playlists.delete_one({'playlist_num': num_receive})
+#         return jsonify({'msg': '좋아요 해제!'})
+
+
 ###홈
 ## 전체 플레이리스트 목록
 @app.route('/list', methods=["GET"])
@@ -68,17 +87,25 @@ def signup():
         newpw_receive = request.form['newpw_give']
         newname_receive = request.form['newname_give']
 
+        if not (newid_receive and newpw_receive and newname_receive):
+            return jsonify({'msg': '모두 입력해주세요'})
+
+        dupID = db.users.find_one({'user_id': newid_receive})
+        if dupID is not None:
+            return jsonify({'msg': '중복된 ID 입니다'})
+
+        dupNAME = db.users.find_one({'user_name': newname_receive})
+        if dupNAME is not None:
+            return jsonify({'msg': '중복된 닉네임 입니다'})
+
         userinfo = {
             'user_id': newid_receive,
             'user_pw': newpw_receive,
-            'user_name': newname_receive
+            'user_name': newname_receive,
+            'user_like': []
         }
-
-        if not (newid_receive and newpw_receive and newname_receive):
-            return jsonify({'msg': '모두 입력해주세요'})
-        else:
-            db.users.insert_one(userinfo)
-            return jsonify({'msg': '회원가입 완료'})
+        db.users.insert_one(userinfo)
+        return jsonify({'msg': '회원가입 완료'})
 
         
 ## 로그인 (비밀번호 암호화 방식이면 나중에 변경 필요)
@@ -146,24 +173,30 @@ def addMusic():
     db.playlists.update_one({'playlist_num': num_receive}, {'$push': {'playlist_music': {'music_title': title_receive, 'music_artist': artist_receive, 'music_album': album_receive}}});
     return jsonify({'msg': '플레이리스트에 노래 추가 완료!'})
 
-
-### 마이페이지
-## 마이페이지에서 새로운 플레이리스트 생성(받아오는 건 일단 제목만)
-@app.route('/mypage/create', methods=["POST"])
+## 노래 선택 후 새 플레이리스트 생성
+@app.route('/search/select/create', methods=["POST"])
 def createPlaylist():
-    title_receive = request.form['title_give']
+    playlist_receive = request.form['playlist_give']
     desc_receive = request.form['desc_give']
+    title_receive = request.form['title_give']
+    artist_receive = request.form['artist_give']
+    album_receive = request.form['album_give']
+
     num = db.playlists.count_documents({})
     listinfo = {
         'playlist_num': num + 1,
         'user_name': session['user_name'],
-        'playlist_title': title_receive,
+        'playlist_title': playlist_receive,
         'playlist_desc': desc_receive,
-        'playlist_music': []
+        'playlist_like': 0,
+        'playlist_music': [{'music_title': title_receive, 'music_artist': artist_receive, 'music_album': album_receive}]
     }
     db.playlists.insert_one(listinfo)
     return jsonify({'msg': '플레이리스트 생성 완료!'})
 
+
+### 마이페이지
+## 마이페이지에서 나의 플레이리스트 삭제
 @app.route('/mypage/delete', methods=['POST'])
 def deletePLaylist():
     num_receive = int(request.form['num_give'])
