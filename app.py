@@ -49,7 +49,7 @@ def viewPlaylist():
 # @app.route('/getPlaylist/like', methods=['POST'])
 # def likePlaylist():
 #     num_receive = int(request.args.get('playlistnum'))
-#     dup = db.users.find_one({'user_id': session['user_id']}, {'user_like':{'$elemMatch': {'playlist_num': num_receive}}})
+#     dup = db.users.find_one({'user_id': session['user_id'], 'user_like':{'$elemMatch': {'playlist_num': num_receive}}})
 #     target = db.playlists.find_one({'playlist_num': num_receive})
 #     current = target['playlist_like']
 #
@@ -139,7 +139,6 @@ sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 @app.route('/search/musics', methods=['GET'])
 def searchMusics():
     music_keyword = request.args.get('musicKeyword')
-    print(music_keyword)
     # 검색방법 1) 앨범 검색
     # result = sp.search(music_keyword, limit=30, type='album')['albums']['items']
     # 검색방법 2) 음악 검색
