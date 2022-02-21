@@ -1,46 +1,60 @@
-        .wrap {
-            width: 900px;
-            margin: auto;
-        }
-
-        .pll-info {
-            height: 200px;
-            padding: 10px;
-            margin-bottom: 20px;
-
+        .flex {
             display: flex;
         }
-        .song-info {
-            display: flex;
+        .margin-top-30 {
+            margin-top: 30px;
         }
 
-        .img-pll-cover {
-            width: 200px;
-            height: 200px;
-
-            background-image: url("https://w.namu.la/s/48d8d59e536896b00da9365d1532b2051b1931abe47cddeffea696f4f29efa8131d6824f41fb3bd5f65d78c27c5dd95a6183b6a50d9e85f33cc19a612b4143d5fd41ea9dd9c797d08085e64f18042c30f444ffd2a64980477c4095120d288438");
-            background-size: cover; /* 백그라운드 사이즈를 커버해라..? */
-            background-position: center; /* 가운데에 배치 */
-
-            margin-right: 10px;
+        hr {
+            margin-left: 10px;
         }
-
-        .pll-desc {
-            background-color: aqua;
-
-            padding: 20px;
-            height: 200px;
+        .img-album-box {
+            height: 100%;
         }
         .img-album {
-            width: 50px;
-            height: 50px;
+            width: 70px;
+            height: 70px;
+            margin-right: 20px;
+            border-radius: 10px;
+        }
+        hr{
+             height:100vh;
+             width:.05vw;
+             border-width:0;
+             color: #c9c9c9;
+             background-color: #939393;
+        }
+        h1 {
+            font-size: 30px;
+        }
+        h2 {
+            font-size: 25px;
+        }
+        .info-box {
+            flex: 1;
             margin-right: 10px;
+        }
+        .songs-box {
+            flex: 1.3;
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+
+        .playlist-img-box {
+            width: 130px;
+            height: 130px;
+
+            border-radius: 10px;
+            margin-right: 30px;
+        }
+        .description {
+            margin-top: 30px;
         }
 
         .tags {
-            background-color: blue;
+            background-color: skyblue;
 
-            height: 50px;
+            height: 20px;
         }
 
         .imgSelect {
@@ -61,4 +75,21 @@
             position: absolute;
             top: 5px;
             right: 5px
+        }
+
+        /*.mytable {*/
+        /*      border-spacing: 2px;*/
+        /*      border-collapse: separate;*/
+        /*}*/
+
+        .vertical-align {
+            /*내용물 세로의 가운데에 정렬*/
+            padding: 10px 0px;
+        }
+        table {
+              border-spacing: 20px;
+              border-collapse: separate;
+        }
+        table td {
+              width: 10px;
         }
