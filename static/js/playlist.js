@@ -101,33 +101,25 @@ function getPlaylist(num) {
 
 function deleteMusic(playlistNumber, songNumber) {
     $.ajax({
-            type: "POST",
-            url: "/playlist/deleteMusic",
-            data: {
-                playlist_num_give: playlistNumber,
-                song_num_give: songNumber,
-            },
-            success: function (response) {
-                alert(response["msg"]);
-                window.location.reload();
-            }
-        })
+        type: "POST",
+        url: "/playlist/deleteMusic",
+        data: {
+            playlist_num_give: playlistNumber,
+            song_num_give: songNumber,
+        },
+        success: function (response) {
+            alert(response["msg"]);
+            window.location.reload();
+        }
+    })
 
 }
 
 function createPlaylist(title, artist, album) {
-    let playlist_desc = '' //초기화 후 나중에 플리 수정
-
     $.ajax({
         type: "POST",
         url: "/search/select/create",
-        data: {
-            playlist_give: title,
-            desc_give: playlist_desc,
-            title_give: title,
-            artist_give: artist,
-            album_give: album
-        },
+        data: {title_give:title, artist_give:artist, album_give:album},
         success: function (response) {
             alert(response["msg"]);
             window.location.reload();
@@ -170,6 +162,34 @@ function addMusic(num, title, artist, album) {
         success: function (response) {
             window.location.reload()
             console.log('성공');
+        }
+    });
+}
+
+// 플레이리스트 좋아요
+function likePlaylist(num) {
+    $.ajax({
+        type: 'POST',
+        url: '/playlist/getPlaylist/like?playlistnum=' + num,
+        data: {num_give:num},
+        success: function (response) {
+            alert(response["msg"]);
+            window.location.reload()
+        }
+    });
+}
+
+// 플레이리스트 제목, 설명 수정
+function editList(num) {
+    let playlist_title = $('#playlist-title').val()
+    let playlist_desc = $('#playlist-desc').val()
+    $.ajax({
+        type: 'POST',
+        url: '/playlist/getPlaylist/edit',
+        data: {num_give:num, title_give: playlist_title, desc_give: playlist_desc},
+        success: function (response) {
+            alert(response['msg']);
+            window.location.reload()
         }
     });
 }

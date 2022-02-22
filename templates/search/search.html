@@ -37,37 +37,11 @@
              if(localStorage.getItem('searchKeyword')){
                  let musicKeyword = localStorage.getItem('searchKeyword')
                  document.getElementById("songinfo").value = musicKeyword;
-                 searchPlaylists();
+                 searchMusic()
                  console.log(musicKeyword)
              }
 
         });
-
-        // 노래가 들어간 플레이리스트 검색
-        // 검색 버튼 눌렀을 때 onclick으로 이 함수 호출해주시면 될 거예요
-        function searchPlaylists() {
-            let keyword = $('#songinfo').val()
-            $.ajax({
-                type: 'GET',
-                url: '/search/playlists?keyword_give=' + keyword + '',
-                success: function (response) {
-                    //alert('검색!')
-                    let playlists = response['data']
-                    console.log(playlists)
-                    for (let i = 0; i < playlists.length; i++) {
-                        let playlist_num = playlists[i]['playlist_num']
-                        let playlist_title = playlists[i]["playlist_title"]
-                        let temp_html = `<tr>
-                                                <td>${playlist_title}</td>
-                                                <td></td>
-                                                <td></td>
-                                         </tr>`
-                        $('#list-q1').append(temp_html);
-                    }
-                    searchMusic()   // 일단은 플레이리스트 목록 뜨고 음악 목록 뜨도록 설정해뒀습니다 나중에 변경하시면 돼요!
-                }
-            })
-        }
 
         // 음악 검색
         function searchMusic() {
@@ -146,11 +120,6 @@
             });
         }
 
-        // 노래 선택 후 새 플레이리스트 생성할 때 쓰시면 됩니다
-        // 제목 : <input type="text" id="playlist-title"/>
-        // <textarea placeholder="플레이리스트 설명" id="playlist-desc"></textarea>
-        // <button onClick="createPlaylist('${title}','${artist}','${album}')">생성</button>
-
         // 선택한 플레이리스트에 노래 추가
         function addMusic(num, title, artist, album) {
             console.log(num, title, artist)
@@ -166,14 +135,10 @@
         }
 
         function createPlaylist(title, artist, album) {
-            //let playlist_title = $('#playlist-title').val()
-            //let playlist_desc = $('#playlist-desc').val()
-            let playlist_desc = '' //초기화 후 나중에 플리 수정
-
             $.ajax({
                 type: "POST",
                 url: "/search/select/create",
-                data: {playlist_give:title, desc_give:playlist_desc, title_give:title, artist_give:artist, album_give:album},
+                data: {title_give:title, artist_give:artist, album_give:album},
                 success: function (response) {
                     alert(response["msg"]);
                     window.location.reload();
@@ -226,3 +191,28 @@
 </body>
 
 </html>
+
+// 노래가 들어간 플레이리스트 검색
+// function searchPlaylists() {
+//     let keyword = $('#songinfo').val()
+//     $.ajax({
+//         type: 'GET',
+//         url: '/search/playlists?keyword_give=' + keyword + '',
+//         success: function (response) {
+//             //alert('검색!')
+//             let playlists = response['data']
+//             console.log(playlists)
+//             for (let i = 0; i < playlists.length; i++) {
+//                 let playlist_num = playlists[i]['playlist_num']
+//                 let playlist_title = playlists[i]["playlist_title"]
+//                 let temp_html = `<tr>
+//                                         <td>${playlist_title}</td>
+//                                         <td></td>
+//                                         <td></td>
+//                                  </tr>`
+//                 $('#list-q1').append(temp_html);
+//             }
+//             searchMusic()   // 일단은 플레이리스트 목록 뜨고 음악 목록 뜨도록 설정해뒀습니다 나중에 변경하시면 돼요!
+//         }
+//     })
+// }

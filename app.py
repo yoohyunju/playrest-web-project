@@ -11,8 +11,7 @@ from pymongo import MongoClient
 # client = MongoClient('localhost', 27017)
 # db = client.makingproject
 ## 디비 연결 2) 클라우드 디비 접속
-client = pymongo.MongoClient(
-    "mongodb+srv://playrest:play12!@playrest.kn1fi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+client = pymongo.MongoClient("mongodb+srv://playrest:play12!@playrest.kn1fi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 db = client.makingproject
 
 ## spotify 관련
@@ -41,6 +40,7 @@ def search():
 def mypage():
     return render_template('/myPage/myPage.html')
 
+
 ### 플레이리스트 상세 페이지
 ## 플레이리스트 1개의 상세 목록보기(Read) API
 @app.route('/playlist/getPlaylist', methods=['GET'])
@@ -61,24 +61,34 @@ def deleteMusic():
     db.playlists.update({"playlist_num": playlist_num_receive}, {'$pull': {"playlist_music": None}})
     return jsonify({'msg': '노래 삭제 완료!'})
 
+## 플레이리스트 제목, 설명 수정
+@app.route('/playlist/getPlaylist/edit', methods=['POST'])
+def editPlaylist():
+    num_receive = int(request.form['num_give'])
+    title_receive = request.form['title_give']
+    desc_receive = request.form['desc_give']
+
+    db.playlists.update_one({'playlist_num': num_receive}, {'$set': {'playlist_title': title_receive, 'playlist_desc': desc_receive}})
+    return jsonify({'msg': '플레이리스트 수정 완료!'})
+
 
 ## 플레이리스트 좋아요
-# @app.route('/getPlaylist/like', methods=['POST'])
-# def likePlaylist():
-#     num_receive = int(request.args.get('playlistnum'))
-#     dup = db.users.find_one({'user_id': session['user_id'], 'user_like':{'$elemMatch': {'playlist_num': num_receive}}})
-#     target = db.playlists.find_one({'playlist_num': num_receive})
-#     current = target['playlist_like']
-#
-#     if dup is None:
-#         db.playlists.update_one({'playlist_num': num_receive}, {'$set': {'playlist_like': current + 1}})
-#         db.users.update_one({'user_id': session['user_id']}, {'$push': {'user_like': {'playlist_num': num_receive, 'playlist_title': target['playlist_title'], 'user_name': target['user_name']}}})
-#         return jsonify({'msg': '좋아요 완료!'})
-#     else:
-#         db.playlists.update_one({'playlist_num': num_receive}, {'$set': {'playlist_like': current - 1}})
-#         db.users.update_one({'user_id': session['user_id']}, {'$pull': {'user_like': {'playlist_num': num_receive}}});
-#         # db.playlists.delete_one({'playlist_num': num_receive})
-#         return jsonify({'msg': '좋아요 해제!'})
+@app.route('/playlist/getPlaylist/like', methods=['POST'])
+def likePlaylist():
+    num_receive = int(request.args.get('playlistnum'))
+    dup = db.users.find_one({'user_id': session['user_id'], 'user_like':{'$elemMatch': {'playlist_num': num_receive}}})
+    target = db.playlists.find_one({'playlist_num': num_receive})
+    current = target['playlist_like']
+
+    if dup is None:
+        db.playlists.update_one({'playlist_num': num_receive}, {'$set': {'playlist_like': current + 1}})
+        db.users.update_one({'user_id': session['user_id']}, {'$push': {'user_like': {'playlist_num': num_receive, 'playlist_title': target['playlist_title'], 'user_name': target['user_name']}}})
+        return jsonify({'msg': '좋아요 완료!'})
+    else:
+        db.playlists.update_one({'playlist_num': num_receive}, {'$set': {'playlist_like': current - 1}})
+        db.users.update_one({'user_id': session['user_id']}, {'$pull': {'user_like': {'playlist_num': num_receive}}});
+        # db.playlists.delete_one({'playlist_num': num_receive})
+        return jsonify({'msg': '좋아요 해제!'})
 
 
 ###홈
@@ -156,7 +166,6 @@ def logout():
 client_credentials_manager = SpotifyClientCredentials(client_id=SpotifyKey.id, client_secret=SpotifyKey.secret)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
-
 @app.route('/search/musics', methods=['GET'])
 def searchMusics():
     music_keyword = request.args.get('musicKeyword')
@@ -168,22 +177,11 @@ def searchMusics():
     # print('type:', type(result))
     return jsonify({'result': result})
 
-
-## 검색한 노래가 담긴 플레이리스트 목록
-@app.route('/search/playlists', methods=["GET"])
-def searchPlaylists():
-    keyword_receive = request.args.get('keyword_give')
-    results = list(
-        db.playlists.find({'playlist_music': {'$elemMatch': {'music_title': keyword_receive}}}, {'_id': False}))
-    return jsonify({'data': results})
-
-
 ## 플레이리스트 선택을 위한 나의 플리 목록
 @app.route('/search/select', methods=["GET"])
 def selectPlaylist():
     myPlaylists = list(db.playlists.find({'user_name': session['user_name']}, {'_id': False}))
     return jsonify({'data': myPlaylists})
-
 
 ## 플레이리스트 선택 후 db에 노래 추가
 @app.route('/search/select/add', methods=["POST"])
@@ -193,17 +191,12 @@ def addMusic():
     artist_receive = request.form['artist_give']
     album_receive = request.form['album_give']
 
-    db.playlists.update_one({'playlist_num': num_receive}, {'$push': {
-        'playlist_music': {'music_title': title_receive, 'music_artist': artist_receive,
-                           'music_album': album_receive}}});
+    db.playlists.update_one({'playlist_num': num_receive}, {'$push': {'playlist_music': {'music_title': title_receive, 'music_artist': artist_receive, 'music_album': album_receive}}});
     return jsonify({'msg': '플레이리스트에 노래 추가 완료!'})
-
 
 ## 노래 선택 후 새 플레이리스트 생성
 @app.route('/search/select/create', methods=["POST"])
 def createPlaylist():
-    playlist_receive = request.form['playlist_give']
-    desc_receive = request.form['desc_give']
     title_receive = request.form['title_give']
     artist_receive = request.form['artist_give']
     album_receive = request.form['album_give']
@@ -212,8 +205,8 @@ def createPlaylist():
     listinfo = {
         'playlist_num': num + 1,
         'user_name': session['user_name'],
-        'playlist_title': playlist_receive,
-        'playlist_desc': desc_receive,
+        'playlist_title': title_receive,
+        'playlist_desc': '',
         'playlist_like': 0,
         'playlist_music': [{'music_title': title_receive, 'music_artist': artist_receive, 'music_album': album_receive}]
     }
@@ -231,6 +224,14 @@ def deletePLaylist():
         db.playlists.update_one({'playlist_num': i + 1}, {'$set': {'playlist_num': i}})
     return jsonify({'msg': '플레이리스트 삭제 완료!'})
 
-
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
+
+
+# ## 검색한 노래가 담긴 플레이리스트 목록
+# @app.route('/search/playlists', methods=["GET"])
+# def searchPlaylists():
+#     keyword_receive = request.args.get('keyword_give')
+#     results = list(
+#         db.playlists.find({'playlist_music': {'$elemMatch': {'music_title': keyword_receive}}}, {'_id': False}))
+#     return jsonify({'data': results})
