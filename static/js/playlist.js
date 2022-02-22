@@ -214,8 +214,8 @@ function likePlaylist(num, like) {
 
 // 플레이리스트 제목, 설명 수정
 function editList(num) {
-    let playlist_title = $('#playlist-title').val()
-    let playlist_desc = $('#playlist-desc').val()
+    let playlist_title = $('#edit-playlist-title').val()
+    let playlist_desc = $('#edit-playlist-desc').val()
     $.ajax({
         type: 'POST',
         url: '/playlist/getPlaylist/edit',
@@ -231,4 +231,22 @@ function editList(num) {
 function myFunction(x) {
   // x.classList.toggle("fa-thumbs-down");
   x.classList.toggle("fa-regular fa-heart");
+}
+
+//모달(팝업)창
+function modalControl() {
+    //기존 데이터 셋팅
+    let preTitle = $('#playlist-title').text()
+    let preDesc = $('#description').text()
+
+    $('#edit-playlist-title').val(preTitle)
+    $('#edit-playlist-desc').text(preDesc)
+
+    jQuery.noConflict(); // jquery 충돌 방지
+
+    // 버튼 클릭 시 모달창 여는 이벤트
+    $('#openModalBtn').on('click', function () {
+        $('#modalBox').modal('show');
+    });
+
 }

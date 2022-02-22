@@ -57,3 +57,8 @@ h1 {
 #delete-btn {
     visibility: hidden;
 }
+
+.row {
+    width: 1200px;
+}
+

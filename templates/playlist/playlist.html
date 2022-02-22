@@ -18,10 +18,6 @@
     <!--css-->
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Stylish&display=swap" rel="stylesheet">
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap js -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -41,22 +37,30 @@
     <!--    <script src="static/js/playlist.js"></script>-->
     <link href="{{ url_for('static', filename='css/playlist.css') }}" rel="stylesheet">
     <script src="{{ url_for('static', filename='js/playlist.js') }}" > </script>
+
+    <script>
+        playlistNum = localStorage.getItem('playlistNum')
+    </script>
 </head>
 <body>
 <!--header 삽입-->
 {% include 'fragments/header.html' %}
 <div class="container flex margin-top-30">
     <div class="info-box ">
-        <h1>플레이리스트 정보 (<span id="song-count">수록곡갯수</span>)</h1>
+        <h1>플레이리스트 정보
+            <button type="button" class="btn" id="openModalBtn" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal" data-bs-whatever="@mdo" onclick="modalControl()">✏️</button>
+        </h1>
         <div class="flex margin-top-30">
             <div>
                 <img class="playlist-img-box" id="playlist-img" src="">
             </div>
             <!--            <img class="img-pll-cover" src="https://w.namu.la/s/48d8d59e536896b00da9365d1532b2051b1931abe47cddeffea696f4f29efa8131d6824f41fb3bd5f65d78c27c5dd95a6183b6a50d9e85f33cc19a612b4143d5fd41ea9dd9c797d08085e64f18042c30f444ffd2a64980477c4095120d288438" alt="Card image cap">-->
             <div class="detail-info">
-                <h2 id="playlist-title">플레이리스트 타이틀</h2>
-                <p class="nickname">DJ <span id="nickname">닉네임</span></p>
-                <div class="tags">태그들..</div>
+                <h2 id="playlist-title"></h2>
+                <div><span id="song-count">0</span></div>
+                <p class="nickname">DJ <span id="nickname"></span></p>
+                <!--<div class="tags">태그들..</div>0-->
                 <div id="favorites" class="favorites" style="font-size: 20px">
                     <!--                    찐하트-->
                     <i class="mybtn heart fa-regular fa-heart"></i>
@@ -66,7 +70,7 @@
         </div>
         <div class="description">
             <h2>소개</h2>
-            <p id="description">플레이리스트 소개글</p>
+            <p id="description"></p>
         </div>
     </div>
     <hr>
@@ -88,6 +92,33 @@
             </tbody>
         </table>
     </div>
+</div>
+
+<!--플레이리스트 수정 모달(팝업)창-->
+<div class="modal fade" id="modalBox" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">플레이리스트 정보 수정 ✏️</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="edit-playlist-title" class="col-form-label">플레이리스트 제목</label>
+            <input type="text" class="form-control" id="edit-playlist-title">
+          </div>
+          <div class="mb-3">
+            <label for="edit-playlist-desc" class="col-form-label">플레이리스트 설명</label>
+            <textarea class="form-control" id="edit-playlist-desc"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" id="edit-save-btn" onclick="editList(playlistNum)">저장</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 

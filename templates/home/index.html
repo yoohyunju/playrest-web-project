@@ -41,7 +41,8 @@
 
         $(document).ready(function () {
             showList();
-            showMylist()
+            showLikelist();
+            //showMylist()
         });
 
         function showList() {
@@ -73,6 +74,7 @@
             })
         }
 
+        /* 나의 플리
         function showMylist() {
             $.ajax({
                 type: 'GET',
@@ -97,6 +99,40 @@
                                             </div>
                                         </div>`
                         $('#myPlaylist').append(temp_html)
+                    }
+                }
+            })
+        }
+
+         */
+
+        //좋아요한 플리 출력
+        function showLikelist() {
+            $.ajax({
+                type: 'GET',
+                url: '/mypage/likelist',
+                data: {},
+                success: function (response) {
+                    // alert("좋아요 목록 연결!")
+                    let likePlaylists = response['data']
+
+                    for (let i = 0; i < likePlaylists.length; i++) {
+                        let playlist_num = likePlaylists[i]['playlist_num']
+                        let user_name = likePlaylists[i]['user_name']
+                        let playlist_title = likePlaylists[i]['playlist_title']
+                        let album_img = likePlaylists[i]['playlist_music'][0]['music_album']
+
+                        let temp_html = `<div class="card" style="width: 13rem;" onclick="movePlaylistInfo(${playlist_num})">
+                                            <img class="card-img-top"
+                                                 src="${album_img}"
+                                                 alt="Card image cap">
+                                            <div class="card-body">
+                                                <h5 class="card-title">${playlist_title}</h5>
+                                                <p class="card-text">만든 이: ${user_name}</p>
+                                            </div>
+                                        </div>`
+                        $('#myPlaylist').append(temp_html)
+
                     }
                 }
             })
@@ -127,6 +163,7 @@
         <div class="section">
             <div class="title">
                 <h2>플레이리스트 둘러보기</h2>
+                <div id="playlist-rank">좋아요를 많이 받은 플레이리스트들 입니다.</div>
             </div>
             <!--모든 플리 출력 되는 영역-->
             <div class="row" id="allPlaylist"/>
@@ -134,9 +171,9 @@
 
         <div class="section">
             <div class="title">
-                <h2>나의 플레이리스트</h2>
+                <h2>좋아요 한 플레이리스트</h2>
             </div>
-            <!--내 플리 출력 되는 영역-->
+            <!--좋아요 한 플리 출력 되는 영역-->
             <div class="row" id="myPlaylist"/>
         </div>
     </div>

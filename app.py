@@ -127,15 +127,15 @@ def signup():
         newname_receive = request.form['newname_give']
 
         if not (newid_receive and newpw_receive and newname_receive):
-            return jsonify({'msg': '모두 입력해주세요'})
+            return jsonify({'msg': '모두 입력해주세요.'})
 
         dupID = db.users.find_one({'user_id': newid_receive})
         if dupID is not None:
-            return jsonify({'msg': '중복된 ID 입니다'})
+            return jsonify({'msg': '중복된 ID 입니다.'})
 
         dupNAME = db.users.find_one({'user_name': newname_receive})
         if dupNAME is not None:
-            return jsonify({'msg': '중복된 닉네임 입니다'})
+            return jsonify({'msg': '중복된 닉네임 입니다.'})
 
         userinfo = {
             'user_id': newid_receive,
@@ -144,7 +144,7 @@ def signup():
             'user_like': []
         }
         db.users.insert_one(userinfo)
-        return jsonify({'msg': '회원가입 완료'})
+        return jsonify({'msg': '회원가입이 완료되었습니다.'})
 
 
 ## 로그인 (비밀번호 암호화 방식이면 나중에 변경 필요)
@@ -158,11 +158,11 @@ def login():
         user = db.users.find_one({'user_id': id_receive, 'user_pw': pw_receive})
 
         if user is None:
-            return jsonify({'msg': '로그인에 실패했습니다'})
+            return jsonify({'msg': '로그인에 실패했습니다.'})
         else:
             session['user_id'] = id_receive  # 세션에 id 저장
             session['user_name'] = user['user_name']
-            return jsonify({'msg': '로그인에 성공했습니다'})  # 임의
+            return jsonify({'msg': '로그인에 성공했습니다.'})  # 임의
 
 
 ## 로그아웃

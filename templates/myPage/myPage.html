@@ -41,7 +41,7 @@
     <script>
         $(document).ready(function () {
             showMylist();
-            // showLikelist()
+            showLikelist()
         });
 
         //플리 개별 정보 페이지로 이동하는 함수
@@ -101,10 +101,21 @@
                         let playlist_num = likePlaylists[i]['playlist_num']
                         let user_name = likePlaylists[i]['user_name']
                         let playlist_title = likePlaylists[i]['playlist_title']
-                        let albumImg = likePlaylists[i]['playlist_music'][0]['music_album']
+                        let album_img = likePlaylists[i]['playlist_music'][0]['music_album']
 
-                        let temp_html = ``
+                        let temp_html = `<div class="card" id="card" style="width: 13rem;" onclick="movePlaylistInfo(${playlist_num})">
+                                            <img class="card-img-top"
+                                                 src="${album_img}"
+                                                 alt="Card image cap">
+                                            <div class="card-body">
+                                                <h5 class="card-title">${playlist_title}</h5>
+                                                <p class="card-text">만든 이: ${user_name}
+                                                    <a id="delete-btn" onclick="deleteList('${playlist_num}')"><img id ="delete-btn-img" src="static/icon/delete_btn.png"></a>
+                                                </p>
+                                            </div>
+                                        </div>`
 
+                        $('#likePlaylist').append(temp_html)
                     }
                 }
             })
@@ -147,6 +158,16 @@
             </div>
             <!--내 플리 출력 되는 영역-->
             <div class="row" id="myPlaylist"/>
+        </div>
+
+        <div class="section">
+            <div class="title">
+                <h2>좋아요 한 플레이리스트
+                    <!--<span><button id="list-creat-btn" type="button" class="btn btn-dark">✏️새 플레이리스트 생성</button></span>-->
+                </h2>
+            </div>
+            <!--좋아요 한 플리 출력 되는 영역-->
+            <div class="row" id="likePlaylist"/>
         </div>
     </div>
 
