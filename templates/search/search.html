@@ -28,18 +28,19 @@
             crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script><script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
 
     <title>음악 검색 - playRe:st</title>
 
     <script>
         $(document).ready(function () {
-             if(localStorage.getItem('searchKeyword')){
-                 let musicKeyword = localStorage.getItem('searchKeyword')
-                 document.getElementById("songinfo").value = musicKeyword;
-                 searchMusic()
-                 console.log(musicKeyword)
-             }
+            if (localStorage.getItem('searchKeyword')) {
+                let musicKeyword = localStorage.getItem('searchKeyword')
+                document.getElementById("songinfo").value = musicKeyword;
+                searchMusic()
+                console.log(musicKeyword)
+            }
 
         });
 
@@ -54,6 +55,7 @@
                     console.log(response['result'])
                     var musics = response['result']
                     console.log(musics[0])
+                    $('#list-q1').empty();
                     for (let i = 0; i < musics.length; i++) {
                         let albumTitle = musics[i]["name"]
                         let albumArtist = musics[i]["artists"][0]['name']
@@ -63,6 +65,7 @@
                         let albumImg = musics[i]['album']['images'][0]['url']
                         let previewMusic = musics[i]["preview_url"]
                         console.log(previewMusic)
+
 
                         let temp_html = `<tr>
                                         <td><img src="${albumImg}" width="80px" height="80px" id="album-img-round"></td>
@@ -86,6 +89,7 @@
                                         </td>
                                  </tr>`
                         $('#list-q1').append(temp_html);
+
 
                     }
                 }
@@ -126,7 +130,7 @@
             $.ajax({
                 type: 'POST',
                 url: '/search/select/add',
-                data: {num_give: num, title_give: title, artist_give: artist, album_give:album},
+                data: {num_give: num, title_give: title, artist_give: artist, album_give: album},
                 success: function (response) {
                     alert(response['msg']);
                     window.location.reload()
@@ -138,7 +142,7 @@
             $.ajax({
                 type: "POST",
                 url: "/search/select/create",
-                data: {title_give:title, artist_give:artist, album_give:album},
+                data: {title_give: title, artist_give: artist, album_give: album},
                 success: function (response) {
                     alert(response["msg"]);
                     window.location.reload();
@@ -155,10 +159,10 @@
 <!--header 삽입-->
 {% include 'fragments/header.html' %}
 <body>
-<div class="container" style="text-align: center">
+<div class="container">
     <div class="section" id="mypage-title">
         <div class="title">
-            <h2>곡 검색 결과 🎼</h2>
+            <h2 style="padding-left: 40px">곡 검색 결과 🎼</h2>
         </div>
     </div>
     <div class="searchbar_css" id="searchbar">
@@ -173,13 +177,14 @@
 
 <div class="wrap">
     <div class="music_css">
-        <table>
-            <thead>
+        <table class="table">
+            <thead class="thead-light">
             <tr>
                 <th>앨범</th>
                 <th>제목</th>
                 <th>가수</th>
                 <th>미리 듣기</th>
+                <th>추가</th>
             </tr>
             </thead>
             <tbody id="list-q1"></tbody>
@@ -192,27 +197,32 @@
 
 </html>
 
-// 노래가 들어간 플레이리스트 검색
-// function searchPlaylists() {
-//     let keyword = $('#songinfo').val()
-//     $.ajax({
-//         type: 'GET',
-//         url: '/search/playlists?keyword_give=' + keyword + '',
-//         success: function (response) {
-//             //alert('검색!')
-//             let playlists = response['data']
-//             console.log(playlists)
-//             for (let i = 0; i < playlists.length; i++) {
-//                 let playlist_num = playlists[i]['playlist_num']
-//                 let playlist_title = playlists[i]["playlist_title"]
-//                 let temp_html = `<tr>
-//                                         <td>${playlist_title}</td>
-//                                         <td></td>
-//                                         <td></td>
-//                                  </tr>`
-//                 $('#list-q1').append(temp_html);
-//             }
-//             searchMusic()   // 일단은 플레이리스트 목록 뜨고 음악 목록 뜨도록 설정해뒀습니다 나중에 변경하시면 돼요!
-//         }
-//     })
-// }
+<!--// 노래가 들어간 플레이리스트 검색-->
+<!--// function searchPlaylists() {-->
+<!--//     let keyword = $('#songinfo').val()-->
+<!--//     $.ajax({-->
+<!--//         type: 'GET',-->
+<!--//         url: '/search/playlists?keyword_give=' + keyword + '',-->
+<!--//         success: function (response) {-->
+<!--//             //alert('검색!')-->
+<!--//             let playlists = response['data']-->
+<!--//             console.log(playlists)-->
+<!--//             for (let i = 0; i < playlists.length; i++) {-->
+<!--//                 let playlist_num = playlists[i]['playlist_num']-->
+<!--//                 let playlist_title = playlists[i]["playlist_title"]-->
+<!--//                 let temp_html = `-->
+<!--<tr>-->
+<!--    //-->
+<!--    <td>${playlist_title}</td>-->
+<!--    //-->
+<!--    <td></td>-->
+<!--    //-->
+<!--    <td></td>-->
+<!--    //-->
+<!--</tr>`-->
+<!--//                 $('#list-q1').append(temp_html);-->
+<!--//             }-->
+<!--//             searchMusic()   // 일단은 플레이리스트 목록 뜨고 음악 목록 뜨도록 설정해뒀습니다 나중에 변경하시면 돼요!-->
+<!--//         }-->
+<!--//     })-->
+<!--// }-->
