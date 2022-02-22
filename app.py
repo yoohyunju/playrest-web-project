@@ -61,6 +61,17 @@ def deleteMusic():
     db.playlists.update({"playlist_num": playlist_num_receive}, {'$pull': {"playlist_music": None}})
     return jsonify({'msg': '노래 삭제 완료!'})
 
+## 내 플레이리스트인지 확인
+@app.route('/playlist/checkMyPlaylist', methods=['GET'])
+def checkMyPlaylist():
+    num_receive = int(request.args.get('playlistNum'))
+    playlist = db.playlists.find_one({'playlist_num': num_receive}, {'_id': False})
+    playlist_user = playlist['user_name']
+    if playlist_user == session['user_name']:
+        return jsonify({'msg': 'true'})  #
+    else:
+        return jsonify({'msg': 'false'})
+
 ## 플레이리스트 제목, 설명 수정
 @app.route('/playlist/getPlaylist/edit', methods=['POST'])
 def editPlaylist():
@@ -163,7 +174,6 @@ def login():
             session['user_id'] = id_receive  # 세션에 id 저장
             session['user_name'] = user['user_name']
             return jsonify({'msg': '로그인에 성공했습니다'})  # 임의
-
 
 ## 로그아웃
 @app.route("/logout")

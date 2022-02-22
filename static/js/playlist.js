@@ -4,7 +4,9 @@ $(document).ready(function () {
         playlistNum = localStorage.getItem('playlistNum')
         console.log(playlistNum)
     }
+
     getPlaylist(playlistNum)
+    checkMyPlaylist(playlistNum)
 
     // 좋아요 여부 갖고옴 -> 좋아요 아이콘 설정을 위함
     getLike(playlistNum)
@@ -16,6 +18,8 @@ $(document).ready(function () {
         // console.log('like여부:' + like);
         likePlaylist(playlistNum, like);
     });
+
+    $(".visible")
 });
 
 
@@ -32,8 +36,32 @@ $(".add-btn").click(function () {
             console.log(response['data'])
         }
     })
-    // }
 });
+// 내 플리면 휴지통 아이콘을 숨김
+function checkMyPlaylist(playlistNum) {
+    $.ajax({
+        type: 'GET',
+        url: '/playlist/checkMyPlaylist?playlistNum=' + playlistNum,
+        data: {},
+        success: function (response) {
+            console.log("플리번호:" + playlistNum)
+            console.log("like:" + response['msg'])
+
+            if (response['msg'] == 'true') { //좋아요 O -> 하트 채움
+                console.log('내플리')
+                // $('.visible').show();
+                // jQuery('.visible').css("display", "block");
+
+            } else { //좋아요 X -> 하트 비움
+                console.log('내플리X')
+                // $('.visible').hide();
+                jQuery('.visible').css("display", "none");
+
+            }
+        }
+    });
+
+}
 function getLike(playlistNum) {
     $.ajax({
         type: 'GET',
@@ -118,7 +146,7 @@ function getPlaylist(num, like) {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td style="width: 10%">
+                                        <td style="width: 10%" class="visible">
                                             <button class="btn mybtn back-color-transparent" type="button" onclick="deleteMusic(${num}, ${i})">
                                                 <i class="fa-solid fa-trash fa-sm"></i></a>
                                             </button>
@@ -200,14 +228,19 @@ function addMusic(num, title, artist, album) {
     });
 }
 
-// 플레이리스트 좋아요
+// 플레이리스트 좋아요 버튼 클릭시 호출
 function likePlaylist(num, like) {
+    let likeNum = parseInt($("#favorites-num").text());
+    if (like == true)
+        $("#favorites-num").text(likeNum + 1);
+    else
+        $("#favorites-num").text(likeNum - 1);
+
     $.ajax({
         type: 'POST',
         url: '/playlist/getPlaylist/like',
         data: {num_give:num, like_give:like},
         success: function (response) {
-            // alert(response["msg"]);
         }
     });
 }
@@ -222,7 +255,7 @@ function editList(num) {
         data: {num_give:num, title_give: playlist_title, desc_give: playlist_desc},
         success: function (response) {
             alert(response['msg']);
-            window.location.reload()
+            window.location.reload();
         }
     });
 }
