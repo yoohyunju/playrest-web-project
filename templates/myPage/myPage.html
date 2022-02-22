@@ -76,7 +76,7 @@
                                             <div class="card-body">
                                                 <h5 class="card-title">${playlist_title}</h5>
                                                 <p class="card-text">만든 이: ${user_name}
-                                                    <a id="delete-btn" onclick="deleteList('${playlist_num}')"><img id ="delete-btn-img" src="static/icon/delete_btn.png"></a>
+                                                    <a id="delete-btn" onclick="deleteList('${playlist_num}')"><img class ="delete-btn-img" src="static/icon/delete_btn.png"></a>
                                                 </p>
                                             </div>
                                         </div>`
@@ -109,9 +109,7 @@
                                                  alt="Card image cap">
                                             <div class="card-body">
                                                 <h5 class="card-title">${playlist_title}</h5>
-                                                <p class="card-text">만든 이: ${user_name}
-                                                    <a id="delete-btn" onclick="deleteList('${playlist_num}')"><img id ="delete-btn-img" src="static/icon/delete_btn.png"></a>
-                                                </p>
+                                                <p class="card-text">만든 이: ${user_name}</p>
                                             </div>
                                         </div>`
 
@@ -152,9 +150,7 @@
 
         <div class="section">
             <div class="title">
-                <h2>나의 플레이리스트
-                    <!--<span><button id="list-creat-btn" type="button" class="btn btn-dark">✏️새 플레이리스트 생성</button></span>-->
-                </h2>
+                <h2>나의 플레이리스트</h2>
             </div>
             <!--내 플리 출력 되는 영역-->
             <div class="row" id="myPlaylist"/>
@@ -162,9 +158,7 @@
 
         <div class="section">
             <div class="title">
-                <h2>좋아요 한 플레이리스트
-                    <!--<span><button id="list-creat-btn" type="button" class="btn btn-dark">✏️새 플레이리스트 생성</button></span>-->
-                </h2>
+                <h2>좋아요 한 플레이리스트</h2>
             </div>
             <!--좋아요 한 플리 출력 되는 영역-->
             <div class="row" id="likePlaylist"/>
