@@ -196,33 +196,3 @@
 </body>
 
 </html>
-
-<!--// 노래가 들어간 플레이리스트 검색-->
-<!--// function searchPlaylists() {-->
-<!--//     let keyword = $('#songinfo').val()-->
-<!--//     $.ajax({-->
-<!--//         type: 'GET',-->
-<!--//         url: '/search/playlists?keyword_give=' + keyword + '',-->
-<!--//         success: function (response) {-->
-<!--//             //alert('검색!')-->
-<!--//             let playlists = response['data']-->
-<!--//             console.log(playlists)-->
-<!--//             for (let i = 0; i < playlists.length; i++) {-->
-<!--//                 let playlist_num = playlists[i]['playlist_num']-->
-<!--//                 let playlist_title = playlists[i]["playlist_title"]-->
-<!--//                 let temp_html = `-->
-<!--<tr>-->
-<!--    //-->
-<!--    <td>${playlist_title}</td>-->
-<!--    //-->
-<!--    <td></td>-->
-<!--    //-->
-<!--    <td></td>-->
-<!--    //-->
-<!--</tr>`-->
-<!--//                 $('#list-q1').append(temp_html);-->
-<!--//             }-->
-<!--//             searchMusic()   // 일단은 플레이리스트 목록 뜨고 음악 목록 뜨도록 설정해뒀습니다 나중에 변경하시면 돼요!-->
-<!--//         }-->
-<!--//     })-->
-<!--// }-->

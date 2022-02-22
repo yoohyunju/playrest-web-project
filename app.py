@@ -1,8 +1,13 @@
 import pymongo
 from flask import Flask, render_template, jsonify, request, session, redirect, url_for
+from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 app.secret_key = 'super secret key'  # 세션 때문에 있는 건데 아무키나 넣어도 괜찮습니다
+
+app.config['SECRET_KEY'] = 'simhwachangjo'
+app.config['BCRYPT_LEVEL'] = 10
+bcrypt = Bcrypt(app)
 
 from pymongo import MongoClient
 
@@ -109,7 +114,7 @@ def likePlaylist():
         return jsonify({'msg': '좋아요 완료!'})
     else:
         db.playlists.update_one({'playlist_num': num_receive}, {'$set': {'playlist_like': current - 1}})
-        db.users.update_one({'user_id': session['user_id']}, {'$pull': {'user_like': {'playlist_num': num_receive}}});
+        db.users.update_one({'user_id': session['user_id']}, {'$pull': {'user_like': {'playlist_num': num_receive}}})
         return jsonify({'msg': '좋아요 해제!'})
 
 
@@ -150,7 +155,7 @@ def signup():
 
         userinfo = {
             'user_id': newid_receive,
-            'user_pw': newpw_receive,
+            'user_pw': bcrypt.generate_password_hash(newpw_receive),
             'user_name': newname_receive,
             'user_like': []
         }
@@ -158,7 +163,7 @@ def signup():
         return jsonify({'msg': '회원가입이 완료되었습니다.'})
 
 
-## 로그인 (비밀번호 암호화 방식이면 나중에 변경 필요)
+## 로그인
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
@@ -169,11 +174,13 @@ def login():
         user = db.users.find_one({'user_id': id_receive, 'user_pw': pw_receive})
 
         if user is None:
-            return jsonify({'msg': '로그인에 실패했습니다.'})
+            return jsonify({'msg': '유저 정보가 없습니다'})
+        elif bcrypt.check_password_hash(user['user_pw'], pw_receive) is False:
+            return jsonify({'msg': '비밀번호가 일치하지 않습니다'})
         else:
-            session['user_id'] = id_receive  # 세션에 id 저장
+            session['user_id'] = id_receive
             session['user_name'] = user['user_name']
-            return jsonify({'msg': '로그인에 성공했습니다.'})  # 임의
+            return jsonify({'msg': '로그인에 성공했습니다'})
 
 ## 로그아웃
 @app.route("/logout")
@@ -258,12 +265,3 @@ def deletePLaylist():
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
-
-
-# ## 검색한 노래가 담긴 플레이리스트 목록
-# @app.route('/search/playlists', methods=["GET"])
-# def searchPlaylists():
-#     keyword_receive = request.args.get('keyword_give')
-#     results = list(
-#         db.playlists.find({'playlist_music': {'$elemMatch': {'music_title': keyword_receive}}}, {'_id': False}))
-#     return jsonify({'data': results})
