@@ -82,20 +82,19 @@ def likePlaylist():
 
     if dup is None:
         db.playlists.update_one({'playlist_num': num_receive}, {'$set': {'playlist_like': current + 1}})
-        db.users.update_one({'user_id': session['user_id']}, {'$push': {'user_like': {'playlist_num': num_receive, 'playlist_title': target['playlist_title'], 'user_name': target['user_name']}}})
+        db.users.update_one({'user_id': session['user_id']}, {'$push': {'user_like': {'playlist_num': num_receive}}})
         return jsonify({'msg': '좋아요 완료!'})
     else:
         db.playlists.update_one({'playlist_num': num_receive}, {'$set': {'playlist_like': current - 1}})
         db.users.update_one({'user_id': session['user_id']}, {'$pull': {'user_like': {'playlist_num': num_receive}}});
-        # db.playlists.delete_one({'playlist_num': num_receive})
         return jsonify({'msg': '좋아요 해제!'})
 
 
 ###홈
-## 전체 플레이리스트 목록
+## 전체 플레이리스트 목록(좋아요 순)
 @app.route('/list', methods=["GET"])
 def allPlaylists():
-    allLists = list(db.playlists.find({}, {'_id': False}))
+    allLists = list(db.playlists.find({}, {'_id': False}).sort('playlist_like', -1))
     return jsonify({'data': allLists})
 
 ## 나의 플레이리스트 목록
@@ -215,6 +214,17 @@ def createPlaylist():
 
 
 ### 마이페이지
+## 좋아요 한 플레이리스트 목록
+@app.route('/mypage/likelist', methods=["GET"])
+def likePlaylists():
+    mylike = (db.users.find_one({'user_name': session['user_name']}, {'_id': False}))['user_like']
+    likeLists=[]
+    for like in mylike:
+        playlist = db.playlists.find_one({'playlist_num': like['playlist_num']}, {'_id': False})
+        likeLists.append(playlist)
+
+    return jsonify({'data': likeLists})
+
 ## 마이페이지에서 나의 플레이리스트 삭제
 @app.route('/mypage/delete', methods=['POST'])
 def deletePLaylist():

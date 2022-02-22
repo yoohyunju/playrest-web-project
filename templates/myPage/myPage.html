@@ -41,6 +41,7 @@
     <script>
         $(document).ready(function () {
             showMylist();
+            // showLikelist()
         });
 
         //플리 개별 정보 페이지로 이동하는 함수
@@ -82,6 +83,28 @@
 
                         $('#myPlaylist').append(temp_html)
                         $('#count-result').text(listCount)
+                    }
+                }
+            })
+        }
+
+        function showLikelist() {
+            $.ajax({
+                type: 'GET',
+                url: '/mypage/likelist',
+                data: {},
+                success: function (response) {
+                    // alert("좋아요 목록 연결!")
+                    let likePlaylists = response['data']
+
+                    for (let i = 0; i < likePlaylists.length; i++) {
+                        let playlist_num = likePlaylists[i]['playlist_num']
+                        let user_name = likePlaylists[i]['user_name']
+                        let playlist_title = likePlaylists[i]['playlist_title']
+                        let albumImg = likePlaylists[i]['playlist_music'][0]['music_album']
+
+                        let temp_html = ``
+
                     }
                 }
             })
