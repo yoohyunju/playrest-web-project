@@ -5,7 +5,19 @@ $(document).ready(function () {
         console.log(playlistNum)
     }
     getPlaylist(playlistNum)
+
+    // 좋아요 여부 갖고옴 -> 좋아요 아이콘 설정을 위함
+    getLike(playlistNum)
+
+    $(".heart").click(function () {
+        $(this).toggleClass("fa-regular fa-solid");
+
+        like = $(this).hasClass("fa-solid"); //like눌려있으면 true 반환
+        // console.log('like여부:' + like);
+        likePlaylist(playlistNum, like);
+    });
 });
+
 
 $(".add-btn").click(function () {
     alert('버튼 클릭');
@@ -22,8 +34,28 @@ $(".add-btn").click(function () {
     })
     // }
 });
+function getLike(playlistNum) {
+    $.ajax({
+        type: 'GET',
+        url: '/playlist/getPlaylist/getLike?playlistNum=' + playlistNum,
+        data: {},
+        success: function (response) {
+            console.log("플리번호:"+playlistNum)
+            console.log("like:"+response['msg'])
 
-function getPlaylist(num) {
+            if (response['msg']==true) { //좋아요 O -> 하트 채움
+                console.log('좋아요O')
+                $('.heart').attr('class', 'mybtn heart fa-solid fa-heart');
+            } else { //좋아요 X -> 하트 비움
+                console.log('좋아요X')
+                $('.heart').attr('class', 'mybtn heart fa-regular fa-heart');
+            }
+        }
+    });
+}
+
+
+function getPlaylist(num, like) {
     $.ajax({
         type: 'GET',
         url: '/playlist/getPlaylist?playlistNum=' + num,
@@ -33,16 +65,18 @@ function getPlaylist(num) {
             let playlist = response['data']
             let playlist_title = playlist['playlist_title']
             let playlist_desc = playlist['playlist_desc']
+            let playlist_like = playlist['playlist_like']
             let songs = playlist['playlist_music']
             let user_name = playlist['user_name']
             let playlist_img = songs[0]['music_album']
+
 
             console.log(playlist_title, playlist_desc, songs, num)
 
             $("#playlist-img").attr("src", playlist_img);
             $("#playlist-title").text(playlist_title)
             $("#nickname").text(user_name)
-            // $("#favorites-num").text(playlist_like)
+            $("#favorites-num").text(playlist_like)
             $("#description").text(playlist_desc)
             $("#song-count").text(songs.length)
 
@@ -67,13 +101,13 @@ function getPlaylist(num) {
                                             </div>
                                         </td>
                                         <td style="width: 10%">
-                                            <button class="btn mybtn" type="button" onclick="window.open('https://www.youtube.com/watch?v=ZeerrnuLi5E');">
-                                                <i class="fa-brands fa-youtube fa-lg btn-light" style="color: red"></i></a>
+                                            <button class="btn mybtn back-color-transparent" type="button" onclick="window.open('https://www.youtube.com/watch?v=ZeerrnuLi5E');">
+                                                <i class="myicon fa-brands fa-youtube fa-lg btn-light" style="color: red"></i></a>
                                             </button>
                                         </td>
                                         <td style="width: 10%">
                                             <div class="dropdown">
-                                                <button class="btn mybtn add-btn" type="button"
+                                                <button class="btn mybtn back-color-transparent add-btn" type="button"
                                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                                         onclick="selectPlaylist('${music_title}', '${music_artist}', '${album_img}')">
                                                     <i class="fa-solid fa-plus fa-lg"></i>
@@ -85,7 +119,7 @@ function getPlaylist(num) {
                                             </div>
                                         </td>
                                         <td style="width: 10%">
-                                            <button class="btn mybtn" type="button" onclick="deleteMusic(${num}, ${i})">
+                                            <button class="btn mybtn back-color-transparent" type="button" onclick="deleteMusic(${num}, ${i})">
                                                 <i class="fa-solid fa-trash fa-sm"></i></a>
                                             </button>
                                         </td>
@@ -167,14 +201,13 @@ function addMusic(num, title, artist, album) {
 }
 
 // 플레이리스트 좋아요
-function likePlaylist(num) {
+function likePlaylist(num, like) {
     $.ajax({
         type: 'POST',
-        url: '/playlist/getPlaylist/like?playlistnum=' + num,
-        data: {num_give:num},
+        url: '/playlist/getPlaylist/like',
+        data: {num_give:num, like_give:like},
         success: function (response) {
-            alert(response["msg"]);
-            window.location.reload()
+            // alert(response["msg"]);
         }
     });
 }
@@ -192,4 +225,10 @@ function editList(num) {
             window.location.reload()
         }
     });
+}
+
+// 좋아요
+function myFunction(x) {
+  // x.classList.toggle("fa-thumbs-down");
+  x.classList.toggle("fa-regular fa-heart");
 }

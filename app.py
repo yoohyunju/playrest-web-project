@@ -71,16 +71,28 @@ def editPlaylist():
     db.playlists.update_one({'playlist_num': num_receive}, {'$set': {'playlist_title': title_receive, 'playlist_desc': desc_receive}})
     return jsonify({'msg': '플레이리스트 수정 완료!'})
 
+## 플레이리스트 좋아요 값 받아오기
+@app.route('/playlist/getPlaylist/getLike', methods=["GET"])
+def getLike():
+    num_receive = int(request.args.get('playlistNum'))
+    dup = db.users.find_one({'user_id': session['user_id'], 'user_like': {'$elemMatch': {'playlist_num': num_receive}}})
+    # print(dup)
+    # print(type(dup))
+    if dup is None:
+        return jsonify({'msg': False})
+    else:
+        return jsonify({'msg': True})
 
-## 플레이리스트 좋아요
+## 플레이리스트 좋아요 버튼 눌렀을 때 호출
 @app.route('/playlist/getPlaylist/like', methods=['POST'])
 def likePlaylist():
-    num_receive = int(request.args.get('playlistnum'))
-    dup = db.users.find_one({'user_id': session['user_id'], 'user_like':{'$elemMatch': {'playlist_num': num_receive}}})
+    num_receive = int(request.form['num_give'])
+    like_receive = request.form['like_give']
     target = db.playlists.find_one({'playlist_num': num_receive})
     current = target['playlist_like']
-
-    if dup is None:
+    # print(num_receive, like_receive)
+    # print(type(like_receive)) # str
+    if like_receive == 'true':
         db.playlists.update_one({'playlist_num': num_receive}, {'$set': {'playlist_like': current + 1}})
         db.users.update_one({'user_id': session['user_id']}, {'$push': {'user_like': {'playlist_num': num_receive}}})
         return jsonify({'msg': '좋아요 완료!'})

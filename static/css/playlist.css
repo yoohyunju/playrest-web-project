@@ -1,97 +1,132 @@
-        .flex {
-            display: flex;
-        }
-        .margin-top-30 {
-            margin-top: 30px;
-        }
+.flex {
+    display: flex;
+}
 
-        hr {
-            margin-left: 10px;
-        }
-        .img-album-box {
-            height: 100%;
-        }
-        .img-album {
-            width: 70px;
-            height: 70px;
-            margin-right: 20px;
-            border-radius: 10px;
-        }
-        hr{
-             width:.05vw;
-             border-width:0;
-             color: #c9c9c9;
-             background-color: #939393;
-        }
-        h1 {
-            font-size: 30px;
-        }
-        h2 {
-            font-size: 25px;
-        }
-        .info-box {
-            flex: 1;
-            margin-right: 10px;
-        }
-        .songs-box {
-            flex: 1.3;
-            margin-top: 20px;
-            margin-left: 20px;
-        }
+.margin-top-30 {
+    margin-top: 30px;
+}
 
-        .playlist-img-box {
-            width: 130px;
-            height: 130px;
+hr {
+    margin-left: 10px;
+}
 
-            border-radius: 10px;
-            margin-right: 30px;
-        }
-        .description {
-            margin-top: 30px;
-        }
+.img-album-box {
+    height: 100%;
+}
 
-        .tags {
-            background-color: skyblue;
+.img-album {
+    width: 70px;
+    height: 70px;
+    margin-right: 20px;
+    border-radius: 10px;
+}
 
-            height: 20px;
-        }
-        .mybtn {
-            background-color: transparent;
-        }
+hr {
+    width: .05vw;
+    border-width: 0;
+    color: #c9c9c9;
+    background-color: #939393;
+}
 
-        .imgSelect {
-            cursor: pointer;
-        }
+h1 {
+    font-size: 30px;
+}
 
-        .popupLayer {
-            position: absolute;
-            display: none;
-            background-color: #ffffff;
-            border: solid 2px #d0d0d0;
-            width: 350px;
-            height: 150px;
-            padding: 10px;
-        }
+h2 {
+    font-size: 25px;
+}
 
-        .popupLayer div {
-            position: absolute;
-            top: 5px;
-            right: 5px
-        }
+.info-box {
+    flex: 1;
+    margin-right: 10px;
+}
 
-        /*.mytable {*/
-        /*      border-spacing: 2px;*/
-        /*      border-collapse: separate;*/
-        /*}*/
+.songs-box {
+    flex: 1.3;
+    margin-top: 20px;
+    margin-left: 20px;
+}
 
-        .vertical-align {
-            /*내용물 세로의 가운데에 정렬*/
-            padding: 10px 0px;
-        }
-        table {
-              border-spacing: 20px;
-              border-collapse: separate;
-        }
-        table td {
-              width: 10px;
-        }
+.playlist-img-box {
+    width: 130px;
+    height: 130px;
+
+    border-radius: 10px;
+    margin-right: 30px;
+}
+
+.description {
+    margin-top: 30px;
+}
+
+.tags {
+    background-color: skyblue;
+
+    height: 20px;
+}
+
+.back-color-transparent {
+    background-color: transparent;
+}
+
+.imgSelect {
+    cursor: pointer;
+}
+
+.popupLayer {
+    position: absolute;
+    display: none;
+    background-color: #ffffff;
+    border: solid 2px #d0d0d0;
+    width: 350px;
+    height: 150px;
+    padding: 10px;
+}
+
+.popupLayer div {
+    position: absolute;
+    top: 5px;
+    right: 5px
+}
+
+.vertical-align {
+    /*내용물 세로의 가운데에 정렬*/
+    padding: 10px 0px;
+}
+
+table {
+    border-spacing: 20px;
+    border-collapse: separate;
+}
+
+table td {
+    width: 10px;
+}
+
+/*mybtn 클래스에 마우스 갖다댔을때 바뀔 색상 지정 */
+.mybtn:hover {
+    /*  불투명도 60%*/
+    opacity: 0.6;
+}
+
+/*하트관련*/
+.heart {
+    font-size: 23px;
+    cursor: pointer;
+    user-select: none;
+    color: red;
+    margin-right: 15px;
+}
+
+.fa-heart.fa-regular {
+    color: #585858;
+}
+
+.favorites-num {
+    font-size: 23px;
+    color: #585858;
+}
+.nickname {
+    font-size: 23px;
+    color: #585858;
+}

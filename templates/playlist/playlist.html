@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -34,6 +35,7 @@
     <title>플레이리스트 정보 - playRe:st</title>
     <!--    아이콘 갖다쓰는곳-->
     <script src="https://kit.fontawesome.com/0e6d28e1ee.js" crossorigin="anonymous"></script>
+
     <!--    css, js파일과 연결 // JS랑 연결이 안돼서 걍 집어넣음-->
     <!--    <link rel="stylesheet"  href="static/css/playlist.css">-->
     <!--    <script src="static/js/playlist.js"></script>-->
@@ -53,11 +55,12 @@
             <!--            <img class="img-pll-cover" src="https://w.namu.la/s/48d8d59e536896b00da9365d1532b2051b1931abe47cddeffea696f4f29efa8131d6824f41fb3bd5f65d78c27c5dd95a6183b6a50d9e85f33cc19a612b4143d5fd41ea9dd9c797d08085e64f18042c30f444ffd2a64980477c4095120d288438" alt="Card image cap">-->
             <div class="detail-info">
                 <h2 id="playlist-title">플레이리스트 타이틀</h2>
-                <p>DJ <span id="nickname">닉네임</span></p>
+                <p class="nickname">DJ <span id="nickname">닉네임</span></p>
                 <div class="tags">태그들..</div>
                 <div id="favorites" class="favorites" style="font-size: 20px">
-                    <i class="fa-regular fa-heart" style="margin-right: 10px"></i>
-                    <span id="favorites-num">좋아요갯수-시간나면 구현</span>
+                    <!--                    찐하트-->
+                    <i class="mybtn heart fa-regular fa-heart"></i>
+                    <span class='favorites-num' id="favorites-num">좋아요갯수</span>
                 </div>
             </div>
         </div>
