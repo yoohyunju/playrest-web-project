@@ -34,7 +34,7 @@
             $.ajax({
                 type: "POST",
                 url: "/signup",
-                data: {newid_give:user_id,newpw_give:user_pw,newname_give:user_name},
+                data: {newid_give: user_id, newpw_give: user_pw, newname_give: user_name},
                 success: function (response) {
                     alert(response["msg"]);
                     window.location.href = '/login'; // 회원가입 후 로그인 창으로 감
@@ -42,17 +42,54 @@
             })
         }
     </script>
+    <style>
+        .pw-box {
+            text-align: center;
+            width: 500px;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            vertical-align: middle;
+            margin: auto;
+            border: 1px solid lightgoldenrodyellow;
+
+        }
+
+        .pw-bnt {
+            border: 0;
+            outline: none;
+            width: 150px;
+            border-radius: 3px;
+            font-size: 15px;
+            margin: 5px;
+            box-shadow: 3px 3px 3px rgb(109, 109, 109), -3px -3px 3px rgb(237, 237, 237);
+            transition: 0.3s;
+        }
+
+        .pw-bnt:hover {
+            box-shadow: -3px -3px 3px rgb(172, 172, 172), 3px 3px 3px rgb(237, 237, 237);
+            transition: 0.3s;
+        }
+    </style>
 </head>
 
 <body>
 <!--header 삽입-->
 {% include 'fragments/header.html' %}
+<div style="width: 100%; height: 100px;">
+
+</div>
+<div class="pw-box">
     <form action="/signup" method="post">
-        <p>id : <input type="text" name="id" id="new-id"/></p>
-        <p>pw : <input type="password" name="pw" id="new-pw"/></p>
-        <p>name : <input type="text" name="name" id="new-name"/></p>
-        <button type="button" onclick="signup()">제출</button>
+        <h1>Sign-U :P</h1>
+        <p><input type="text" name="id" id="new-id" placeholder="ID" class="form-control mr-sm-2"/></p>
+        <p><input type="password" name="pw" id="new-pw" placeholder="PW" class="form-control mr-sm-2"/></p>
+        <p><input type="text" name="name" id="new-name" placeholder="NICKNAME" class="form-control mr-sm-2"/></p>
+        <button type="button" onclick="signup()" class="pw-bnt">회원가입</button>
     </form>
+</div>
 </body>
 
 </html>
