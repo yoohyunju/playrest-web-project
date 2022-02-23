@@ -3,7 +3,7 @@ from flask import Flask, render_template, jsonify, request, session, redirect, u
 from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
-app.secret_key = 'super secret key'  # 세션 때문에 있는 건데 아무키나 넣어도 괜찮습니다
+app.secret_key = 'simhwa2team'
 
 app.config['SECRET_KEY'] = 'simhwachangjo'
 app.config['BCRYPT_LEVEL'] = 10
@@ -64,6 +64,7 @@ def deleteMusic():
     # 전달 받은 번호의 플레이리스트의 playlist_music 배열에서 인덱스에 해당하는 노래 제거
     db.playlists.update_one({"playlist_num": playlist_num_receive}, {'$unset': {delete_str: 1}}) # "playlist_music.3"
     db.playlists.update_one({"playlist_num": playlist_num_receive}, {'$pull': {"playlist_music": None}})
+
     return jsonify({'msg': '노래 삭제 완료!'})
 
 ## 내 플레이리스트인지 확인
@@ -72,6 +73,7 @@ def checkMyPlaylist():
     num_receive = int(request.args.get('playlistNum'))
     playlist = db.playlists.find_one({'playlist_num': num_receive}, {'_id': False})
     playlist_user = playlist['user_name']
+
     if playlist_user == session['user_name']:
         return jsonify({'msg': 'true'})  #
     else:
@@ -83,8 +85,8 @@ def editPlaylist():
     num_receive = int(request.form['num_give'])
     title_receive = request.form['title_give']
     desc_receive = request.form['desc_give']
-
     db.playlists.update_one({'playlist_num': num_receive}, {'$set': {'playlist_title': title_receive, 'playlist_desc': desc_receive}})
+
     return jsonify({'msg': '플레이리스트 수정 완료!'})
 
 ## 플레이리스트 좋아요 값 받아오기
@@ -92,8 +94,7 @@ def editPlaylist():
 def getLike():
     num_receive = int(request.args.get('playlistNum'))
     dup = db.users.find_one({'user_id': session['user_id'], 'user_like': {'$elemMatch': {'playlist_num': num_receive}}})
-    # print(dup)
-    # print(type(dup))
+
     if dup is None:
         return jsonify({'msg': False})
     else:
@@ -106,8 +107,7 @@ def likePlaylist():
     like_receive = request.form['like_give']
     target = db.playlists.find_one({'playlist_num': num_receive})
     current = target['playlist_like']
-    # print(num_receive, like_receive)
-    # print(type(like_receive)) # str
+
     if like_receive == 'true':
         db.playlists.update_one({'playlist_num': num_receive}, {'$set': {'playlist_like': current + 1}})
         db.users.update_one({'user_id': session['user_id']}, {'$push': {'user_like': {'playlist_num': num_receive}}})
@@ -123,16 +123,18 @@ def likePlaylist():
 @app.route('/list', methods=["GET"])
 def allPlaylists():
     allLists = list(db.playlists.find({}, {'_id': False}).sort('playlist_like', -1))
+
     return jsonify({'data': allLists})
 
 ## 나의 플레이리스트 목록
 @app.route('/mylist', methods=["GET"])
 def myPlaylists():
     myLists = list(db.playlists.find({'user_name': session['user_name']}, {'_id': False}))
+
     return jsonify({'data': myLists})
 
 
-## 회원가입 (비밀번호 암호화해서 저장하는 걸로 나중에 바꾸기)
+## 회원가입
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
@@ -186,7 +188,7 @@ def login():
 @app.route("/logout")
 def logout():
     session.clear()
-    return redirect(url_for('homework'))  # 맨 위 homework 함수로 가게됩니다(임의)
+    return redirect(url_for('homework'))
 
 
 ### 검색창
@@ -201,14 +203,14 @@ def searchMusics():
     # result = sp.search(music_keyword, limit=30, type='album')['albums']['items']
     # 검색방법 2) 음악 검색
     result = sp.search(music_keyword, limit=30, type='track')['tracks']['items']
-    # print(result)
-    # print('type:', type(result))
+
     return jsonify({'result': result})
 
 ## 플레이리스트 선택을 위한 나의 플리 목록
 @app.route('/search/select', methods=["GET"])
 def selectPlaylist():
     myPlaylists = list(db.playlists.find({'user_name': session['user_name']}, {'_id': False}))
+
     return jsonify({'data': myPlaylists})
 
 ## 플레이리스트 선택 후 db에 노래 추가
@@ -218,8 +220,8 @@ def addMusic():
     title_receive = request.form['title_give']
     artist_receive = request.form['artist_give']
     album_receive = request.form['album_give']
-
     db.playlists.update_one({'playlist_num': num_receive}, {'$push': {'playlist_music': {'music_title': title_receive, 'music_artist': artist_receive, 'music_album': album_receive}}})
+
     return jsonify({'msg': '플레이리스트에 노래 추가 완료!'})
 
 ## 노래 선택 후 새 플레이리스트 생성
@@ -228,7 +230,6 @@ def createPlaylist():
     title_receive = request.form['title_give']
     artist_receive = request.form['artist_give']
     album_receive = request.form['album_give']
-
     num = db.playlists.count_documents({})
     listinfo = {
         'playlist_num': num + 1,
@@ -239,6 +240,7 @@ def createPlaylist():
         'playlist_music': [{'music_title': title_receive, 'music_artist': artist_receive, 'music_album': album_receive}]
     }
     db.playlists.insert_one(listinfo)
+
     return jsonify({'msg': '플레이리스트 생성 완료!'})
 
 
@@ -258,6 +260,7 @@ def likePlaylists():
 @app.route('/mypage/delete', methods=['POST'])
 def deletePLaylist():
     num_receive = int(request.form['num_give'])
+    db.users.update_many({}, {'$pull': {'user_like': {'playlist_num': num_receive}}})
     db.playlists.delete_one({'playlist_num': num_receive})
     for i in range(num_receive, db.playlists.count_documents({}) + 1):
         db.playlists.update_one({'playlist_num': i + 1}, {'$set': {'playlist_num': i}})

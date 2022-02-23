@@ -60,7 +60,6 @@
                 url: '/mylist',
                 data: {},
                 success: function (response) {
-                    //alert("내 목록 연결!")
                     let myPlaylists = response['data']
                     let listCount = Object.keys(myPlaylists).length; // 전달한 플리 데이터 개수
 
@@ -97,7 +96,6 @@
                 url: '/mypage/likelist',
                 data: {},
                 success: function (response) {
-                    // alert("좋아요 목록 연결!")
                     let likePlaylists = response['data']
 
                     for (let i = 0; i < likePlaylists.length; i++) {

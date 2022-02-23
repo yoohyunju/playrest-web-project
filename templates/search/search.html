@@ -54,7 +54,6 @@
                 type: 'GET',
                 url: '/search/musics?musicKeyword=' + musicKeyword,
                 success: function (response) {
-                    //alert("ajax 성공")
                     console.log(response['result'])
                     var musics = response['result']
                     console.log(musics[0])
@@ -67,8 +66,8 @@
                         // 검색방법 2) 음악 검색에서 이미지 갖고오기
                         let albumImg = musics[i]['album']['images'][0]['url']
                         let previewMusic = musics[i]["preview_url"]
-                        console.log(previewMusic)
-
+                        albumTitle = albumTitle.replace("\'", "’")
+                        albumArtist = albumArtist.replace("\'", "’")
 
                         let temp_html = `<tr>
                                         <td><img src="${albumImg}" width="80px" height="80px" id="album-img-round"></td>
@@ -92,8 +91,6 @@
                                         </td>
                                  </tr>`
                         $('#list-q1').append(temp_html);
-
-
                     }
                 }
             })
@@ -107,8 +104,6 @@
                 url: '/search/select',
                 data: {},
                 success: function (response) {
-                    //alert('연결!')
-
                     let myPlaylists = response['data']
                     console.log(myPlaylists)
                     console.log(title)
@@ -136,7 +131,7 @@
                 data: {num_give: num, title_give: title, artist_give: artist, album_give: album},
                 success: function (response) {
                     alert(response['msg']);
-                    window.location.reload()
+                    // window.location.reload()
                 }
             });
         }
