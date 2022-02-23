@@ -171,7 +171,7 @@ def login():
     else:
         id_receive = request.form['id_give']
         pw_receive = request.form['pw_give']
-        user = db.users.find_one({'user_id': id_receive, 'user_pw': pw_receive})
+        user = db.users.find_one({'user_id': id_receive})
 
         if user is None:
             return jsonify({'msg': '유저 정보가 없습니다'})
@@ -219,7 +219,7 @@ def addMusic():
     artist_receive = request.form['artist_give']
     album_receive = request.form['album_give']
 
-    db.playlists.update_one({'playlist_num': num_receive}, {'$push': {'playlist_music': {'music_title': title_receive, 'music_artist': artist_receive, 'music_album': album_receive}}});
+    db.playlists.update_one({'playlist_num': num_receive}, {'$push': {'playlist_music': {'music_title': title_receive, 'music_artist': artist_receive, 'music_album': album_receive}}})
     return jsonify({'msg': '플레이리스트에 노래 추가 완료!'})
 
 ## 노래 선택 후 새 플레이리스트 생성
