@@ -14,6 +14,8 @@
 
     <!--css-->
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -39,42 +41,7 @@
             })
         }
     </script>
-    <style>
-        .id-box {
-            text-align: center;
-            width: 500px;
-            height: 500px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            vertical-align: middle;
-            margin: auto;
-            border: 1px solid lightgoldenrodyellow;
 
-        }
-
-        .login-box {
-
-        }
-
-        .login-bnt {
-            border: 0;
-            outline: none;
-            width: 150px;
-            border-radius: 3px;
-            font-size: 15px;
-            margin: 5px;
-            box-shadow: 3px 3px 3px rgb(109, 109, 109), -3px -3px 3px rgb(237, 237, 237);
-            transition: 0.3s;
-            cursor: pointer;
-        }
-
-        .login-bnt:hover {
-            box-shadow: -3px -3px 3px rgb(172, 172, 172), 3px 3px 3px rgb(237, 237, 237);
-            transition: 0.3s;
-        }
-    </style>
 </head>
 <body>
 <!--header 삽입-->
@@ -84,15 +51,21 @@
 </div>
 <div class="id-box">
     <form name='form' action="/login" method="POST">
-        <h1>Play the Re:st</h1>
+        <h1 class="navbar-brand home-logo login-logo" id="home-logo">
+            <div class="font-size">Enter the</div>
+            <div class="font-size">playRe:st !</div>
+        </h1>
         <p><input type="text" name="id" id="login-id" placeholder="ID" class="login-box form-control mr-sm-2"/></p>
         <p><input type="password" name="pw" placeholder="Password" id="login-pw" class="form-control mr-sm-2"/></p>
         <button type="button" onclick="login()" class="login-bnt">로그인</button>
-        <div>
-            <a href="/signup" style="margin: 10px;">회원가입</a>
+        <div class="sign-up-margin">
+            <div id="or">or</div>
+            <a href="/signup" style="margin: 10px;" class="sign-up-btn">회원가입</a>
         </div>
 
     </form>
 </div>
+    <!--footer 삽입-->
+    {% include 'fragments/footer.html' %}
 </body>
 </html>

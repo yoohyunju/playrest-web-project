@@ -1,0 +1,59 @@
+.id-box {
+    text-align: center;
+    width: 500px;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    vertical-align: middle;
+    margin: auto;
+    border: 10px solid #f8c291;
+    border-radius: 50px;
+}
+
+.login-box {
+
+}
+
+.login-bnt {
+    border: 0;
+    outline: none;
+    width: 150px;
+    border-radius: 3px;
+    font-size: 17px;
+    color: #2f3640;
+    margin: 5px;
+    box-shadow: 3px 3px 3px rgb(109, 109, 109), -3px -3px 3px rgb(237, 237, 237);
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.login-bnt:hover {
+    box-shadow: -3px -3px 3px rgb(172, 172, 172), 3px 3px 3px rgb(237, 237, 237);
+    transition: 0.3s;
+}
+
+.sign-up-btn {
+    color: #535c68;
+    font-size: 17px;
+}
+
+.login-logo {
+    margin-bottom: 50px;
+
+}
+
+.font-size {
+    font-size: 45px;
+}
+
+.sign-up-margin {
+    margin: 20px;
+}
+
+#or {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 10px;
+}

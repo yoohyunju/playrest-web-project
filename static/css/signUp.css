@@ -1,0 +1,39 @@
+.pw-box {
+    text-align: center;
+    width: 500px;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    vertical-align: middle;
+    margin: auto;
+    border: 10px solid #f8c291;
+    border-radius: 50px;
+}
+
+.pw-bnt {
+    border: 0;
+    outline: none;
+    width: 150px;
+    border-radius: 3px;
+    font-size: 17px;
+    margin: 5px;
+    box-shadow: 3px 3px 3px rgb(109, 109, 109), -3px -3px 3px rgb(237, 237, 237);
+    transition: 0.3s;
+}
+
+.pw-bnt:hover {
+    box-shadow: -3px -3px 3px rgb(172, 172, 172), 3px 3px 3px rgb(237, 237, 237);
+    transition: 0.3s;
+}
+
+.font-size {
+    font-size: 45px;
+}
+
+.sign-up-logo {
+    margin-right: 15px;
+    margin-bottom: 50px;
+
+}

@@ -113,7 +113,7 @@ function getPlaylist(num) {
                 let temp_html = `<button type="button" class="btn" id="openModalBtn" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal" data-bs-whatever="" onclick="modalControl()">✏️</button>`
 
-                console.log("플리 주인:", playListOwnerName, "현재 사용자:", currentUserName)
+                console.log("플리 주인:", playListOwnerName, ", 현재 사용자:", currentUserName)
 
                 if (playListOwnerName == currentUserName) { // 현재 사용자의 플레이리스트이면
                     // 수정 버튼 추가

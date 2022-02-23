@@ -19,6 +19,7 @@ a:hover {
 
 #login-btn {
     font-size: large;
+    font-weight: bold;
     color: #2f3640;
     padding: 10px 40px 10px 20px;
 }

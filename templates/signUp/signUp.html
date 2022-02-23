@@ -18,6 +18,7 @@
 
     <!--css-->
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/signUp.css') }}" rel="stylesheet">
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
@@ -42,37 +43,6 @@
             })
         }
     </script>
-    <style>
-        .pw-box {
-            text-align: center;
-            width: 500px;
-            height: 500px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            vertical-align: middle;
-            margin: auto;
-            border: 1px solid lightgoldenrodyellow;
-
-        }
-
-        .pw-bnt {
-            border: 0;
-            outline: none;
-            width: 150px;
-            border-radius: 3px;
-            font-size: 15px;
-            margin: 5px;
-            box-shadow: 3px 3px 3px rgb(109, 109, 109), -3px -3px 3px rgb(237, 237, 237);
-            transition: 0.3s;
-        }
-
-        .pw-bnt:hover {
-            box-shadow: -3px -3px 3px rgb(172, 172, 172), 3px 3px 3px rgb(237, 237, 237);
-            transition: 0.3s;
-        }
-    </style>
 </head>
 
 <body>
@@ -83,13 +53,18 @@
 </div>
 <div class="pw-box">
     <form action="/signup" method="post">
-        <h1>Sign-U :P</h1>
+        <h1 class="sign-up-logo" id="home-logo">
+            <div class="font-size">Sign-U :P</div>
+        </h1>
+
         <p><input type="text" name="id" id="new-id" placeholder="ID" class="form-control mr-sm-2"/></p>
         <p><input type="password" name="pw" id="new-pw" placeholder="PW" class="form-control mr-sm-2"/></p>
         <p><input type="text" name="name" id="new-name" placeholder="NICKNAME" class="form-control mr-sm-2"/></p>
         <button type="button" onclick="signup()" class="pw-bnt">회원가입</button>
     </form>
 </div>
-</body>
 
+    <!--footer 삽입-->
+    {% include 'fragments/footer.html' %}
+</body>
 </html>
