@@ -40,6 +40,8 @@
 
     <script>
         playlistNum = localStorage.getItem('playlistNum')
+        localStorage.setItem('currentUserName', "{{session['user_name']}}")
+
     </script>
 </head>
 <body>
@@ -47,10 +49,7 @@
 {% include 'fragments/header.html' %}
 <div class="container flex margin-top-30">
     <div class="info-box ">
-        <h1>플레이리스트 정보
-            <button type="button" class="btn" id="openModalBtn" data-bs-toggle="modal"
-                    data-bs-target="#exampleModal" data-bs-whatever="@mdo" onclick="modalControl()">✏️</button>
-        </h1>
+        <h1 id="title">플레이리스트 정보</h1>
         <div class="flex margin-top-30">
             <div>
                 <img class="playlist-img-box" id="playlist-img" src="">

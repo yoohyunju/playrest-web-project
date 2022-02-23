@@ -62,8 +62,8 @@ def deleteMusic():
     song_num_receive = int(request.form['song_num_give'])
     delete_str = "playlist_music." + str(song_num_receive)
     # 전달 받은 번호의 플레이리스트의 playlist_music 배열에서 인덱스에 해당하는 노래 제거
-    db.playlists.update({"playlist_num": playlist_num_receive}, {'$unset': {delete_str: 1}}) # "playlist_music.3"
-    db.playlists.update({"playlist_num": playlist_num_receive}, {'$pull': {"playlist_music": None}})
+    db.playlists.update_one({"playlist_num": playlist_num_receive}, {'$unset': {delete_str: 1}}) # "playlist_music.3"
+    db.playlists.update_one({"playlist_num": playlist_num_receive}, {'$pull': {"playlist_music": None}})
     return jsonify({'msg': '노래 삭제 완료!'})
 
 ## 내 플레이리스트인지 확인
@@ -174,13 +174,13 @@ def login():
         user = db.users.find_one({'user_id': id_receive})
 
         if user is None:
-            return jsonify({'msg': '유저 정보가 없습니다'})
+            return jsonify({'msg': '유저 정보가 없습니다.'})
         elif bcrypt.check_password_hash(user['user_pw'], pw_receive) is False:
-            return jsonify({'msg': '비밀번호가 일치하지 않습니다'})
+            return jsonify({'msg': '비밀번호가 일치하지 않습니다.'})
         else:
             session['user_id'] = id_receive
             session['user_name'] = user['user_name']
-            return jsonify({'msg': '로그인에 성공했습니다'})
+            return jsonify({'msg': '로그인에 성공했습니다.'})
 
 ## 로그아웃
 @app.route("/logout")

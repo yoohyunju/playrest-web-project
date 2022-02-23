@@ -134,3 +134,7 @@ table td {
 #openModalBtn {
     margin: 10px;
 }
+
+#title {
+    font-weight: bold;
+}

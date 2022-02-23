@@ -1,5 +1,6 @@
 $(document).ready(function () {
     let playlistNum = 0;
+
     if (localStorage.getItem('playlistNum')) {
         playlistNum = localStorage.getItem('playlistNum')
         console.log(playlistNum)
@@ -20,6 +21,7 @@ $(document).ready(function () {
     });
 
     $(".visible")
+
 });
 
 
@@ -83,7 +85,7 @@ function getLike(playlistNum) {
 }
 
 
-function getPlaylist(num, like) {
+function getPlaylist(num) {
     $.ajax({
         type: 'GET',
         url: '/playlist/getPlaylist?playlistNum=' + num,
@@ -98,14 +100,34 @@ function getPlaylist(num, like) {
             let user_name = playlist['user_name']
             let playlist_img = songs[0]['music_album']
 
-
             console.log(playlist_title, playlist_desc, songs, num)
 
-            $("#playlist-img").attr("src", playlist_img);
+            $("#playlist-img").attr("src", playlist_img)
             $("#playlist-title").text(playlist_title)
             $("#nickname").text(user_name)
             $("#favorites-num").text(playlist_like)
-            $("#description").text(playlist_desc)
+
+            if (localStorage.getItem('userName')) {
+                let playListOwnerName = $("#nickname").text()
+                let currentUserName = localStorage.getItem('currentUserName')
+                let temp_html = `<button type="button" class="btn" id="openModalBtn" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" data-bs-whatever="" onclick="modalControl()">✏️</button>`
+
+                console.log("플리 주인:", playListOwnerName, "현재 사용자:", currentUserName)
+
+                if (playListOwnerName == currentUserName) { // 현재 사용자의 플레이리스트이면
+                    // 수정 버튼 추가
+                    $('#title').append(temp_html)
+                }
+            }
+
+            // 소개 없을 시 기본 문구 출력
+            if(playlist_desc.length == 0){
+                $("#description").text("플레이리스트 소개를 적어주세요.")
+            }else { // 기존 소개 문구 출력
+                $("#description").text(playlist_desc)
+            }
+
             $("#song-count").text(songs.length)
 
             // 노래 목록 출력
