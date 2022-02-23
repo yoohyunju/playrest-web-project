@@ -107,7 +107,7 @@ function getPlaylist(num) {
             $("#nickname").text(user_name)
             $("#favorites-num").text(playlist_like)
 
-            if (localStorage.getItem('userName')) {
+            if (localStorage.getItem('currentUserName')) {
                 let playListOwnerName = $("#nickname").text()
                 let currentUserName = localStorage.getItem('currentUserName')
                 let temp_html = `<button type="button" class="btn" id="openModalBtn" data-bs-toggle="modal"
@@ -151,7 +151,7 @@ function getPlaylist(num) {
                                             </div>
                                         </td>
                                         <td style="width: 10%">
-                                            <button class="btn mybtn back-color-transparent" type="button" onclick="window.open('https://www.youtube.com/watch?v=ZeerrnuLi5E');">
+                                            <button class="btn mybtn back-color-transparent" type="button" onclick="getYoutube('${music_title}', '${music_artist}')">
                                                 <i class="myicon fa-brands fa-youtube fa-lg btn-light" style="color: red"></i></a>
                                             </button>
                                         </td>
@@ -304,4 +304,16 @@ function modalControl() {
         $('#modalBox').modal('show');
     });
 
+}
+
+function getYoutube(title, artist) {
+    $.ajax({
+        type: "GET",
+        dataType: "JSON",
+        url: 'https://www.googleapis.com/youtube/v3/search?key=APIKEY&part=id&maxResults=1&q='+title+'%27'+artist,
+        success: function (response) {
+            let videoID = response['items'][0]['id']['videoId']
+            window.open('https://www.youtube.com/watch?v='+videoID)
+        }
+    })
 }

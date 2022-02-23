@@ -114,3 +114,4 @@ dmypy.json
 .pyre/
 
 static/credential_key.py
+.idea/misc.xml
