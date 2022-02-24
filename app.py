@@ -65,6 +65,10 @@ def deleteMusic():
     db.playlists.update_one({"playlist_num": playlist_num_receive}, {'$unset': {delete_str: 1}}) # "playlist_music.3"
     db.playlists.update_one({"playlist_num": playlist_num_receive}, {'$pull': {"playlist_music": None}})
 
+    if (db.playlists.find_one({"playlist_music": {"$size": 0}})):
+        db.playlists.delete_one({"playlist_music": {"$size": 0}})
+        return jsonify({'msg': '노래가 없어 플레이리스트가 삭제되었습니다!'})
+
     return jsonify({'msg': '노래 삭제 완료!'})
 
 ## 내 플레이리스트인지 확인
