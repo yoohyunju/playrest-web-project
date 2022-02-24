@@ -49,11 +49,19 @@ def mypage():
 ### 플레이리스트 상세 페이지
 ## 플레이리스트 1개의 상세 목록보기(Read) API
 @app.route('/playlist/getPlaylist', methods=['GET'])
-def viewPlaylist():
+def getPlaylist():
     num_receive = int(request.args.get('playlistNum'))
     playlist = db.playlists.find_one({'playlist_num': num_receive}, {'_id': False})
 
-    return jsonify({'data': playlist})
+    # 내플리인지 확인
+    playlist_user = playlist['user_name']
+    # 로그인돼있고 and 내 플리이면
+    if 'user_id' in session and playlist_user == session['user_name']:
+        isMyPlaylist = 'true'
+    else:
+        isMyPlaylist = 'false'
+
+    return jsonify({'data': playlist, 'isMyPlaylist': isMyPlaylist})
 
 ## 플레이리스트에서 음악 제거
 @app.route('/playlist/deleteMusic', methods=['POST'])

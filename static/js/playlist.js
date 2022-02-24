@@ -7,7 +7,6 @@ $(document).ready(function () {
     }
 
     getPlaylist(playlistNum)
-    checkMyPlaylist(playlistNum)
 
     // 좋아요 여부 갖고옴 -> 좋아요 아이콘 설정을 위함
     getLike(playlistNum)
@@ -39,31 +38,7 @@ $(".add-btn").click(function () {
         }
     })
 });
-// 내 플리면 휴지통 아이콘을 숨김
-function checkMyPlaylist(playlistNum) {
-    $.ajax({
-        type: 'GET',
-        url: '/playlist/checkMyPlaylist?playlistNum=' + playlistNum,
-        data: {},
-        success: function (response) {
-            console.log("플리번호:" + playlistNum)
-            console.log("내플리? :" + response['msg'])
 
-            if (response['msg'] == 'true') { //좋아요 O -> 하트 채움
-                console.log('내플리')
-                // $('.visible').show();
-                // jQuery('.visible').css("display", "block");
-
-            } else { //좋아요 X -> 하트 비움
-                console.log('내플리X')
-                // $('.visible').hide();
-                jQuery('.visible').css("display", "none");
-
-            }
-        }
-    });
-
-}
 function getLike(playlistNum) {
     $.ajax({
         type: 'GET',
@@ -130,13 +105,31 @@ function getPlaylist(num) {
 
             $("#song-count").text(songs.length)
 
+            // 내플리인지 확인
+            let isMyPlaylist = response['isMyPlaylist']
+
             // 노래 목록 출력
+            let album_img, music_artist, music_title, song_num, temp_html;
             for (let i = 0; i < songs.length; i++) {
-                let album_img = playlist['playlist_music'][i]['music_album']
-                let music_artist = songs[i]['music_artist']
-                let music_title = songs[i]['music_title']
-                let song_num = i + 1
-                let temp_html = `
+                if (isMyPlaylist == 'true') {
+                    // console.log('boolean참')
+                    delete_html = `
+                                <td style="width: 10%" class="visible">
+                                    <button class="btn mybtn back-color-transparent" type="button" onclick="deleteMusic(${num}, ${i})">
+                                        <i class="fa-solid fa-trash fa-sm"></i></a>
+                                    </button>
+                                </td>
+                            </tr>`
+                } else {
+                    // console.log('boolean거짓')
+                    delete_html = `</tr>`
+                }
+
+                album_img = playlist['playlist_music'][i]['music_album']
+                music_artist = songs[i]['music_artist']
+                music_title = songs[i]['music_title']
+                song_num = i + 1
+                temp_html = `
                                     <tr>
                                         <th scope="row" style="width: 10%">${song_num}</th>
                                         <td style="width: 60%; vertical-align: middle">
@@ -167,13 +160,7 @@ function getPlaylist(num) {
                                                     <div class="dropdown-divider"></div>
                                                 </div>
                                             </div>
-                                        </td>
-                                        <td style="width: 10%" class="visible">
-                                            <button class="btn mybtn back-color-transparent" type="button" onclick="deleteMusic(${num}, ${i})">
-                                                <i class="fa-solid fa-trash fa-sm"></i></a>
-                                            </button>
-                                        </td>
-                                    </tr>`
+                                        </td>` + delete_html
 
                 $("#song-tbody").append(temp_html)
             }
