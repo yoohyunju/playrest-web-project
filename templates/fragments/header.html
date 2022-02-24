@@ -33,6 +33,15 @@
             location.href='/search'
         }
 
+        function enterKey() {
+            console.log('onkeydown 인식')
+
+            if(window.event.keyCode == 13) {
+                console.log('엔터 키 인식')
+                moveSearchPage()
+            }
+        }
+
     </script>
 
 </head>
@@ -47,8 +56,8 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto"></ul>
-            <form class="form-inline my-2 my-lg-0" id="home-search-bar">
-                <input class="form-control mr-sm-2" id="search-music" type="search" placeholder="곡/아티스트 입력" aria-label="Search">
+            <form class="form-inline my-2 my-lg-0" id="home-search-bar" onsubmit="return false;">
+                <input class="form-control mr-sm-2" id="search-music" type="search" placeholder="곡/아티스트 입력" aria-label="Search" onkeydown="javascript:enterKey(this);">
                 <button type="button" class="btn btn-outline-dark" type="submit" onclick="moveSearchPage()">검색</button>
             </form>
 
