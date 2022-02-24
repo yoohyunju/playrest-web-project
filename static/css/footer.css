@@ -236,6 +236,8 @@ a {
 }
 
 .footer-copyright-link {
+    display: flex;
+    flex-direction: column;
     color: #fff;
     text-decoration: none;
 }
