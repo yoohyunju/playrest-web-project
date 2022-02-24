@@ -47,7 +47,7 @@ function checkMyPlaylist(playlistNum) {
         data: {},
         success: function (response) {
             console.log("플리번호:" + playlistNum)
-            console.log("like:" + response['msg'])
+            console.log("내플리? :" + response['msg'])
 
             if (response['msg'] == 'true') { //좋아요 O -> 하트 채움
                 console.log('내플리')

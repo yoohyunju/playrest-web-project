@@ -73,10 +73,11 @@ def checkMyPlaylist():
     num_receive = int(request.args.get('playlistNum'))
     playlist = db.playlists.find_one({'playlist_num': num_receive}, {'_id': False})
     playlist_user = playlist['user_name']
-
-    if playlist_user == session['user_name']:
-        return jsonify({'msg': 'true'})  #
+    # 로그인돼있고 and 내 플리이면
+    if 'user_id' in session and playlist_user == session['user_name']:
+        return jsonify({'msg': 'true'})
     else:
+        # print(' same')
         return jsonify({'msg': 'false'})
 
 ## 플레이리스트 제목, 설명 수정
