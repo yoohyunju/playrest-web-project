@@ -38,6 +38,8 @@
 
     <script>
         $(document).ready(function () {
+            //$("#home-search-bar").hide()
+
             if (localStorage.getItem('searchKeyword')) {
                 let musicKeyword = localStorage.getItem('searchKeyword')
                 document.getElementById("songinfo").value = musicKeyword;
@@ -148,18 +150,7 @@
             })
         }
 
-        function enterKey() {
-            console.log('onkeydown 인식')
-
-            if(window.event.keyCode == 13) {
-                console.log('엔터 키 인식')
-                searchMusic()
-            }
-        }
-
     </script>
-
-
 </head>
 
 <!--<body>-->
@@ -174,7 +165,8 @@
     </div>
     <div class="searchbar_css" id="searchbar">
         <form class="form-inline my-2 my-lg-0" id="search-form" onsubmit="return false;">
-            <input id="songinfo" type="text" placeholder="Search" aria-label="Search" size="80px" onkeydown="javascript:enterKey(this);"/>
+            <input id="songinfo" type="text" placeholder="Search" aria-label="Search" size="80px" onkeydown="if(window.event.keyCode == 13){console.log('엔터 키 인식')
+                searchMusic()}"/>
             <button type="button" class="btn btn-outline-dark" id="search-btn" type="submit" onclick="searchMusic()">
                 검색
             </button>
