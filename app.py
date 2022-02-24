@@ -260,7 +260,7 @@ def likePlaylists():
 @app.route('/mypage/delete', methods=['POST'])
 def deletePLaylist():
     num_receive = int(request.form['num_give'])
-    db.users.update_many({}, {'$pull': {'user_like': {'playlist_num': num_receive}}})
+    db.users.update_many({'user_like': {'$elemMatch': {'playlist_num': num_receive}}}, {'$pull': {'user_like': {'playlist_num': num_receive}}})
     db.playlists.delete_one({'playlist_num': num_receive})
     for i in range(num_receive, db.playlists.count_documents({}) + 1):
         db.playlists.update_one({'playlist_num': i + 1}, {'$set': {'playlist_num': i}})
