@@ -49,14 +49,18 @@ h1 {
     margin-left: 30px;
 }
 
-.delete-btn-img {
-    width: 30px;
+#delete-btn-area {
+    visibility: hidden;
 }
 
 #delete-btn {
+    margin: 10px;
     width: 40px;
     float: right;
-    visibility: hidden;
+}
+
+.delete-btn-img {
+    width: 30px;
 }
 
 .row {

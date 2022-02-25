@@ -71,16 +71,20 @@
                         let playlist_title = myPlaylists[i]['playlist_title']
                         let album_img = myPlaylists[i]['playlist_music'][0]['music_album'] // 대표 앨범아트
 
-                        let temp_html = `<div class="card" id="card" style="width: 13rem;" onclick="movePlaylistInfo(${playlist_num})">
-                                            <img class="card-img-top"
-                                                 src="${album_img}"
-                                                 alt="Card image cap">
-                                            <div class="card-body">
-                                                <h5 class="card-title">${playlist_title}</h5>
-                                                <p class="card-text" id="playlist-owner-name">만든 이: ${user_name}</p>
-                                                <span id="delete-btn" onclick="deleteList('${playlist_num}')">
+                        let temp_html = `<div class="card" id="card" style="width: 13rem;">
+                                            <div onclick="movePlaylistInfo(${playlist_num})">
+                                                <img class="card-img-top"
+                                                     src="${album_img}"
+                                                     alt="Card image cap">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">${playlist_title}</h5>
+                                                    <p class="card-text" id="playlist-owner-name">만든 이: ${user_name}</p>
+                                                </div>
+                                            </div>
+                                            <div id="delete-btn-area">
+                                                <div id="delete-btn" onclick="deleteList('${playlist_num}')">
                                                     <a><img class ="delete-btn-img" src="static/icon/delete_btn.png"></a>
-                                                </span>
+                                                </div>
                                             </div>
                                         </div>`
 
