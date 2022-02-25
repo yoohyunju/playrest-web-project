@@ -54,6 +54,7 @@ h1 {
 }
 
 #delete-btn {
+    width: 40px;
     float: right;
     visibility: hidden;
 }
