@@ -243,9 +243,10 @@ def createPlaylist():
     title_receive = request.form['title_give']
     artist_receive = request.form['artist_give']
     album_receive = request.form['album_give']
-    num = db.playlists.count_documents({})
+    lastNum = list(db.playlists.find({}).limit(1).sort('_id', -1))[0]['playlist_num']
+
     listinfo = {
-        'playlist_num': num + 1,
+        'playlist_num': lastNum + 1,
         'user_name': session['user_name'],
         'playlist_title': title_receive,
         'playlist_desc': '',
@@ -275,8 +276,7 @@ def deletePLaylist():
     num_receive = int(request.form['num_give'])
     db.users.update_many({'user_like': {'$elemMatch': {'playlist_num': num_receive}}}, {'$pull': {'user_like': {'playlist_num': num_receive}}})
     db.playlists.delete_one({'playlist_num': num_receive})
-    for i in range(num_receive, db.playlists.count_documents({}) + 1):
-        db.playlists.update_one({'playlist_num': i + 1}, {'$set': {'playlist_num': i}})
+
     return jsonify({'msg': '플레이리스트 삭제 완료!'})
 
 if __name__ == '__main__':
