@@ -240,6 +240,9 @@ def addMusic():
 ## 노래 선택 후 새 플레이리스트 생성
 @app.route('/search/select/create', methods=["POST"])
 def createPlaylist():
+    if not 'user_id' in session:
+        return jsonify({'msg': '로그인이 필요합니다!'})
+
     title_receive = request.form['title_give']
     artist_receive = request.form['artist_give']
     album_receive = request.form['album_give']
