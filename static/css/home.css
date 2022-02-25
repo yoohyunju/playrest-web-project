@@ -58,3 +58,10 @@ a:hover {
     font-size: 20px;
     margin: 15px 0px 0px 15px;
 }
+
+.playlist-owner-name {
+    width: 130px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

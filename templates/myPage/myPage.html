@@ -77,11 +77,10 @@
                                                  alt="Card image cap">
                                             <div class="card-body">
                                                 <h5 class="card-title">${playlist_title}</h5>
-                                                <p class="card-text">만든 이: ${user_name}
-                                                <span onclick="deleteList('${playlist_num}')">
-                                                    <a id="delete-btn"><img class ="delete-btn-img" src="static/icon/delete_btn.png"></a>
+                                                <p class="card-text" id="playlist-owner-name">만든 이: ${user_name}</p>
+                                                <span id="delete-btn" onclick="deleteList('${playlist_num}')">
+                                                    <a><img class ="delete-btn-img" src="static/icon/delete_btn.png"></a>
                                                 </span>
-                                                </p>
                                             </div>
                                         </div>`
 

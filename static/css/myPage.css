@@ -50,14 +50,21 @@ h1 {
 }
 
 .delete-btn-img {
-    margin-left: 33px;
     width: 30px;
 }
 
 #delete-btn {
+    float: right;
     visibility: hidden;
 }
 
 .row {
     width: 1200px;
+}
+
+#playlist-owner-name {
+    width: 130px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
