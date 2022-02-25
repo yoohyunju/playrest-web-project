@@ -68,8 +68,10 @@
                         // 검색방법 2) 음악 검색에서 이미지 갖고오기
                         let albumImg = musics[i]['album']['images'][0]['url']
                         let previewMusic = musics[i]["preview_url"]
-                        albumTitle = albumTitle.replace("\'", "’")
-                        albumArtist = albumArtist.replace("\'", "’")
+                        albumTitle = albumTitle.replace(/'/g, "’")
+                        albumTitle = albumTitle.replace(/"/g, "”")
+                        albumArtist = albumArtist.replace(/'/g, "’")
+                        albumArtist = albumArtist.replace(/"/g, "”")
 
                         let temp_html = `<tr>
                                         <td><img src="${albumImg}" width="80px" height="80px" id="album-img-round"></td>
