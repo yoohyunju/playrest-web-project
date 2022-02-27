@@ -1,6 +1,10 @@
 h1 {
     font-weight: bold;
-    font-size: 50px;
+    font-size: 40px;
+}
+
+h2 {
+    font-size: 30px;
 }
 
 .card {
@@ -8,6 +12,8 @@ h1 {
 }
 
 .card-title {
+    font-size: 11pt;
+    font-weight: bold;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -42,7 +48,7 @@ h1 {
 #list-count {
     color: #576574;
     margin-left: 40px;
-    font-size: 23px;
+    font-size: 20px;
 }
 
 #list-creat-btn {
@@ -54,7 +60,7 @@ h1 {
 }
 
 #delete-btn {
-    margin: 10px;
+    margin: 5px;
     width: 40px;
     float: right;
 }
@@ -68,6 +74,7 @@ h1 {
 }
 
 #playlist-owner-name {
+    font-size: 10pt;
     width: 130px;
     overflow: hidden;
     text-overflow: ellipsis;
