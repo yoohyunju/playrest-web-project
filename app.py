@@ -9,15 +9,16 @@ app.config['SECRET_KEY'] = 'simhwachangjo'
 app.config['BCRYPT_LEVEL'] = 10
 bcrypt = Bcrypt(app)
 
-from pymongo import MongoClient
-# from static.credential_key import DB
-
 ## 디비 연결 - 클라우드 디비 접속
-# client = pymongo.MongoClient(DB.key)
-# db = client.makingproject
-########DB연결2
-import os
-client = pymongo.MongoClient(os.environ.get("MONGO_DB_PATH"))
+
+from pymongo import MongoClient
+## DB 연결 방식 1
+from static.credential_key import DB
+client = pymongo.MongoClient(DB.key)
+## DB 연결 방식 2
+# import os
+# client = pymongo.MongoClient(os.environ.get("MONGO_DB_PATH"))
+
 db = client.makingproject
 
 
