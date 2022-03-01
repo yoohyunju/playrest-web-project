@@ -10,19 +10,23 @@ app.config['BCRYPT_LEVEL'] = 10
 bcrypt = Bcrypt(app)
 
 from pymongo import MongoClient
+# from static.credential_key import DB
 
-# client = MongoClient('mongodb://test:test@localhost', 27017)  # id:password
-## 디비 연결 1) 로컬 디비 접속
-# client = MongoClient('localhost', 27017)
+## 디비 연결 - 클라우드 디비 접속
+# client = pymongo.MongoClient(DB.key)
 # db = client.makingproject
-## 디비 연결 2) 클라우드 디비 접속
-client = pymongo.MongoClient("mongodb+srv://playrest:play12!@playrest.kn1fi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+########DB연결2
+import os
+client = pymongo.MongoClient(os.environ.get("MONGO_DB_PATH"))
 db = client.makingproject
+
 
 ## spotify 관련
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from static.credential_key import SpotifyKey
+
+
 
 
 ## HTML 화면 보여주기
@@ -212,9 +216,7 @@ sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 @app.route('/search/musics', methods=['GET'])
 def searchMusics():
     music_keyword = request.args.get('musicKeyword')
-    # 검색방법 1) 앨범 검색
-    # result = sp.search(music_keyword, limit=30, type='album')['albums']['items']
-    # 검색방법 2) 음악 검색
+    # 음악 검색
     result = sp.search(music_keyword, limit=30, type='track')['tracks']['items']
 
     return jsonify({'result': result})
@@ -246,7 +248,13 @@ def createPlaylist():
     title_receive = request.form['title_give']
     artist_receive = request.form['artist_give']
     album_receive = request.form['album_give']
-    lastNum = list(db.playlists.find({}).limit(1).sort('_id', -1))[0]['playlist_num']
+
+    existing_document = db.playlists.find_one()
+    if not existing_document:
+        print('non')
+        lastNum = 0
+    else:
+        lastNum = list(db.playlists.find({}).limit(1).sort('_id', -1))[0]['playlist_num']
 
     listinfo = {
         'playlist_num': lastNum + 1,

@@ -113,5 +113,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-static/credential_key.py
 .idea/misc.xml
+
+#Auth Keys
+static/credential_key.py
+static/key.xml
